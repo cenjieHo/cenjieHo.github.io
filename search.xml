@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[南屋]]></title>
+    <url>%2F2018%2F06%2F23%2F%E5%8D%97%E5%B1%8B%2F</url>
+    <content type="text"><![CDATA[南屋南屋是我为南京农业大学开发的二手物品发布平台，采用jsp+servlet+javabean的MVC模式原生开发，没采用任何框架(后期将用框架重写)。网站含有登陆注册、发布闲置、浏览闲置、搜索闲置、个人信息等众多功能，目前访问量有7000余人。 点我进入 联系方式 水木今山的CSDN 水木今山的Github 水木今山的Gmail 水木今山的Weibo]]></content>
+      <categories>
+        <category>项目</category>
+      </categories>
+      <tags>
+        <tag>南屋</tag>
+        <tag>jsp</tag>
+        <tag>servlet</tag>
+        <tag>项目</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Welcome To My Blog]]></title>
     <url>%2F2018%2F06%2F22%2FWelcome-To-My-Blog%2F</url>
-    <content type="text"><![CDATA[2018年6月22日更新大家好！我是水木今山，一名大二学生，从今天开始用Hexo+GitHub搭建了个人博客网站来记录在我学习编程以及项目经历中遇到的问题，学习的总结，读书笔记等。希望通过博客平台，和大家一起分享我的学习经历，并且互相学习互相交流 写在前面的话Don’t complain, just code! 个人简介大二在读，JavaWeb方向，无读研的考虑。 目标 搞定SSM框架 算法与数据结构 坚持运动 用心coding 联系方式 水木今山的CSDN 水木今山的github 水木今山的weibo]]></content>
+    <content type="text"><![CDATA[写在前面的话大家好！我是何岑杰，就读于南京农业大学的一名大二学生，在昨天搭建了这个个人博客网站用于记录自己在学习以及项目过程中的技术积累，希望通过这个平台能与大家分享自己的经验与教训，同时也欢迎大家随时可以联系我，期待与大家共同进步。 个人简介我在学校的专业是 电子信息科学与技术，曾利用课余时间学习过C、C++、Python等多门语言 (仅限于皮毛)，终于在大二下学期确定了自己以后的发展方向—Java后台研发工程师。于是从JavaSE开始学起，接触到java web与各种框架，在学习的过程中逐渐深入这个领域。 近期目标 应付好期末考试 搞定SSM框架 算法与数据结构 坚持运动 用心coding 联系方式 水木今山的CSDN 水木今山的Github 水木今山的Gmail 水木今山的Weibo]]></content>
       <categories>
         <category>杂谈</category>
       </categories>
