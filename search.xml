@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[Welcome To My Blog]]></title>
+    <url>%2F2018%2F06%2F22%2FWelcome-To-My-Blog%2F</url>
+    <content type="text"><![CDATA[2018年6月22日更新大家好！我是水木今山，一名大二学生，从今天开始用Hexo+GitHub搭建了个人博客网站来记录在我学习编程以及项目经历中遇到的问题，学习的总结，读书笔记等。希望通过博客平台，和大家一起分享我的学习经历，并且互相学习互相交流 写在前面的话Don’t complain, just code! 个人简介大二在读，JavaWeb方向，无读研的考虑。 目标 搞定SSM框架 算法与数据结构 坚持运动 用心coding 联系方式 水木今山的CSDN 水木今山的github 水木今山的weibo]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+      <tags>
+        <tag>hello</tag>
+        <tag>杂谈</tag>
+      </tags>
+  </entry>
+</search>

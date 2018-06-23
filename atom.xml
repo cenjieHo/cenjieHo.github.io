@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Cenjie&#39;s Blog</title>
+  
+  <subtitle>Coding the World</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2018-06-23T04:05:16.582Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>水木今山</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Welcome To My Blog</title>
+    <link href="http://yoursite.com/2018/06/22/Welcome-To-My-Blog/"/>
+    <id>http://yoursite.com/2018/06/22/Welcome-To-My-Blog/</id>
+    <published>2018-06-22T15:30:37.000Z</published>
+    <updated>2018-06-23T04:05:16.582Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="2018年6月22日更新"><a href="#2018年6月22日更新" class="headerlink" title="2018年6月22日更新"></a>2018年6月22日更新</h3><p>大家好！我是水木今山，一名大二学生，从今天开始用Hexo+GitHub搭建了个人博客网站来记录在我学习编程以及项目经历中遇到的问题，学习的总结，读书笔记等。希望通过博客平台，和大家一起分享我的学习经历，并且互相学习互相交流</p><p><img src="/images/one.jpg" alt=""></p><h2 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a>写在前面的话</h2><p>Don’t complain, just code!</p><h2 id="个人简介"><a href="#个人简介" class="headerlink" title="个人简介"></a>个人简介</h2><p>大二在读，JavaWeb方向，无读研的考虑。</p><h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><ul><li>搞定SSM框架</li><li>算法与数据结构</li><li>坚持运动</li><li>用心coding</li></ul><h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><ul><li><a href="https://blog.csdn.net/qq_38283262" target="_blank" rel="noopener">水木今山的CSDN</a></li><li><a href="https://github.com/cenjieHo" target="_blank" rel="noopener">水木今山的github</a></li><li><a href="https://weibo.com/5777495883/profile?topnav=1&amp;wvr=6" target="_blank" rel="noopener">水木今山的weibo</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;2018年6月22日更新&quot;&gt;&lt;a href=&quot;#2018年6月22日更新&quot; class=&quot;headerlink&quot; title=&quot;2018年6月22日更新&quot;&gt;&lt;/a&gt;2018年6月22日更新&lt;/h3&gt;&lt;p&gt;大家好！我是水木今山，一名大二学生，从今天开始用Hexo+G
+      
+    
+    </summary>
+    
+      <category term="杂谈" scheme="http://yoursite.com/categories/%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="hello" scheme="http://yoursite.com/tags/hello/"/>
+    
+      <category term="杂谈" scheme="http://yoursite.com/tags/%E6%9D%82%E8%B0%88/"/>
+    
+  </entry>
+  
+</feed>
