@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-06-25T07:28:52.161Z</updated>
+  <updated>2018-06-25T11:16:35.862Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>README文档的规范写法总结</title>
+    <link href="http://yoursite.com/2018/06/25/README%E6%96%87%E6%A1%A3%E7%9A%84%E8%A7%84%E8%8C%83%E5%86%99%E6%B3%95%E6%80%BB%E7%BB%93/"/>
+    <id>http://yoursite.com/2018/06/25/README文档的规范写法总结/</id>
+    <published>2018-06-25T11:15:27.000Z</published>
+    <updated>2018-06-25T11:16:35.862Z</updated>
+    
+    <content type="html"><![CDATA[<p>俗话说的好：“一个好开源项目一定有一个好的 README”。</p><p>要想自己放到github上的项目能吸引更多人的眼球，就必须写一个规范舒适的README.md，这么做不仅可以梳理自己对于项目的思路，也方便他人上手使用或学习。因此，我根据Github上众多项目以及查阅相关资料对README做了一个小小的总结， 方便以后写README的时候可以直接套用该模板。</p><hr><h2 id="XXX系统（如果有Logo可以加上Logo）"><a href="#XXX系统（如果有Logo可以加上Logo）" class="headerlink" title="XXX系统（如果有Logo可以加上Logo）"></a>XXX系统（如果有Logo可以加上Logo）</h2><hr><p>xxx系统是一个..系统，支持…，…（此处为简要描述）</p><p><a href="http://example.com" target="_blank" rel="noopener">官方网站</a> | <a href="http://example.com" target="_blank" rel="noopener">文档手册</a> | <a href="http://example.com" target="_blank" rel="noopener">别的东西</a> </p><p>目前，此系统包含有以下功能：</p><ul><li>功能1</li><li>功能2</li><li>功能3</li></ul><h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><hr><ul><li>依赖1</li><li>依赖2</li><li>依赖3</li></ul><h3 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h3><hr><p>IntelliJ IDEA + MySQL 或者 eclipse + MySQL，…</p><h3 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h3><hr><ul><li>步骤1</li><li>步骤2</li><li>步骤3</li></ul><h3 id="相关截图"><a href="#相关截图" class="headerlink" title="相关截图"></a>相关截图</h3><hr><p>截图1<br>截图2</p><h3 id="To-Do-List"><a href="#To-Do-List" class="headerlink" title="To Do List"></a>To Do List</h3><hr><ul><li>功能1</li><li>功能2</li><li>功能3</li></ul><h3 id="CHANGE-LOG"><a href="#CHANGE-LOG" class="headerlink" title="CHANGE LOG"></a>CHANGE LOG</h3><hr><p>此处填写版本更新记录</p><h3 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h3><hr><ul><li><a href="https://blog.csdn.net/qq_38283262" target="_blank" rel="noopener">水木今山的CSDN</a></li><li><a href="https://github.com/cenjieHo" target="_blank" rel="noopener">水木今山的Github</a></li><li><a href="mailto:cenjie.ho@gmail.com" target="_blank" rel="noopener">水木今山的Gmail</a></li><li><a href="https://weibo.com/5777495883/profile?topnav=1&amp;wvr=6" target="_blank" rel="noopener">水木今山的Weibo</a></li></ul><hr><p>至此，我们可以看到一个相对规范的README.md模板，在开源项目时可以直接套用该模板，而不必每次都采用不同的零零散散的格式去书写README，当然，大家也应根据项目具体情况进行修改而使用。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;俗话说的好：“一个好开源项目一定有一个好的 README”。&lt;/p&gt;
+&lt;p&gt;要想自己放到github上的项目能吸引更多人的眼球，就必须写一个规范舒适的README.md，这么做不仅可以梳理自己对于项目的思路，也方便他人上手使用或学习。因此，我根据Github上众多项目以及查
+      
+    
+    </summary>
+    
+      <category term="Github" scheme="http://yoursite.com/categories/Github/"/>
+    
+    
+      <category term="README" scheme="http://yoursite.com/tags/README/"/>
+    
+      <category term="markdown" scheme="http://yoursite.com/tags/markdown/"/>
+    
+      <category term="Github" scheme="http://yoursite.com/tags/Github/"/>
+    
+  </entry>
   
   <entry>
     <title>Java Web入门项目-图书后台管理系统</title>
@@ -37,13 +67,13 @@
       <category term="项目" scheme="http://yoursite.com/categories/%E9%A1%B9%E7%9B%AE/"/>
     
     
-      <category term="jsp" scheme="http://yoursite.com/tags/jsp/"/>
-    
-      <category term="servlet" scheme="http://yoursite.com/tags/servlet/"/>
-    
       <category term="项目" scheme="http://yoursite.com/tags/%E9%A1%B9%E7%9B%AE/"/>
     
       <category term="javabean" scheme="http://yoursite.com/tags/javabean/"/>
+    
+      <category term="jsp" scheme="http://yoursite.com/tags/jsp/"/>
+    
+      <category term="servlet" scheme="http://yoursite.com/tags/servlet/"/>
     
       <category term="入门" scheme="http://yoursite.com/tags/%E5%85%A5%E9%97%A8/"/>
     
@@ -70,13 +100,13 @@
       <category term="项目" scheme="http://yoursite.com/categories/%E9%A1%B9%E7%9B%AE/"/>
     
     
-      <category term="南屋" scheme="http://yoursite.com/tags/%E5%8D%97%E5%B1%8B/"/>
+      <category term="项目" scheme="http://yoursite.com/tags/%E9%A1%B9%E7%9B%AE/"/>
     
       <category term="jsp" scheme="http://yoursite.com/tags/jsp/"/>
     
       <category term="servlet" scheme="http://yoursite.com/tags/servlet/"/>
     
-      <category term="项目" scheme="http://yoursite.com/tags/%E9%A1%B9%E7%9B%AE/"/>
+      <category term="南屋" scheme="http://yoursite.com/tags/%E5%8D%97%E5%B1%8B/"/>
     
   </entry>
   

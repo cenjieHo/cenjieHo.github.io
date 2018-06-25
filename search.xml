@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[README文档的规范写法总结]]></title>
+    <url>%2F2018%2F06%2F25%2FREADME%E6%96%87%E6%A1%A3%E7%9A%84%E8%A7%84%E8%8C%83%E5%86%99%E6%B3%95%E6%80%BB%E7%BB%93%2F</url>
+    <content type="text"><![CDATA[俗话说的好：“一个好开源项目一定有一个好的 README”。 要想自己放到github上的项目能吸引更多人的眼球，就必须写一个规范舒适的README.md，这么做不仅可以梳理自己对于项目的思路，也方便他人上手使用或学习。因此，我根据Github上众多项目以及查阅相关资料对README做了一个小小的总结， 方便以后写README的时候可以直接套用该模板。 XXX系统（如果有Logo可以加上Logo） xxx系统是一个..系统，支持…，…（此处为简要描述） 官方网站 | 文档手册 | 别的东西 目前，此系统包含有以下功能： 功能1 功能2 功能3 准备 依赖1 依赖2 依赖3 搭建环境 IntelliJ IDEA + MySQL 或者 eclipse + MySQL，… 快速开始 步骤1 步骤2 步骤3 相关截图 截图1截图2 To Do List 功能1 功能2 功能3 CHANGE LOG 此处填写版本更新记录 联系方式 水木今山的CSDN 水木今山的Github 水木今山的Gmail 水木今山的Weibo 至此，我们可以看到一个相对规范的README.md模板，在开源项目时可以直接套用该模板，而不必每次都采用不同的零零散散的格式去书写README，当然，大家也应根据项目具体情况进行修改而使用。]]></content>
+      <categories>
+        <category>Github</category>
+      </categories>
+      <tags>
+        <tag>README</tag>
+        <tag>markdown</tag>
+        <tag>Github</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Java Web入门项目-图书后台管理系统]]></title>
     <url>%2F2018%2F06%2F25%2FJava-Web%E5%85%A5%E9%97%A8%E9%A1%B9%E7%9B%AE-%E5%9B%BE%E4%B9%A6%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%2F</url>
     <content type="text"><![CDATA[基于JSP+Servlet+JavaBean的图书后台管理系统 项目环境 语言: Java IDE: Intellij IDEA Web服务器: Tomcat8.5 数据库: MySQL 设计模式: JSP+Servlet+JavaBean构成的MVC模型 实现功能登陆注册功能 常规登陆注册操作，用户未登陆无法进入主界面，且注册字段经过正则表达式校验图书分类管理 添加图书分类，未单独设计表图书管理 图书添加 图书查询(使用AJAX局部刷新) 图书展示 使用方式创建数据库libdb，导入sql脚本，将DBHelper中相关数据配置为自己的设置，导入jar包: servlet、jdbc。]]></content>
@@ -8,10 +21,10 @@
         <category>项目</category>
       </categories>
       <tags>
-        <tag>jsp</tag>
-        <tag>servlet</tag>
         <tag>项目</tag>
         <tag>javabean</tag>
+        <tag>jsp</tag>
+        <tag>servlet</tag>
         <tag>入门</tag>
       </tags>
   </entry>
@@ -23,10 +36,10 @@
         <category>项目</category>
       </categories>
       <tags>
-        <tag>南屋</tag>
+        <tag>项目</tag>
         <tag>jsp</tag>
         <tag>servlet</tag>
-        <tag>项目</tag>
+        <tag>南屋</tag>
       </tags>
   </entry>
   <entry>
