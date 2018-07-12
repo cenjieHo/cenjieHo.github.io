@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Algorithms(4th) 读书笔记]]></title>
     <url>%2F2018%2F07%2F04%2FAlgorithms-4th-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%2F</url>
-    <content type="text"><![CDATA[《算法》第四版学习过程中的代码记录Github地址 Algorithms(4th)本书所用到的所有测试数据: algs4-data.zip本书所依赖的jar包: algs4.jar 排序初级排序测试数据: tinyUF.txt mediumUF.txt tiny.txt 选择排序 插入排序 归并排序测试数据: tinyUF.txt mediumUF.txt tiny.txt 自顶向下的归并排序 自底向上的归并排序 快速排序测试数据: tinyUF.txt mediumUF.txt tiny.txt 快速排序 三向切分的快速排序 优先队列测试数据: m1.txt m2.txt m3.txt tinyBatch.txt 基于堆的优先队列 索引优先队列]]></content>
+    <content type="text"><![CDATA[《算法》第四版学习过程中的代码记录，更新中Github地址 本书所用到的所有测试数据: algs4-data.zip本书所依赖的jar包: algs4.jar 排序初级排序测试数据: tinyUF.txt mediumUF.txt tiny.txt 选择排序 插入排序 归并排序测试数据: tinyUF.txt mediumUF.txt tiny.txt 自顶向下的归并排序 自底向上的归并排序 快速排序测试数据: tinyUF.txt mediumUF.txt tiny.txt 快速排序 三向切分的快速排序 优先队列测试数据: m1.txt m2.txt m3.txt tinyBatch.txt 基于堆的优先队列 索引优先队列]]></content>
       <categories>
         <category>读书笔记</category>
       </categories>
