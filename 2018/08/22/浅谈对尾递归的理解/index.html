@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="今天在做《剑指Offer》第十题时，发现了一个用尾递归的解法，由于之前对于尾递归并没有太多了解，于是查阅了一些资料，在此对其进行一个简单的总结。关于其它题目的题解与笔记，感兴趣的朋友可以到我的Github或个人博客上看看：剑指Offer笔记  Cenjie’s Blog ， 以下是正文。 递归本质递归的本质是自己调用自己，因为是嵌套调用，所以栈帧无法回收，在递归调用的层级太多时，往往会引发调用栈溢">
+<meta name="description" content="今天在做《剑指Offer》第十题时，发现了一个用尾递归的解法，由于之前对于尾递归并没有太多了解，于是查阅了一些资料，在此对其进行一个简单的总结。关于其它题目的题解与笔记，感兴趣的朋友可以到我的Github或个人博客上看看：剑指Offer笔记  Cenjie’s Blog ， 以下是正文。">
 <meta name="keywords" content="算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅谈对尾递归的理解">
 <meta property="og:url" content="http://yoursite.com/2018/08/22/浅谈对尾递归的理解/index.html">
 <meta property="og:site_name" content="Cenjie&#39;s Blog">
-<meta property="og:description" content="今天在做《剑指Offer》第十题时，发现了一个用尾递归的解法，由于之前对于尾递归并没有太多了解，于是查阅了一些资料，在此对其进行一个简单的总结。关于其它题目的题解与笔记，感兴趣的朋友可以到我的Github或个人博客上看看：剑指Offer笔记  Cenjie’s Blog ， 以下是正文。 递归本质递归的本质是自己调用自己，因为是嵌套调用，所以栈帧无法回收，在递归调用的层级太多时，往往会引发调用栈溢">
+<meta property="og:description" content="今天在做《剑指Offer》第十题时，发现了一个用尾递归的解法，由于之前对于尾递归并没有太多了解，于是查阅了一些资料，在此对其进行一个简单的总结。关于其它题目的题解与笔记，感兴趣的朋友可以到我的Github或个人博客上看看：剑指Offer笔记  Cenjie’s Blog ， 以下是正文。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-22T03:44:41.363Z">
+<meta property="og:updated_time" content="2018-08-22T03:46:53.860Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈对尾递归的理解">
-<meta name="twitter:description" content="今天在做《剑指Offer》第十题时，发现了一个用尾递归的解法，由于之前对于尾递归并没有太多了解，于是查阅了一些资料，在此对其进行一个简单的总结。关于其它题目的题解与笔记，感兴趣的朋友可以到我的Github或个人博客上看看：剑指Offer笔记  Cenjie’s Blog ， 以下是正文。 递归本质递归的本质是自己调用自己，因为是嵌套调用，所以栈帧无法回收，在递归调用的层级太多时，往往会引发调用栈溢">
+<meta name="twitter:description" content="今天在做《剑指Offer》第十题时，发现了一个用尾递归的解法，由于之前对于尾递归并没有太多了解，于是查阅了一些资料，在此对其进行一个简单的总结。关于其它题目的题解与笔记，感兴趣的朋友可以到我的Github或个人博客上看看：剑指Offer笔记  Cenjie’s Blog ， 以下是正文。">
 
 
 
@@ -395,6 +395,7 @@
       
         <p>今天在做《剑指Offer》第十题时，发现了一个用尾递归的解法，由于之前对于尾递归并没有太多了解，于是查阅了一些资料，在此对其进行一个简单的总结。关于其它题目的题解与笔记，感兴趣的朋友可以到我的Github或个人博客上看看：<a href="https://github.com/cenjieHo/CodingInterviews/blob/master/README.md" target="_blank" rel="noopener">剑指Offer笔记</a>  <a href="http://hecenjie.cn/" target="_blank" rel="noopener">Cenjie’s Blog</a> ，</p>
 <p>以下是正文。</p>
+<a id="more"></a>
 <h3 id="递归本质"><a href="#递归本质" class="headerlink" title="递归本质"></a>递归本质</h3><p>递归的本质是自己调用自己，因为是嵌套调用，所以<strong>栈帧无法回收</strong>，在递归调用的层级太多时，往往会引发调用栈溢出，也就是<strong>内存溢出</strong>。</p>
 <h3 id="尾递归概述"><a href="#尾递归概述" class="headerlink" title="尾递归概述"></a>尾递归概述</h3><p>尾递归本质与递归并无区别，只不过是递归的一种特殊写法。尾递归要求递归调用是整个函数体中最后执行的语句且它的返回值不属于表达式的一部分，例如 <code>return 3f(n)</code>或者<code>return f(n)+f(n-1)</code> 都是不允许的。</p>
 <p>由于尾递归也是一种递归，因此<strong>这种写法本身并不会有任何的优化效果，内存依旧会溢出</strong>，只不过一些编译器中会加入对尾递归的优化机制，在编译代码时自动根据尾递归的特性对其进行优化。</p>
