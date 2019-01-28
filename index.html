@@ -328,7 +328,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-22T23:30:37+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-22T23:30:00+08:00">
                 2018-06-22
               </time>
             
@@ -390,7 +390,7 @@
       
         
           <h2 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a>写在前面的话</h2><p>大家好！我是就读于南京某高校的一名大二学生，在昨天搭建了这个个人博客网站用于记录自己在学习以及项目过程中的技术积累，希望通过这个平台能与大家分享自己的经验与教训，同时也欢迎大家随时可以联系我，期待与大家共同进步。</p>
-<p><img src="/images/one.jpg" alt=""></p>
+<p><img src="/images/welcome.jpeg" alt=""></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/06/22/Welcome-To-My-Blog/#more" rel="contents">
@@ -444,7 +444,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/11/LinkedList源码分析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/HashMap源码分析/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="水木今山">
@@ -463,7 +463,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/11/LinkedList源码分析/" itemprop="url">LinkedList源码分析</a></h1>
+                <a class="post-title-link" href="/2019/01/28/HashMap源码分析/" itemprop="url">HashMap源码分析</a></h1>
         
 
         <div class="post-meta">
@@ -475,8 +475,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-11T22:00:00+08:00">
-                2018-09-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T19:01:00+08:00">
+                2019-01-28
               </time>
             
 
@@ -500,17 +500,6 @@
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
                   <a href="/categories/JDK源码阅读/" itemprop="url" rel="index">
                     <span itemprop="name">JDK源码阅读</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/JDK源码阅读/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
                   </a>
                 </span>
 
@@ -547,14 +536,12 @@
 
       
         
-          <h2 id="LinkedList简介（jdk1-8"><a href="#LinkedList简介（jdk1-8" class="headerlink" title="LinkedList简介（jdk1.8)"></a>LinkedList简介（jdk1.8)</h2><p>LinkedList是基于双向链表实现的。如下为LinkedList的继承体系结构： </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
-<p>可以看到，LinkedList实现了Deque接口，Deque表示双端队列，即在两端都可以进行插入和删除的队列。Deque是一个比Stack和Queue功能更强大的接口，它同时实现了栈和队列的功能。Deque接口的部分方法如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// *** Queue methods ***</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">offer</span><span class="params">(E e)</span></span>;</span><br><span class="line">    <span class="function">E <span class="title">remove</span><span class="params">()</span></span>;        </span><br><span class="line">    <span class="function">E <span class="title">poll</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">E <span class="title">element</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">E <span class="title">peek</span><span class="params">()</span></span>;</span><br><span class="line">    </span><br><span class="line"><span class="comment">// *** Stack methods ***</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(E e)</span></span>;</span><br><span class="line">    <span class="function">E <span class="title">pop</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure></p>
-<p>从代码可以看出，Deque既可以用作后进先出的栈，也可以用作先进先出的队列。</p>
-<p>与ArrayList一样，LinkedList也不是线程安全的，因此只能在单线程环境下使用。</p>
+          <h2 id="HashMap简介（jdk1-8）"><a href="#HashMap简介（jdk1-8）" class="headerlink" title="HashMap简介（jdk1.8）"></a>HashMap简介（jdk1.8）</h2><p>在jdk1.8中，HashMap底层由数组+链表+红黑树来实现，性能较之前有了较大的提升。如下为HashMap的继承体系结构：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;, <span class="title">Cloneable</span>, <span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure></p>
+<p>在这里，AbstractMap已经实现了Map接口，再实现一遍并没有任何用处，java集合框架的创始人也承认其为一个小失误。</p>
+<p>HashMap中，当链表节点较多时会转为红黑树进行存储，而红黑树这一数据结构涉及的知识点过多，关于红黑树的基础知识需要另外学习，本篇将以链表为主，红黑树为辅的形式分析其源码。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/09/11/LinkedList源码分析/#more" rel="contents">
+            <a class="btn" href="/2019/01/28/HashMap源码分析/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -605,7 +592,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/ArrayList源码分析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/常见排序算法之堆排序/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="水木今山">
@@ -624,7 +611,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/06/ArrayList源码分析/" itemprop="url">ArrayList源码分析</a></h1>
+                <a class="post-title-link" href="/2019/01/28/常见排序算法之堆排序/" itemprop="url">常见排序算法之堆排序</a></h1>
         
 
         <div class="post-meta">
@@ -636,167 +623,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-06T11:00:10+08:00">
-                2018-09-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/JDK源码阅读/" itemprop="url" rel="index">
-                    <span itemprop="name">JDK源码阅读</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/JDK源码阅读/util/" itemprop="url" rel="index">
-                    <span itemprop="name">util</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="ArrayList简介（jdk1-8）"><a href="#ArrayList简介（jdk1-8）" class="headerlink" title="ArrayList简介（jdk1.8）"></a>ArrayList简介（jdk1.8）</h2><p>ArrayList就是动态数组，其容量能够自动增长。如下为ArrayList的继承体系结构：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
-<p>ArrayList实现了List<e>, RandomAccess, Cloneable, java.io.Serializable接口，且不是线程安全的，因此只能用在单线程环境下。</e></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/06/ArrayList源码分析/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/22/浅谈对尾递归的理解/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="水木今山">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Cenjie's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/22/浅谈对尾递归的理解/" itemprop="url">浅谈对尾递归的理解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-22T11:06:04+08:00">
-                2018-08-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T19:00:00+08:00">
+                2019-01-28
               </time>
             
 
@@ -856,11 +684,11 @@
 
       
         
-          <p>今天在做《剑指Offer》第十题时，发现了一个用尾递归的解法，由于之前对于尾递归并没有太多了解，于是查阅了一些资料，在此对其进行一个简单的总结。关于其它题目的题解与笔记，感兴趣的朋友可以到我的Github或个人博客上看看：<a href="https://github.com/cenjieHo/CodingInterviews/blob/master/README.md" target="_blank" rel="noopener">剑指Offer笔记</a>  <a href="http://hecenjie.cn/" target="_blank" rel="noopener">Cenjie’s Blog</a> ，</p>
-<p>以下是正文。</p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>排序算法的成本模型计算的是比较和交换的次数。less()方法对元素进行比较，exch()方法将元素交换位置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">less</span><span class="params">(Comparable v, Comparable w)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> (v.compareTo(w) &lt; <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">exch</span><span class="params">(Comparable[] a, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">   Comparable swap = a[i];</span><br><span class="line">   a[i] = a[j];</span><br><span class="line">   a[j] = swap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/08/22/浅谈对尾递归的理解/#more" rel="contents">
+            <a class="btn" href="/2019/01/28/常见排序算法之堆排序/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -911,7 +739,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/31/暑期学习记录（2018）/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/常见排序算法之快速排序/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="水木今山">
@@ -930,7 +758,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/31/暑期学习记录（2018）/" itemprop="url">暑期学习记录（2018）</a></h1>
+                <a class="post-title-link" href="/2019/01/28/常见排序算法之快速排序/" itemprop="url">常见排序算法之快速排序</a></h1>
         
 
         <div class="post-meta">
@@ -942,8 +770,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-31T22:29:40+08:00">
-                2018-07-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T18:59:00+08:00">
+                2019-01-28
               </time>
             
 
@@ -965,8 +793,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/日志/" itemprop="url" rel="index">
-                    <span itemprop="name">日志</span>
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
                   </a>
                 </span>
 
@@ -1003,15 +831,11 @@
 
       
         
-          <h1 id="七月份总结"><a href="#七月份总结" class="headerlink" title="七月份总结"></a>七月份总结</h1><p>七月十八号从老家回来，正式开始了暑期的学习计划，共十二天的学习时间，掌握了如下内容：</p>
-<ul>
-<li>SSM框架的使用</li>
-<li>查找与图等基础数据结构与算法</li>
-</ul>
-<p>八月份要完成二手平台的前台功能，并进行测试与上线，域名要赶紧备案好。其中模态的异步传输已经知道该如何解决，上传商品页面的多图上传功能依然令人头疼。因此，前十天先完成在看的企业级电商项目，后二十天再将二手平台搞定。除此之外，《算法》也要在月底之前看完，最好能抽时间出来总结一下。</p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>排序算法的成本模型计算的是比较和交换的次数。less()方法对元素进行比较，exch()方法将元素交换位置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">less</span><span class="params">(Comparable v, Comparable w)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> (v.compareTo(w) &lt; <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">exch</span><span class="params">(Comparable[] a, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">   Comparable swap = a[i];</span><br><span class="line">   a[i] = a[j];</span><br><span class="line">   a[j] = swap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/07/31/暑期学习记录（2018）/#more" rel="contents">
+            <a class="btn" href="/2019/01/28/常见排序算法之快速排序/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1062,7 +886,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/04/Algorithms-4th-读书笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/常见排序算法之归并排序/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="水木今山">
@@ -1081,7 +905,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/04/Algorithms-4th-读书笔记/" itemprop="url">Algorithms(4th) 读书笔记</a></h1>
+                <a class="post-title-link" href="/2019/01/28/常见排序算法之归并排序/" itemprop="url">常见排序算法之归并排序</a></h1>
         
 
         <div class="post-meta">
@@ -1093,8 +917,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-04T22:33:54+08:00">
-                2018-07-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T18:57:00+08:00">
+                2019-01-28
               </time>
             
 
@@ -1116,8 +940,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
                   </a>
                 </span>
 
@@ -1154,17 +978,18 @@
 
       
         
-          <p>《算法》第四版学习过程中的代码记录，更新中<br><a href="https://github.com/cenjieHo/Algorithms" target="_blank" rel="noopener">Github地址</a><br>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>排序算法的成本模型计算的是比较和交换的次数。less()方法对元素进行比较，exch()方法将元素交换位置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">less</span><span class="params">(Comparable v, Comparable w)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> (v.compareTo(w) &lt; <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">exch</span><span class="params">(Comparable[] a, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">   Comparable swap = a[i];</span><br><span class="line">   a[i] = a[j];</span><br><span class="line">   a[j] = swap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/07/04/Algorithms-4th-读书笔记/#more" rel="contents">
+            <a class="btn" href="/2019/01/28/常见排序算法之归并排序/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
@@ -1208,7 +1033,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/25/README文档的规范写法总结/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/初级排序算法/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="水木今山">
@@ -1227,7 +1052,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/25/README文档的规范写法总结/" itemprop="url">README文档的规范写法总结</a></h1>
+                <a class="post-title-link" href="/2019/01/28/初级排序算法/" itemprop="url">初级排序算法</a></h1>
         
 
         <div class="post-meta">
@@ -1239,8 +1064,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-25T19:15:27+08:00">
-                2018-06-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T18:56:00+08:00">
+                2019-01-28
               </time>
             
 
@@ -1262,8 +1087,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Github/" itemprop="url" rel="index">
-                    <span itemprop="name">Github</span>
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
                   </a>
                 </span>
 
@@ -1300,18 +1125,18 @@
 
       
         
-          <p>俗话说的好：“一个好开源项目一定有一个好的 README”。</p>
-<p>要想自己放到github上的项目能吸引更多人的眼球，就必须写一个规范舒适的README.md，这么做不仅可以梳理自己对于项目的思路，也方便他人上手使用或学习。因此，此文根据Github上众多项目以及查阅相关资料对README做了一个小小的总结， 方便以后写README的时候可以直接套用该模板。<br>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>排序算法的成本模型计算的是比较和交换的次数。less()方法对元素进行比较，exch()方法将元素交换位置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">less</span><span class="params">(Comparable v, Comparable w)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> (v.compareTo(w) &lt; <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">exch</span><span class="params">(Comparable[] a, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">   Comparable swap = a[i];</span><br><span class="line">   a[i] = a[j];</span><br><span class="line">   a[j] = swap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/25/README文档的规范写法总结/#more" rel="contents">
+            <a class="btn" href="/2019/01/28/初级排序算法/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
@@ -1355,7 +1180,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/25/Java-Web入门项目-图书后台管理系统/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/ATR-CKN算法的研究与实现/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="水木今山">
@@ -1374,7 +1199,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/25/Java-Web入门项目-图书后台管理系统/" itemprop="url">Java Web入门项目-图书后台管理系统</a></h1>
+                <a class="post-title-link" href="/2019/01/28/ATR-CKN算法的研究与实现/" itemprop="url">ATR-CKN算法的研究与实现</a></h1>
         
 
         <div class="post-meta">
@@ -1386,8 +1211,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-25T15:24:12+08:00">
-                2018-06-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T18:55:00+08:00">
+                2019-01-28
               </time>
             
 
@@ -1447,17 +1272,450 @@
 
       
         
-          <p>一个基于JSP、Servlet、Javabeans的十分适合作为入门的Java Web项目。<br><a href="https://github.com/cenjieHo/LibraryBackstageManagementSystem" target="_blank" rel="noopener">项目地址</a></p>
-<h2 id="项目环境"><a href="#项目环境" class="headerlink" title="项目环境"></a>项目环境</h2><ul>
-<li>语言: Java</li>
-<li>IDE: Intellij IDEA</li>
-<li>Web服务器: Tomcat8.5</li>
-<li>数据库: MySQL</li>
-<li>设计模式: JSP+Servlet+JavaBean构成的MVC模型</li>
-</ul>
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在学校做了无线传感器网络（WSN）睡眠调度算法方面的一些研究，本篇文章主要对其中的CKN、EC-CKN算法的学习做个总结，并给出基于这两种算法而改进后的ATR-CKN算法的核心实现以及在Nettopo上的运行结果。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/25/Java-Web入门项目-图书后台管理系统/#more" rel="contents">
+            <a class="btn" href="/2019/01/28/ATR-CKN算法的研究与实现/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/深入理解JVM-垃圾收集与内存分配/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="水木今山">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cenjie's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/28/深入理解JVM-垃圾收集与内存分配/" itemprop="url">深入理解JVM-垃圾收集与内存分配</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T18:54:00+08:00">
+                2019-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">JVM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="对象存活判断"><a href="#对象存活判断" class="headerlink" title="对象存活判断"></a>对象存活判断</h1><p>判断对象是否存活一般有引用计数法和可达性分析两种方式。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/28/深入理解JVM-垃圾收集与内存分配/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/深入理解JVM-类加载机制/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="水木今山">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cenjie's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/28/深入理解JVM-类加载机制/" itemprop="url">深入理解JVM-类加载机制</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T18:53:00+08:00">
+                2019-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">JVM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h2><p><img src="http://blog.default.nanwulife.com/870109-20160503213708857-429280187.png" alt=""></p>
+<h2 id="类加载过程"><a href="#类加载过程" class="headerlink" title="类加载过程"></a>类加载过程</h2><p>类加载的过程包括了加载、验证、准备、解析、初始化五个阶段。</p>
+<p>在这五个阶段中，加载、验证、准备和初始化这四个阶段发生的顺序是确定的，而解析阶段则不一定，它在某些情况下可以在初始化阶段之后开始，这是为了支持Java语言的运行时绑定（也称为动态绑定或晚期绑定）。另外注意这里的几个阶段是按顺序开始，而不是按顺序进行或完成，因为这些阶段通常都是互相交叉地混合进行的，通常在一个阶段执行的过程中调用或激活另一个阶段。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/28/深入理解JVM-类加载机制/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/深入理解JVM-内存模型/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="水木今山">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cenjie's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/28/深入理解JVM-内存模型/" itemprop="url">深入理解JVM-内存模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T18:51:00+08:00">
+                2019-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">JVM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h1><p>由于计算机上的内存模型涉及到物理的主内存、高速缓存和寄存器等。这些不同的计算机不同的操场系统可能会存在差异，Java虚拟机规范中试图定义一种Java内存模型，来屏蔽掉各种硬件和操作系统的内存访问差异，让Java程序在各个平台下都能达到一致的访问效果。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/28/深入理解JVM-内存模型/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1498,6 +1756,10 @@
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1543,7 +1805,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1554,7 +1816,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1565,7 +1827,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
