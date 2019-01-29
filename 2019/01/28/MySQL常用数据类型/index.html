@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="MySQL,">
 
 
 
@@ -81,17 +81,18 @@
 
 
 
-<meta name="description" content="Coding the World">
-<meta name="keywords" content="blog,cenjie">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Cenjie&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/categories/操作系统原理/index.html">
+<meta name="description" content="整型TINYINT, SMALLINT, MEDIUMINT, INT, BIGINT分别使用1，2，3，4，8字节的存储空间。 可以使用UNSIGNED属性表示不允许负值以提高正数的上限，但有符号和无符号类型的存储空间和性能依旧一样。 MySQL可以为整数类型指定宽度，如INT(11)，但它不会限制值的合法范围，只是规定了交互工具显示字符的个数。">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL常用数据类型">
+<meta property="og:url" content="http://yoursite.com/2019/01/28/MySQL常用数据类型/index.html">
 <meta property="og:site_name" content="Cenjie&#39;s Blog">
-<meta property="og:description" content="Coding the World">
+<meta property="og:description" content="整型TINYINT, SMALLINT, MEDIUMINT, INT, BIGINT分别使用1，2，3，4，8字节的存储空间。 可以使用UNSIGNED属性表示不允许负值以提高正数的上限，但有符号和无符号类型的存储空间和性能依旧一样。 MySQL可以为整数类型指定宽度，如INT(11)，但它不会限制值的合法范围，只是规定了交互工具显示字符的个数。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-01-28T14:32:52.503Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Cenjie&#39;s Blog">
-<meta name="twitter:description" content="Coding the World">
+<meta name="twitter:title" content="MySQL常用数据类型">
+<meta name="twitter:description" content="整型TINYINT, SMALLINT, MEDIUMINT, INT, BIGINT分别使用1，2，3，4，8字节的存储空间。 可以使用UNSIGNED属性表示不允许负值以提高正数的上限，但有符号和无符号类型的存储空间和性能依旧一样。 MySQL可以为整数类型指定宽度，如INT(11)，但它不会限制值的合法范围，只是规定了交互工具显示字符的个数。">
 
 
 
@@ -121,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/操作系统原理/">
+  <link rel="canonical" href="http://yoursite.com/2019/01/28/MySQL常用数据类型/">
 
 
 
 
 
-  <title>分类: 操作系统原理 | Cenjie's Blog</title>
+  <title>MySQL常用数据类型 | Cenjie's Blog</title>
   
 
 
@@ -146,7 +147,7 @@
     
   
 
-  <div class="container sidebar-position-right ">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -162,7 +163,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">水木今山的个人博客</p>
+        <h1 class="site-subtitle" itemprop="description">水木今山的个人博客</h1>
       
   </div>
 
@@ -222,12 +223,12 @@
         </li>
       
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
+        <li class="menu-item menu-item-专栏">
+          <a href="/column/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
             
-            归档
+            专栏
           </a>
         </li>
       
@@ -282,157 +283,198 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>操作系统原理<small>分类</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/MySQL常用数据类型/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="水木今山">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cenjie's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/01/28/操作系统原理-文件系统/" itemprop="url">
-              
-                <span itemprop="name">操作系统原理-文件系统</span>
-              
-            </a>
         
-      </h2>
+          <h2 class="post-title" itemprop="name headline">MySQL常用数据类型</h2>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-01-28T18:47:00+08:00" content="2019-01-28">
-          01-28
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T22:31:00+08:00">
+                2019-01-28
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/01/28/操作系统原理-存储模型/" itemprop="url">
-              
-                <span itemprop="name">操作系统原理-存储模型</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-01-28T18:46:00+08:00" content="2019-01-28">
-          01-28
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/01/28/操作系统原理-同步机制/" itemprop="url">
-              
-                <span itemprop="name">操作系统原理-同步机制</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-01-28T18:45:00+08:00" content="2019-01-28">
-          01-28
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/01/28/操作系统原理-进程线程模型/" itemprop="url">
-              
-                <span itemprop="name">操作系统原理-进程线程模型</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-01-28T18:43:00+08:00" content="2019-01-28">
-          01-28
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/01/28/操作系统原理—/" itemprop="url">
-              
-                <span itemprop="name">操作系统原理-处理器调度</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-01-28T18:09:00+08:00" content="2019-01-28">
-          01-28
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <h2 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h2><p><code>TINYINT</code>, <code>SMALLINT</code>, <code>MEDIUMINT</code>, <code>INT</code>, <code>BIGINT</code>分别使用1，2，3，4，8字节的存储空间。</p>
+<p>可以使用<code>UNSIGNED</code>属性表示不允许负值以提高正数的上限，但有符号和无符号类型的存储空间和性能依旧一样。</p>
+<p>MySQL可以为整数类型指定宽度，如<code>INT(11)</code>，但它不会限制值的合法范围，只是规定了交互工具显示字符的个数。</p>
+<a id="more"></a>
+<h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p><code>FLOAT</code>和<code>DOUBLE</code>为浮点类型（浮点数），<code>DECIMAL</code>为高精度小数类型（定点数）。</p>
+<p>CPU原生支持浮点运算，但不支持对<code>DECIMAL</code>的运算，因此浮点运算会更快。但是浮点数会引起精度问题，像货币这样对精度敏感的数据，应该用<code>DECIMAL</code>来存储。</p>
+<p>浮点和定点都可以指定精度，例如<code>DECIMAL(18, 9)</code>表示总共18位，取9位存储小数部分，剩下9位存储整数部分。</p>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>MySQL主要有<code>VARCHAR</code>和<code>CHAR</code>两种字符串类型。</p>
+<p><code>VARCHAR</code>类型用于存储可变长字符串，它比定长类型更节省空间，因为它仅使用必要的空间。但是在执行UPDATE时可能会使行变得比原来长，当超出一个页所能容纳的大小时，就要执行额外的操作，MyISAM会将行拆成不同的片段存储，InnoDB则需要分裂页来使行放进页内。</p>
+<p><code>CHAR</code>类型是定长的，总是根据定义的字符串长度分配足够的空间，并且在存储和检索时删除末尾的空格，而<code>VARCHAR</code>是会保留末尾的空格的。</p>
+<p>当字符串列的长度比平均长度大很多时、列的更新很少时，使用<code>VARCHAR</code>类型更好；对于定长的字符串如MD5、经常变更或者非常短的字符串（因为<code>VARCHAR</code>需要额外的1个或2个字节记录字符串长度）则使用<code>CHAR</code>类型更好。</p>
+<h2 id="日期和时间"><a href="#日期和时间" class="headerlink" title="日期和时间"></a>日期和时间</h2><p>MySQL提供两种相似的日期类型：<code>DATETIME</code>和<code>TIMESTAMP</code>。</p>
+<p><code>DATETIME</code>能够保存从1001年到9999年的日期和时间，精度为秒。它把日期和时间封装到格式为<code>YYYYMMDDHHMMSS</code>的整数中，与时区无关，使用8个字节的存储空间。默认情况下，MySQL以一种可排序的、无歧义的格式显示，例如<code>2008-01-16 22:37:08</code>。</p>
+<p><code>TIMESTAMP</code>保存从1970年1月1日午夜（格林威治时间）以来的秒数，使用4个字节，只能表示从1970年到2038年。这种类型的时间是和时区有关的，默认情况下，如果插入时没有指定<code>TIMESTAMP</code>列的值，MySQL则设置这个列的值为当前时间。</p>
+<p>应该尽量使用<code>TIMESTAMP</code>，因为它比<code>DATETIME</code>空间效率更高。</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/28/数据库事务、锁与设计原理/" rel="next" title="数据库事务、锁与设计原理">
+                <i class="fa fa-chevron-left"></i> 数据库事务、锁与设计原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/28/MySQL索引类型与优化/" rel="prev" title="MySQL索引类型与优化">
+                MySQL索引类型与优化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -440,6 +482,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -460,15 +506,24 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image" src="/images/avatar.jpeg" alt="水木今山">
             
               <p class="site-author-name" itemprop="name">水木今山</p>
-              <p class="site-description motion-element" itemprop="description">Coding the World</p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
           <nav class="site-state motion-element">
@@ -476,9 +531,9 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives/">
+                <a href="/archives">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -489,7 +544,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -500,7 +555,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -549,7 +604,7 @@
             <div class="links-of-blogroll motion-element links-of-blogroll-block">
               <div class="links-of-blogroll-title">
                 <i class="fa  fa-fw fa-link"></i>
-                友情链接/线上项目
+                友情链接
               </div>
               <ul class="links-of-blogroll-list">
                 
@@ -570,6 +625,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#整型"><span class="nav-number">1.</span> <span class="nav-text">整型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点数"><span class="nav-number">2.</span> <span class="nav-text">浮点数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串"><span class="nav-number">3.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日期和时间"><span class="nav-number">4.</span> <span class="nav-text">日期和时间</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -603,20 +674,6 @@
 
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-  
-
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i> Browse the site
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      th times
-    </span>
-  
-</div>
-
 
 
 
@@ -712,6 +769,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -1081,6 +1142,21 @@
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
   
