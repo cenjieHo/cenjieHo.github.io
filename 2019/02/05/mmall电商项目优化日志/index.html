@@ -81,20 +81,21 @@
 
 
 
-<meta name="description" content="本篇日志将记录之前做过的一些项目的数据库方面的优化历程，通过不断动手实践并总结心得，希望能在此积累起许多优化经验，以后在写代码时能更加得心应手。">
+<meta name="description" content="本篇日志将记录之前做过的mmall项目的一些优化过程，主要包括JVM调优和数据库优化两个方面，通过不断动手实践并总结心得，希望能在此积累起许多经验，为以后能更得心应手的写出高效而又稳健的代码打好基础。">
 <meta name="keywords" content="MySQL,项目">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL优化实践">
+<meta property="og:title" content="电商项目优化实践">
 <meta property="og:url" content="http://yoursite.com/2019/02/05/mmall电商项目优化日志/index.html">
 <meta property="og:site_name" content="Cenjie&#39;s Blog">
-<meta property="og:description" content="本篇日志将记录之前做过的一些项目的数据库方面的优化历程，通过不断动手实践并总结心得，希望能在此积累起许多优化经验，以后在写代码时能更加得心应手。">
+<meta property="og:description" content="本篇日志将记录之前做过的mmall项目的一些优化过程，主要包括JVM调优和数据库优化两个方面，通过不断动手实践并总结心得，希望能在此积累起许多经验，为以后能更得心应手的写出高效而又稳健的代码打好基础。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.default.nanwulife.com/3%29G5S7ZTBRINMZQEQ_%29ZLZH.png">
 <meta property="og:image" content="http://blog.default.nanwulife.com/%288R%5D%29J%5BT2B16EP87J6%60%7D%289V.png">
-<meta property="og:updated_time" content="2019-02-05T15:31:10.690Z">
+<meta property="og:image" content="http://blog.default.nanwulife.com/%7D6%7BS@%25E2MGMXK_%29%29~JPZ6BT.png">
+<meta property="og:updated_time" content="2019-02-06T01:51:58.247Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL优化实践">
-<meta name="twitter:description" content="本篇日志将记录之前做过的一些项目的数据库方面的优化历程，通过不断动手实践并总结心得，希望能在此积累起许多优化经验，以后在写代码时能更加得心应手。">
+<meta name="twitter:title" content="电商项目优化实践">
+<meta name="twitter:description" content="本篇日志将记录之前做过的mmall项目的一些优化过程，主要包括JVM调优和数据库优化两个方面，通过不断动手实践并总结心得，希望能在此积累起许多经验，为以后能更得心应手的写出高效而又稳健的代码打好基础。">
 <meta name="twitter:image" content="http://blog.default.nanwulife.com/3%29G5S7ZTBRINMZQEQ_%29ZLZH.png">
 
 
@@ -131,7 +132,7 @@
 
 
 
-  <title>MySQL优化实践 | Cenjie's Blog</title>
+  <title>电商项目优化实践 | Cenjie's Blog</title>
   
 
 
@@ -317,7 +318,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">MySQL优化实践</h2>
+          <h2 class="post-title" itemprop="name headline">电商项目优化实践</h2>
         
 
         <div class="post-meta">
@@ -389,7 +390,7 @@
       
 
       
-        <p>本篇日志将记录之前做过的一些项目的数据库方面的优化历程，通过不断动手实践并总结心得，希望能在此积累起许多优化经验，以后在写代码时能更加得心应手。</p>
+        <p>本篇日志将记录之前做过的mmall项目的一些优化过程，主要包括JVM调优和数据库优化两个方面，通过不断动手实践并总结心得，希望能在此积累起许多经验，为以后能更得心应手的写出高效而又稳健的代码打好基础。</p>
 <a id="more"></a>
 <h2 id="商品表的优化"><a href="#商品表的优化" class="headerlink" title="商品表的优化"></a>商品表的优化</h2><p>在实际应用中我们往往都会遇到根据名称来查询某个商品或者根据昵称查询某个用户，如果返回的行数较多则要使用分页，而之前项目一直都是使用的PageHelper这个框架来完成分页功能的，这么做自然简单方便，但是当数据量达到几十万甚至百万时就会遇到性能瓶颈，尽管能够使用一些索引进行优化，但一个查询仍然需要十几二十秒才能完成，显然还远不能达标。在阅读PageHelper源码后可以发现，之所以会发生这种情况是因为PageHelper主要是通过拼接<code>LIMIT</code>语句来实现分页功能的，我们知道<code>LIMIT</code>在偏移量很大的时候会扫描很多不必要的行，因此需要对查询进行改进才能更好的应用在数据量比较大的场景下。</p>
 <p>我们先建立一张商品表，还未在上面建立任何索引（除主键外）：</p>
@@ -398,17 +399,18 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">innodb_flush_log_at_trx_commit=0</span><br><span class="line">max_allowed_packet=100M</span><br></pre></td></tr></table></figure>
 <p>重启MySQL后再执行以下代码：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">procedure</span> <span class="keyword">if</span> <span class="keyword">exists</span> product_insert;</span><br><span class="line">DELIMITER ;; </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> product_insert() </span><br><span class="line"><span class="keyword">BEGIN</span> </span><br><span class="line"><span class="keyword">DECLARE</span> y <span class="built_in">INT</span> <span class="keyword">DEFAULT</span> <span class="number">1</span>;</span><br><span class="line">WHILE y &lt; 100000</span><br><span class="line"><span class="keyword">DO</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> mmall_product(category_id, <span class="keyword">name</span>, subtitle, main_image, sub_images, detail, price, stock, <span class="keyword">status</span>, create_time, update_time) </span><br><span class="line"><span class="keyword">values</span>(y%<span class="number">30</span>+<span class="number">100001</span>, <span class="string">'ab'</span>, <span class="keyword">substring</span>(<span class="keyword">MD5</span>(<span class="keyword">RAND</span>()),<span class="number">15</span>,<span class="number">20</span>), </span><br><span class="line"><span class="string">'241997c4-9e62-4824-b7f0-7425c3c28917.jpeg'</span>, </span><br><span class="line"><span class="string">'241997c4-9e62-4824-b7f0-7425c3c28917.jpeg,b6c56eb0-1748-49a9-98dc-bcc4b9788a54.jpeg,92f17532-1527-4563-aa1d-ed01baa0f7b2.jpeg,3adbe4f7-e374-4533-aa79-cc4a98c529bf.jpeg'</span>, </span><br><span class="line"><span class="string">'&lt;p&gt;&lt;img alt="miaoshu.jpg" src="http://img.happymmall.com/9c5c74e6-6615-4aa0-b1fc-c17a1eff6027.jpg" width="790" height="444"&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;img alt="miaoshu2.jpg" src="http://img.happymmall.com/31dc1a94-f354-48b8-a170-1a1a6de8751b.jpg" width="790" height="1441"&gt;&lt;img alt="miaoshu3.jpg" src="http://img.happymmall.com/7862594b-3063-4b52-b7d4-cea980c604e0.jpg" width="790" height="1442"&gt;&lt;img alt="miaoshu4.jpg" src="http://img.happymmall.com/9a650563-dc85-44d6-b174-d6960cfb1d6a.jpg" width="790" height="1441"&gt;&lt;br&gt;&lt;/p&gt;'</span>,</span><br><span class="line"><span class="keyword">RAND</span>() * <span class="number">10000</span>,</span><br><span class="line"><span class="keyword">RAND</span>() * <span class="number">100</span>,</span><br><span class="line"><span class="number">1</span>, <span class="keyword">now</span>(), <span class="keyword">now</span>()); </span><br><span class="line"><span class="keyword">SET</span> y=y+<span class="number">1</span>; </span><br><span class="line"><span class="keyword">END</span> <span class="keyword">WHILE</span> ; </span><br><span class="line"><span class="keyword">commit</span>; </span><br><span class="line"><span class="keyword">END</span>;; </span><br><span class="line"><span class="keyword">CALL</span> product_insert();</span><br></pre></td></tr></table></figure>
-<p>这里的商品名、子标题等都使用的随机字符串，没有太多考究。此时就可以根据商品名<code>name</code>按价格<code>price</code>排序后进行查询：</p>
+<p>这里的商品名、子标题等都使用的随机字符串，没有太多考究。此时就可以根据商品名<code>name</code>按价格<code>price</code>排序后进行查询了：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> mmall_product <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">'ab'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> price <span class="keyword">LIMIT</span> <span class="number">100</span>, <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> mmall_product <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">'ab'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> price <span class="keyword">LIMIT</span> <span class="number">1000</span>, <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> mmall_product <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">'ab'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> price <span class="keyword">LIMIT</span> <span class="number">10000</span>, <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
 <p>执行时间如下：</p>
 <p><img src="http://blog.default.nanwulife.com/3%29G5S7ZTBRINMZQEQ_%29ZLZH.png" alt=""></p>
-<p>可以看出，在不断增大<code>LIMIT</code>的偏移量后，查询时间着实吓人，通过<code>EXPLAIN</code>分析执行计划可以看到<code>type</code>那列显示<code>ALL</code>，而要扫描的行数也有一百多万行，并且还有<code>Using filesort</code>。我们先根据<code>WHERE</code>语句和<code>ORDER BY</code>语句建立如下索引：</p>
+<p>可以看出，在不断增大<code>LIMIT</code>的偏移量后，查询时间着实吓人，通过<code>EXPLAIN</code>分析执行计划发现<code>type</code>那列显示<code>ALL</code>，说明要全表扫描一百多万行，并且还有<code>Using filesort</code>。我们先根据<code>WHERE</code>语句和<code>ORDER BY</code>语句建立如下组合索引：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> mmall_product <span class="keyword">ADD</span> <span class="keyword">INDEX</span> index_name_price (<span class="keyword">name</span>, price);</span><br></pre></td></tr></table></figure>
-<p>索引增加成功：</p>
+<p>执行<code>SHOW INDEX FROM mmall_product;</code>查看索引是否添加如下：</p>
 <p><img src="http://blog.default.nanwulife.com/%288R%5D%29J%5BT2B16EP87J6%60%7D%289V.png" alt=""></p>
-<p>这时在初步优化后分析执行计划可以看到查询不再是全表扫描，而是使用到了上面的索引，效率有所提升，但此时增大偏移量后查询依然会变得十分缓慢，还需要进一步优化。这里就可以用到“延迟关联”的技巧，由于LIMIT每次扫描时都要去主索引拿到许多不必要的数据再丢弃，那么可以让其先在二级索引覆盖扫描得到满足条件的id，然后再与原表关联得到最终结果，代码如下：</p>
+<p>这时在初步优化后分析执行计划可以看到查询不再是全表扫描，而是使用到了上面的索引，效率有所提升，但此时增大偏移量后查询依然会变得十分缓慢，还需要进一步优化。这里就可以用到“延迟关联”的技巧，由于LIMIT每扫描一行时都要去主索引拿到许多不必要的数据再丢弃，那么可以让其先在二级索引覆盖扫描得到满足条件的id，然后再与原表关联得到最终结果，代码如下：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> mmall_product </span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> (<span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> mmall_product <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">'ab'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> price <span class="keyword">LIMIT</span> <span class="number">100000</span>, <span class="number">10</span>) <span class="keyword">AS</span> mmall_product_id <span class="keyword">USING</span>(<span class="keyword">id</span>);</span><br></pre></td></tr></table></figure>
-<p>此时，就算偏移量为十万时，查询也可以在0.05S左右完成，效果还是令人满意的。</p>
+<p>此时，就算偏移量为一百万时，查询也可以很轻松的在0.5S内完成，效果还是令人满意的。</p>
+<p><img src="http://blog.default.nanwulife.com/%7D6%7BS@%25E2MGMXK_%29%29~JPZ6BT.png" alt=""></p>
 
       
     </div>
@@ -450,6 +452,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/06/Spring框架知识点总结/" rel="prev" title="Spring框架知识点总结">
+                Spring框架知识点总结 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -528,7 +534,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -539,7 +545,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -550,7 +556,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
