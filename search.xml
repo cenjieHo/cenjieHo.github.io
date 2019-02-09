@@ -1,6 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Java并发编程基础]]></title>
+    <url>%2F2019%2F02%2F09%2FJava%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%2F</url>
+    <content type="text"><![CDATA[线程状态Java线程在运行的生命周期中可能处于以下6种不同的状态： 状态名称 说明 NEW 初始状态，线程被构建，但是还没调用start()方法 RUNNABLE 运行状态，Java线程将操作系统中的就绪和运行两种状态笼统地称作“运行中” BLOCKED 阻塞状态，表示线程阻塞于锁 WAITING 无限期等待状态，进入该状态表示当前线程需要等待其它线程做出一些特定动作（通知或中断） TIME_WAITING 限期等待状态，可以在指定的时间自行返回 TERMINATED 终止状态，表示当前线程已经执行完毕 Java将操作系统中的运行和就绪两个状态合并称为运行状态。阻塞状态是线程阻塞在进入synchronized关键字修饰的方法或代码块（获取锁）时的状态，但是阻塞在Lock接口的线程状态是等待状态。 Daemon线程用户线程是我们平常创建的普通线程，而守护线程则是用来服务于用户线程的一种支持型线程。当一个Java虚拟机中只存在守护线程的时候，Java虚拟机将会退出。可以在启动线程之前通过调用Thread.setDaemon(true)将该线程设置为守护线程。 守护线程可用于实时监控和管理系统中的可回收资源。例如，Java垃圾回收线程就是一个典型的守护线程，当我们的程序中不再有任何运行中的Thread，程序就不会再产生垃圾，垃圾回收器也就无事可做，所以当垃圾回收线程是Java虚拟机上仅剩的线程时，Java虚拟机会自动退出。 使用线程有三种使用线程的方法： 实现Runnable接口； 实现Callable接口； 继承Thread类。 实现Runnable和Callable接口的类只能当做一个可以在线程中运行的任务，不是真正意义上的线程，因此最后还需要通过Thread来调用。可以说任务是通过线程驱动从而执行的。 实现Runnable接口需要实现run()方法。通过Thread调用start()方法来启动线程。 1234567891011public class MyRunnable implements Runnable &#123; public void run() &#123; // ... &#125;&#125;public static void main(String[] args) &#123; MyRunnable instance = new MyRunnable(); Thread thread = new Thread(instance); thread.start();&#125; 实现Callable接口与Runnable相比，Callable可以有返回值，返回值通过FutureTask进行封装。 12345678910111213public class MyCallable implements Callable&lt;Integer&gt; &#123; public Integer call() &#123; return 123; &#125;&#125;public static void main(String[] args) throws ExecutionException, InterruptedException &#123; MyCallable mc = new MyCallable(); FutureTask&lt;Integer&gt; ft = new FutureTask&lt;&gt;(mc); Thread thread = new Thread(ft); thread.start(); System.out.println(ft.get());&#125; 继承Thread类同样也是需要实现run()方法，因为Thread类也实现了Runable接口。 当调用start()方法启动一个线程时，虚拟机会将该线程放入就绪队列中等待被调度，当一个线程被调度时会执行该线程的run()方法。 12345678910public class MyThread extends Thread &#123; public void run() &#123; // ... &#125;&#125;public static void main(String[] args) &#123; MyThread mt = new MyThread(); mt.start();&#125; 对比实现接口会更好一些，因为： Java不支持多重继承，因此继承了Thread类就无法继承其它类，但是可以实现多个接口。 类可能只要求可执行就行，继承整个Thread类开销过大。 等待/通知机制等待/通知机制是指一个线程A调用了对象O的wait()方法进入等待状态，而另一个线程B调用了对象O的notify()或者notifyAll()方法，线程A收到通知后从对象O的wait()方法返回，进而执行后续操作。以下为等待/通知的经典范式： 12345678910111213//等待方synchronized(对象)&#123; while(条件不满足)&#123; 对象.wait(); &#125; 对应的处理逻辑;&#125;//通知方synchronized(对象)&#123; 改变条件 对象.notifyAll();&#125; wait()，notify()，notifyAll()方法只能用在同步方法或者同步控制块中使用，否则会在运行时抛出IllegalMonitorStateException。使用wait()挂起期间，线程会释放锁，这是因为如果没有释放锁，那么其它线程就无法进入对象的同步方法或者同步控制块中，那么就无法执行notify()或者notifyAll()来唤醒挂起的线程，造成死锁。 注意，wait()是Object的方法，而sleep()是Thread的静态方法；wait()会释放锁，sleep()不会。 线程之间的协作Thread.join()在线程中调用另一个线程的join()方法，会将当前线程挂起，而不是忙等待，直到目标线程结束。 await() signal() signalAll()java.util.concurrent类库中提供了Condition类来实现线程之间的协调，可以在Condition上调用await()方法使线程等待，其它线程调用signal()或signalAll()方法唤醒等待的线程。 相比于wait()这种等待方式，await()可以指定等待的条件，因此更加灵活。 1234567891011121314151617181920212223242526272829303132333435public class AwaitSignalExample &#123; private Lock lock = new ReentrantLock(); private Condition condition = lock.newCondition(); public void before() &#123; lock.lock(); try &#123; System.out.println("before"); condition.signalAll(); &#125; finally &#123; lock.unlock(); &#125; &#125; public void after() &#123; lock.lock(); try &#123; condition.await(); System.out.println("after"); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; finally &#123; lock.unlock(); &#125; &#125; public static void main(String[] args) &#123; ExecutorService executorService = Executors.newCachedThreadPool(); AwaitSignalExample example = new AwaitSignalExample(); executorService.execute(() -&gt; example.after()); executorService.execute(() -&gt; example.before()); &#125;&#125; 参考资料 《Java并发编程的艺术》 CS-Notes]]></content>
+      <categories>
+        <category>并发</category>
+      </categories>
+      <tags>
+        <tag>并发</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[final域的内存语义]]></title>
+    <url>%2F2019%2F02%2F09%2F%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90final%E5%85%B3%E9%94%AE%E5%AD%97%2F</url>
+    <content type="text"><![CDATA[对于final域，编译器和处理器要遵守两个重排序规则。 在构造函数内对一个final域的写入，与随后把这个被构造对象的引用赋值给一个引用变量，这两个操作之间不能重排序。 初次读一个包含final域的对象的引用，与随后初次读这个final域，这两个操作之间不能重排序。 以上规则保证只要对象是正确构造的，那么不需要使用同步（指lock和volatile的使用）就可以保证任意线程都能看到这个final域在构造函数中被初始化之后的值。要实现这个效果，还需要保证在构造函数内部，不能让这个被构造对象的引用为其它线程所见，也就是对象引用不能在构造函数中“逸出”，因为此时的final域由于重排序等原因可能还没被初始化。]]></content>
+      <categories>
+        <category>并发</category>
+      </categories>
+      <tags>
+        <tag>并发</tag>
+        <tag>final</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[顺序一致性模型与happens-before原则]]></title>
+    <url>%2F2019%2F02%2F09%2F%E9%A1%BA%E5%BA%8F%E4%B8%80%E8%87%B4%E6%80%A7%E6%A8%A1%E5%9E%8B%E4%B8%8Ehappens-before%E8%A7%84%E5%88%99%2F</url>
+    <content type="text"><![CDATA[顺序一致性模型顺序一致性内存模型是一个理论参考模型，在设计的时候，处理器的内存模型和编程语言的内存模型都会以顺序一致性内存模型作为参考。顺序一致性内存模型有两大特性： 一个线程中的所有操作必须按照程序的顺序来执行。 不管程序是否同步，所有线程都只能看到一个单一的操作执行顺序。在顺序一致性内存模型中，每个操作都必须原子执行并且立刻对所有线程可见。 JMM保证如果程序是正确同步的，程序的执行将具有顺序一致性，即程序的执行结果与该程序在顺序一致性内存模型中的执行结果相同。 而对于未同步或未正确同步的多线程程序，JMM只提供最小安全性：线程执行时读取到的值要么是之前某个线程写入的值，要么是默认值（0，null，false），JMM保证线程读操作读取到的值不会无中生有的冒出来。为了实现最小安全性，JVM在堆上分配内存时，首先会对内存空间进行清零，然后才会在上面分配对象（JVM内部会同步这两个操作）。 注意：对于未同步程序，JMM不保证对64位的long型和double型变量的写操作具有原子性。 happens-beforehappens-before原则定义如下： 如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序排在第二个操作之前。 两个操作之间存在happens-before关系，并不意味着Java平台的具体实现一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。 参考资料 《Java并发编程的艺术》]]></content>
+      <categories>
+        <category>并发</category>
+      </categories>
+      <tags>
+        <tag>并发</tag>
+        <tag>happens-before</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[深入分析synchronized关键字]]></title>
+    <url>%2F2019%2F02%2F08%2F%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90synchronized%E5%85%B3%E9%94%AE%E5%AD%97%2F</url>
+    <content type="text"><![CDATA[简介synchronized是Java中的关键字，是一种同步锁，可作用于一段代码或方法，既可以保证可见性，又能够保证原子性。Java中的每一个对象都可以作为锁： 对于同步方法，锁是当前实例对象。 对于静态同步方法，锁是当前对象的Class对象。 对于同步方法块，锁是Synchonized括号里配置的对象。 当一个线程试图访问同步代码时，它首先必须得到锁，退出或抛出异常时必须释放锁，而没获取到锁的线程将被阻塞。 synchronized实现原理每个对象有一个监视器锁（monitor），当monitor被占用时就会处于锁定状态。 代码块同步是使用monitorenter和monitorexit指令实现的，线程执行monitorenter指令时尝试获取monitor的所有权，过程如下： 如果monitor的进入数为0，则该线程进入monitor，然后将进入数设置为1，该线程即为monitor的所有者。 如果线程已经占有该monitor，只是重新进入，则进入monitor的进入数加1. 如果其他线程已经占用了monitor，则该线程进入阻塞状态，直到monitor的进入数为0，再重新尝试获取monitor的所有权。 而对于monitorexit指令，指令执行时monitor的进入数减1，如果减1后进入数为0，那线程退出monitor，不再是这个monitor的所有者。其他被这个monitor阻塞的线程可以尝试去获取这个monitor的所有权。 方法同步不是使用monitorenter和monitorexit指令来完成，但同样是基于进入和退出monitor对象来实现，在方法执行期间，其他任何线程都无法再获得同一个monitor对象。 锁的升级Java SE1.6为了减少获得锁和释放锁所带来的性能消耗，引入了“偏向锁”和“轻量级锁”，所以在Java SE1.6里锁一共有四种状态，无锁状态，偏向锁状态，轻量级锁状态和重量级锁状态，它会随着竞争情况逐渐升级。锁可以升级但不能降级，意味着偏向锁升级成轻量级锁后不能降级成偏向锁。 偏向锁当一个线程访问同步块并获取锁时，会在对象头和栈帧中的锁记录里存储锁偏向的线程ID，以后该线程在进入和退出同步块时不需要花费CAS操作来加锁和解锁，而只需简单的测试一下对象头的Mark Word里是否存储着指向当前线程的偏向锁，如果测试成功，表示线程已经获得了锁，如果测试失败，则需要再测试下Mark Word中偏向锁的标识是否设置成1（表示当前是偏向锁），如果没有设置，则使用CAS竞争锁，如果设置了，则尝试使用CAS将对象头的偏向锁指向当前线程。 偏向锁的撤销：偏向锁使用了一种等到竞争出现才释放锁的机制，所以当其他线程尝试竞争偏向锁时，持有偏向锁的线程才会释放锁。偏向锁的撤销，需要等待全局安全点（在这个时间点上没有字节码正在执行），它会首先暂停拥有偏向锁的线程，然后检查持有偏向锁的线程是否活着，如果线程不处于活动状态，则将对象头设置成无锁状态，如果线程仍然活着，拥有偏向锁的栈会被执行，遍历偏向对象的锁记录，栈中的锁记录和对象头的Mark Word要么重新偏向于其他线程，要么恢复到无锁或者标记对象不适合作为偏向锁，最后唤醒暂停的线程。下图中的线程1演示了偏向锁初始化的流程，线程2演示了偏向锁撤销的流程。 轻量级锁轻量级锁加锁：线程在执行同步块之前，JVM会先在当前线程的栈桢中创建用于存储锁记录的空间，并将对象头中的Mark Word复制到锁记录中，官方称为Displaced Mark Word。然后线程尝试使用CAS将对象头中的Mark Word替换为指向锁记录的指针。如果成功，当前线程获得锁，如果失败，表示其他线程竞争锁，当前线程便尝试使用自旋来获取锁。 轻量级锁解锁：轻量级解锁时，会使用原子的CAS操作来将Displaced Mark Word替换回到对象头，如果成功，则表示没有竞争发生。如果失败，表示当前锁存在竞争，锁就会膨胀成重量级锁。下图是两个线程同时争夺锁，导致锁膨胀的流程图。 锁的对比 锁 优点 缺点 适用场景 偏向锁 加锁和解锁不需要额外的消耗，和执行非同步方法比仅存在纳秒级的差距。 如果线程间存在锁竞争，会带来额外的锁撤销的消耗。 只有一个线程进入临界区。 轻量级锁 竞争的线程不会阻塞，提高了程序的响应速度。 如果始终得不到锁竞争的线程使用自旋会消耗CPU。 多个线程交替进入临界区。 重量级锁 线程竞争不使用自旋，不会消耗CPU。 线程阻塞，响应时间缓慢。 多线程同时进入临界区。 参考资料 聊聊并发（二）Java SE1.6中的Synchronized Java并发编程：Synchronized及其实现原理]]></content>
+      <categories>
+        <category>并发</category>
+      </categories>
+      <tags>
+        <tag>并发</tag>
+        <tag>synchronized</tag>
+        <tag>锁</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[深入分析volatile关键字]]></title>
+    <url>%2F2019%2F02%2F08%2F%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90volatile%E5%85%B3%E9%94%AE%E5%AD%97%2F</url>
+    <content type="text"><![CDATA[简介在多线程并发编程中synchronized和volatile都扮演着重要的角色，volatile是轻量级的synchronized，如果使用恰当的话，它会比synchronized的使用和执行成本更低，因为它不会引起线程上下文的切换和调度。如果一个字段被声明成volatile，它将具有以下两个特性： 可见性：对一个volatile变量的读，总是能看到任意线程对这个volatile变量最后的写入。 原子性：对任意单个volatile变量的读/写具有原子性，但类似于volatile++这种复合操作不具有原子性。 volatile的实现原理如果对声明了volatile的变量进行写操作，JVM就会向处理器发送一条Lock前缀的指令，将这个变量所在缓存行的数据写回到系统内存。为了保证各个处理器的缓存是一致的，就会实现缓存一致性协议，每个处理器通过嗅探在总线上传播的数据来检查自己缓存值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状态，当处理器对这个数据进行修改操作的时候，会重新从系统内存中把数据读到处理器缓存里。 简单来说就是Lock前缀指令会引起处理器缓存回写到内存，而一个处理器的缓存回写到内存会导致其它处理器的缓存无效。 volatile的内存语义 volatile写的内存语义：当写一个volatile变量时，JMM会把该线程对应的本地内存中的共享变量值刷新到主内存。 volatile读的内存语义：当读一个volatile变量时，JMM会把该线程对应的本地内存设置为无效。线程接下来将从主内存中读取共享变量。 为了实现volatile内存语义，JMM会分别限制编译器重排序和处理器重排序。 对于编译器，JMM的编译器重排序规则会禁止特定类型的编译器重排序。以下是针对编译器制定的重排序规则： 当第二个操作是volatile写时，不管第一个操作是什么，都不能重排序。 当第一个操作是volatile读时，不管第二个操作是什么，都不能重排序。 当第一个操作是volatile写，第二个操作是volatile读时，都不能重排序。 对于处理器，JMM的处理器重排序规则会要求编译器在生成字节码时，在指令序列中插入内存屏障来禁止特定类型的处理器重排序。以下是基于保守策略的JVM内存屏障插入策略： 在每个volatile写操作的前面插入一个StoreStore屏障。 在每个volatile写操作的后面插入一个StoreLoad屏障。 在每个volatile读操作的后面插入一个LoadLoad屏障。 在每个volatile读操作的后面插入一个LoadStore屏障。 此策略可以保证在任意处理器平台，任意程序中都能得到正确的volatile内存语义。 参考资料 聊聊并发（一）深入分析Volatile的实现原理]]></content>
+      <categories>
+        <category>并发</category>
+      </categories>
+      <tags>
+        <tag>并发</tag>
+        <tag>volatile</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[支付宝的支付流程（当面付）]]></title>
     <url>%2F2019%2F02%2F07%2F%E6%94%AF%E4%BB%98%E5%AE%9D%E5%AF%B9%E6%8E%A5%E6%B5%81%E7%A8%8B%2F</url>
     <content type="text"><![CDATA[由于在之前的项目中使用到了用支付宝完成订单支付这一功能，因此在此篇文章中对支付宝的整个支付流程以及背后的细节做一个简单的总结。具体接入指南以及开发文档参考蚂蚁金服 扫码支付接入指引 。 前期准备整体来说前期准备工作有下面两步： 创建应用并获取APPID 配置密钥 其中配置密钥需要交换双方的公钥，在交易过程中会对交易数据进行双方校验。我们知道公钥加密过的内容只有私钥才可以解密，同样，私钥加签过的内容也只有公钥才能验签。商户系统在发起支付时会使用自己的私钥进行加签，由于私钥只有自己持有（因此要妥善保管），支付宝就可以确认支付是由商户系统发起的而非他人；同样支付宝也会使用自己的私钥对支付结果进行加签，这样商户系统使用支付宝的公钥验签后也就能确定该结果是支付宝返回的了。 支付流程 用户选中购物车的商品，创建一个待支付订单，商户系统生成唯一订单号。 用户点击支付，商户系统调用支付宝的预下单接口发送订单信息，接口返回一个二维码串。 商户系统通过二维码串自行生成订单二维码并显示给用户。 用户扫描二维码并付款。 支付成功后，支付宝根据预先配置的回调接口将支付结果异步通知给商户系统。 商户系统收到支付结果，验签确保是支付宝发出后，告知用户支付完成并更新相关数据库表。]]></content>
@@ -139,8 +199,8 @@
         <category>数据库原理</category>
       </categories>
       <tags>
-        <tag>事务</tag>
         <tag>锁</tag>
+        <tag>事务</tag>
         <tag>范式</tag>
       </tags>
   </entry>
@@ -188,8 +248,8 @@
       </categories>
       <tags>
         <tag>算法</tag>
-        <tag>查找</tag>
         <tag>B树</tag>
+        <tag>查找</tag>
       </tags>
   </entry>
   <entry>
@@ -206,6 +266,18 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[常用查找算法之二分查找]]></title>
+    <url>%2F2019%2F01%2F28%2F%E5%B8%B8%E7%94%A8%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E4%B9%8B%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%2F</url>
+    <content type="text"><![CDATA[前言符号表是一种存储键值对的数据结构，可以支持高效地插入、查找等操作，因此在这里使用一个有序符号表接口来定义这些操作，这个符号表将保持键的有序性。 12345678910111213141516public interface OrderedST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; &#123; int size(); void put(Key key, Value value); Value get(Key key); Key min(); Key max(); int rank(Key key); List&lt;Key&gt; keys(Key l, Key h);&#125; 二分查找二分查找先将被查找的键和数组的中间键比较，如果被查找的键小于中间键，我们就在左子数组中继续查找，如果大于我们就在右子数组中继续查找，否则中间键就是我们要找的键。如果表中存在该键，此方法将返回该键的位置，否则，将返回该键应该插入的位置。 二分查找有很多种不同的实现方式，但个人更加喜欢用以下的方式实现，这同时也是书上的实现方式： 1234567891011public int binarySearch(int[] nums, int target) &#123; int low = 0; int high = nums.length - 1; while(low &lt;= high) &#123; int mid = low + (high - low) / 2; if(nums[mid] &lt; target) low = mid + 1; else if(nums[mid] &gt; target) high = mid - 1; else return mid; &#125; return low;&#125; 查找数字第一次出现的位置对二分查找可以做一个简单的拓展，即当一个有序数组中有重复的数字时，查找一个数字在数组中第一次出现的位置。例如，对于数组{1, 2, 3, 3, 3, 3, 4}，要查找的数字3的下标应该为2而不是3。我们仅仅需要对普通的二分查找算法做一个简单的修改就能完成此功能： 12345678910public int binarySearchFirst(int[] nums, int target) &#123; int low = 0; int high = nums.length - 1; while(low &lt;= high) &#123; int mid = low + (high - low) / 2; if(nums[mid] &lt; target) low = mid + 1; else if(nums[mid] &gt;= target) high = mid - 1; &#125; return low;&#125; 查找数字最后一次出现的位置同理，我们也可以使用二分查找找到重复数字在有序数组中最后一次出现的位置： 12345678910public int binarySearchLast(int[] nums, int target) &#123; int low = 0; int high = nums.length - 1; while(low &lt;= high) &#123; int mid = low + (high - low) / 2; if(nums[mid] &lt;= target) low = mid + 1; else if(nums[mid] &gt; target) high = mid - 1; &#125; return high;&#125; 二分查找实现有序符号表使用一对平行数组，分别用来存储键和值。 这份实现的核心是rank()方法，它几乎和上面单独列出的二分查找法一样，返回找到的键的位置或者键应该插入的位置。对于put()方法，如果键存在于表中则更新它的值，否则插入到合适的位置，并将所有更大的键向后移动一格。get()方法根据rank()方法的返回值来取键相应的值，如果不存在则返回null。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677public class BinarySearchOrderedST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; implements OrderedST&lt;Key, Value&gt; &#123; private Key[] keys; private Value[] values; private int N = 0; public BinarySearchOrderedST(int capacity) &#123; keys = (Key[]) new Comparable[capacity]; values = (Value[]) new Object[capacity]; &#125; @Override public int size() &#123; return N; &#125; @Override public int rank(Key key) &#123; int l = 0, h = N - 1; while (l &lt;= h) &#123; int m = l + (h - l) / 2; int cmp = key.compareTo(keys[m]); if (cmp == 0) return m; else if (cmp &lt; 0) h = m - 1; else l = m + 1; &#125; return l; &#125; @Override public List&lt;Key&gt; keys(Key l, Key h) &#123; int index = rank(l); List&lt;Key&gt; list = new ArrayList&lt;&gt;(); while (keys[index].compareTo(h) &lt;= 0) &#123; list.add(keys[index]); index++; &#125; return list; &#125; @Override public void put(Key key, Value value) &#123; int index = rank(key); if (index &lt; N &amp;&amp; keys[index].compareTo(key) == 0) &#123; values[index] = value; return; &#125; for (int j = N; j &gt; index; j--) &#123; keys[j] = keys[j - 1]; values[j] = values[j - 1]; &#125; keys[index] = key; values[index] = value; N++; &#125; @Override public Value get(Key key) &#123; int index = rank(key); if (index &lt; N &amp;&amp; keys[index].compareTo(key) == 0) return values[index]; return null; &#125; @Override public Key min() &#123; return keys[0]; &#125; @Override public Key max() &#123; return keys[N - 1]; &#125;&#125; 复杂度分析二分查找的时间复杂度是对数级别的，故使用二分查找实现的符号表的查找操作所需要的时间也是对数级别的，但是插入操作由于需要移动数组元素，因此是线性级别的。 参考资料 Algorithms (Fourth Edition) CS-Notes 算法]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>查找</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[常用查找算法之二叉查找树]]></title>
     <url>%2F2019%2F01%2F28%2F%E5%B8%B8%E7%94%A8%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E4%B9%8B%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91%2F</url>
     <content type="text"><![CDATA[定义一棵二叉查找树（又称二叉排序树、二叉搜索树）是一棵二叉树，其中每个节点都含有一个Comparable的键以及相关联的值且每个节点的键都大于其左子树中的任意节点的键而小于右子树的任意节点的键。 二叉查找树有一个重要性质，就是它的中序遍历结果递增排序。 基本实现树由Node对象组成，每个对象都含有一对键值、两条链接和一个节点计数器。节点计数器表示以该节点为根的子树中的节点总数，总是满足size(x) = size(x.left) + size(x.right) + 1。 123456789101112131415161718192021222324252627282930313233public class BST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; &#123; private Node root; // 二叉查找树的根节点 private class Node &#123; private Key key; // 键 private Value val; // 值 private Node left, right; // 指向子树的链接 private int size; // 以该节点为根的子树中的节点总数 public Node(Key key, Value val, int size) &#123; this.key = key; this.val = val; this.size = size; &#125; &#125; public int size() &#123; return size(root); &#125; private int size(Node x) &#123; if (x == null) return 0; else return x.size; &#125; //实现见下文 public Value get(Key key) //实现见下文 public void put(Key key, Value val) //其它有序性相关的方法及删除操作见下文&#125; 查找如果树是空的，则查找未命中；如果被查找的键和根节点的键相等，查找命中；否则递归地在子树中查找：如果被查找的键较小就在左子树中查找，较大就在右子树中查找。 当找到一个含有被查找的键的节点（命中）或者当前子树变为空（未命中）时这个过程才会结束。 123456789101112public Value get(Key key) &#123; return get(root, key);&#125;private Value get(Node x, Key key) &#123; if (x == null) return null; int cmp = key.compareTo(x.key); if (cmp &lt; 0) return get(x.left, key); else if (cmp &gt; 0) return get(x.right, key); else return x.val;&#125; 插入如果树是空的，就返回一个含有该键值对的新节点（使上层节点的链接指向该节点）；如果被查找的键小于根节点的键，继续在左子树中插入该键，否则在右子树中插入该键。 1234567891011121314@Overridepublic void put(Key key, Value value) &#123; root = put(root, key, value);&#125; private Node put(Node x, Key key, Value val) &#123; if (x == null) return new Node(key, val, 1); int cmp = key.compareTo(x.key); if (cmp &lt; 0) x.left = put(x.left, key, val); else if (cmp &gt; 0) x.right = put(x.right, key, val); else x.val = val; x.size = 1 + size(x.left) + size(x.right); return x; &#125; 有序性相关的方法及删除操作范围查找利用二叉查找树中序遍历的结果为递增的特点对其进行指定范围的查找。 12345678910111213141516Overridepublic List&lt;Key&gt; keys(Key l, Key h) &#123; List&lt;Key&gt; list = new ArrayList&lt;&gt;(); keys(root, list, l, h); return list;&#125;private void keys(Node x, List&lt;key&gt; list, Key l, Key h) &#123; if (x == null) return; int cmpL = l.compareTo(x.key); int cmpH = h.compareTo(x.key); if (cmpL &lt; 0) keys(x.left, list, l, h); if (cmpL &lt;= 0 &amp;&amp; cmpH &gt;= 0) list.add(x.key); if (cmpH &gt; 0) keys(x.right, list, l, h);&#125; 删除最小节点只需令指向最小节点的链接指向最小节点的右子树。 1234567891011public void deleteMin() &#123; root = deleteMin(root);&#125;private Node deleteMin(Node x) &#123; if (x.left == null) return x.right; x.left = deleteMin(x.left); x.size = size(x.left) + size(x.right) + 1; return x;&#125; 删除指定节点如果待删除的节点只有一个子树， 那么只需要让指向待删除节点的链接指向唯一的子树即可；否则，让右子树的最小节点替换该节点。 1234567891011121314151617181920212223public void delete(Key key) &#123; root = delete(root, key);&#125;private Node delete(Node x, Key key) &#123; if (x == null) return null; int cmp = key.compareTo(x.key); if (cmp &lt; 0) x.left = delete(x.left, key); else if (cmp &gt; 0) x.right = delete(x.right, key); else &#123; if (x.right == null) return x.left; if (x.left == null) return x.right; Node t = x; x = min(t.right); x.right = deleteMin(t.right); x.left = t.left; &#125; x.size = size(x.left) + size(x.right) + 1; return x;&#125; 查找最小键123456789101112@Overridepublic Key min() &#123; return min(root).key;&#125;private Node min(Node x) &#123; if (x == null) return null; if (x.left == null) return x; return min(x.left);&#125; 排名rank(key)返回key的排名，排名从0开始。如果键和根节点的键相等，返回左子树的节点数；如果小于，递归计算在左子树中的排名；如果大于，递归计算在右子树中的排名，加上左子树的节点数，再加上1（根节点）。 123456789101112@Overridepublic int rank(Key key) &#123; return rank(key, root);&#125;private int rank(Key key, Node x) &#123; if (x == null) return 0; int cmp = key.compareTo(x.key); if (cmp &lt; 0) return rank(key, x.left); else if (cmp &gt; 0) return 1 + size(x.left) + rank(key, x.right); else return size(x.left); &#125; 复杂度分析在最好的情况下，一棵含有N个节点的树是完全平衡的，插入和查找的时间复杂度均为O(logn)；在最坏的情况下，搜索路径上可能有N个节点，此时的时间复杂度为O(n)。 参考资料 Algorithms (Fourth Edition) CS-Notes 算法]]></content>
@@ -216,18 +288,6 @@
         <tag>算法</tag>
         <tag>查找</tag>
         <tag>BST</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[常用查找算法之二分查找]]></title>
-    <url>%2F2019%2F01%2F28%2F%E5%B8%B8%E7%94%A8%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E4%B9%8B%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%2F</url>
-    <content type="text"><![CDATA[前言符号表是一种存储键值对的数据结构，可以支持高效地插入、查找等操作，因此在这里使用一个有序符号表接口来定义这些操作，这个符号表将保持键的有序性。 12345678910111213141516public interface OrderedST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; &#123; int size(); void put(Key key, Value value); Value get(Key key); Key min(); Key max(); int rank(Key key); List&lt;Key&gt; keys(Key l, Key h);&#125; 二分查找二分查找先将被查找的键和数组的中间键比较，如果被查找的键小于中间键，我们就在左子数组中继续查找，如果大于我们就在右子数组中继续查找，否则中间键就是我们要找的键。如果表中存在该键，此方法将返回该键的位置，否则，将返回该键应该插入的位置。 二分查找有很多种不同的实现方式，但个人更加喜欢用以下的方式实现，这同时也是书上的实现方式： 1234567891011public int binarySearch(int[] nums, int target) &#123; int low = 0; int high = nums.length - 1; while(low &lt;= high) &#123; int mid = low + (high - low) / 2; if(nums[mid] &lt; target) low = mid + 1; else if(nums[mid] &gt; target) high = mid - 1; else return mid; &#125; return low;&#125; 查找数字第一次出现的位置对二分查找可以做一个简单的拓展，即当一个有序数组中有重复的数字时，查找一个数字在数组中第一次出现的位置。例如，对于数组{1, 2, 3, 3, 3, 3, 4}，要查找的数字3的下标应该为2而不是3。我们仅仅需要对普通的二分查找算法做一个简单的修改就能完成此功能： 12345678910public int binarySearchFirst(int[] nums, int target) &#123; int low = 0; int high = nums.length - 1; while(low &lt;= high) &#123; int mid = low + (high - low) / 2; if(nums[mid] &lt; target) low = mid + 1; else if(nums[mid] &gt;= target) high = mid - 1; &#125; return low;&#125; 查找数字最后一次出现的位置同理，我们也可以使用二分查找找到重复数字在有序数组中最后一次出现的位置： 12345678910public int binarySearchLast(int[] nums, int target) &#123; int low = 0; int high = nums.length - 1; while(low &lt;= high) &#123; int mid = low + (high - low) / 2; if(nums[mid] &lt;= target) low = mid + 1; else if(nums[mid] &gt; target) high = mid - 1; &#125; return high;&#125; 二分查找实现有序符号表使用一对平行数组，分别用来存储键和值。 这份实现的核心是rank()方法，它几乎和上面单独列出的二分查找法一样，返回找到的键的位置或者键应该插入的位置。对于put()方法，如果键存在于表中则更新它的值，否则插入到合适的位置，并将所有更大的键向后移动一格。get()方法根据rank()方法的返回值来取键相应的值，如果不存在则返回null。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677public class BinarySearchOrderedST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; implements OrderedST&lt;Key, Value&gt; &#123; private Key[] keys; private Value[] values; private int N = 0; public BinarySearchOrderedST(int capacity) &#123; keys = (Key[]) new Comparable[capacity]; values = (Value[]) new Object[capacity]; &#125; @Override public int size() &#123; return N; &#125; @Override public int rank(Key key) &#123; int l = 0, h = N - 1; while (l &lt;= h) &#123; int m = l + (h - l) / 2; int cmp = key.compareTo(keys[m]); if (cmp == 0) return m; else if (cmp &lt; 0) h = m - 1; else l = m + 1; &#125; return l; &#125; @Override public List&lt;Key&gt; keys(Key l, Key h) &#123; int index = rank(l); List&lt;Key&gt; list = new ArrayList&lt;&gt;(); while (keys[index].compareTo(h) &lt;= 0) &#123; list.add(keys[index]); index++; &#125; return list; &#125; @Override public void put(Key key, Value value) &#123; int index = rank(key); if (index &lt; N &amp;&amp; keys[index].compareTo(key) == 0) &#123; values[index] = value; return; &#125; for (int j = N; j &gt; index; j--) &#123; keys[j] = keys[j - 1]; values[j] = values[j - 1]; &#125; keys[index] = key; values[index] = value; N++; &#125; @Override public Value get(Key key) &#123; int index = rank(key); if (index &lt; N &amp;&amp; keys[index].compareTo(key) == 0) return values[index]; return null; &#125; @Override public Key min() &#123; return keys[0]; &#125; @Override public Key max() &#123; return keys[N - 1]; &#125;&#125; 复杂度分析二分查找的时间复杂度是对数级别的，故使用二分查找实现的符号表的查找操作所需要的时间也是对数级别的，但是插入操作由于需要移动数组元素，因此是线性级别的。 参考资料 Algorithms (Fourth Edition) CS-Notes 算法]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-        <tag>查找</tag>
       </tags>
   </entry>
   <entry>
