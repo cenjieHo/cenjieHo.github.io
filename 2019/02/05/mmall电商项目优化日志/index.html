@@ -92,7 +92,9 @@
 <meta property="og:image" content="http://blog.default.nanwulife.com/3%29G5S7ZTBRINMZQEQ_%29ZLZH.png">
 <meta property="og:image" content="http://blog.default.nanwulife.com/%288R%5D%29J%5BT2B16EP87J6%60%7D%289V.png">
 <meta property="og:image" content="http://blog.default.nanwulife.com/%7D6%7BS@%25E2MGMXK_%29%29~JPZ6BT.png">
-<meta property="og:updated_time" content="2019-02-06T01:51:58.247Z">
+<meta property="og:image" content="http://blog.default.nanwulife.com/GB44HLUCJSFK~%28HS%290%60M%7B9E.png">
+<meta property="og:image" content="http://blog.default.nanwulife.com/0Y%5D$ZI%60U6X6J052%25CSB2VTU.png">
+<meta property="og:updated_time" content="2019-02-10T02:17:06.280Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="电商项目优化实践">
 <meta name="twitter:description" content="本篇日志将记录之前做过的mmall项目的一些优化过程，主要包括JVM调优和数据库优化两个方面，通过不断动手实践并总结心得，希望能在此积累起许多经验，为以后能更得心应手的写出高效而又稳健的代码打好基础。">
@@ -411,6 +413,42 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> mmall_product </span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> (<span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> mmall_product <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">'ab'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> price <span class="keyword">LIMIT</span> <span class="number">100000</span>, <span class="number">10</span>) <span class="keyword">AS</span> mmall_product_id <span class="keyword">USING</span>(<span class="keyword">id</span>);</span><br></pre></td></tr></table></figure>
 <p>此时，就算偏移量为一百万时，查询也可以很轻松的在0.5S内完成，效果还是令人满意的。</p>
 <p><img src="http://blog.default.nanwulife.com/%7D6%7BS@%25E2MGMXK_%29%29~JPZ6BT.png" alt=""></p>
+<h2 id="GC调优"><a href="#GC调优" class="headerlink" title="GC调优"></a>GC调优</h2><p>看了《深入理解Java虚拟机》也有一段时间了，书本的知识虽然都能理解，但实际的优化却从来没试过，这方面可以说是毫无经验。都说读万卷书不如行万里路，在网上看了一些GC优化的实际案例后，决定亲自动手在这个项目中尝试一下。</p>
+<p>这次实践使用的垃圾收集器为ParNew+CMS（CMS失败时Serial Old替补）。首先通过以下参数设置垃圾收集器并打开GC日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseConcMarkSweepGC</span><br><span class="line">-XX:+UseParNewGC</span><br><span class="line">-XX:+PrintGC</span><br><span class="line">-Xloggc:C:\Users\canjie\Desktop\gc.log</span><br><span class="line">-XX:+PrintHeapAtGC</span><br><span class="line">-XX:+PrintGCDateStamps</span><br></pre></td></tr></table></figure></p>
+<p>然后使用jmeter工具模拟多用户持续请求接口的场景，这里设置的一分钟的用户数5000人。jemeter的聚合报告显示如下，主要关注TP99这一指标：</p>
+<p><img src="http://blog.default.nanwulife.com/GB44HLUCJSFK~%28HS%290%60M%7B9E.png" alt=""></p>
+<p>请求结束后分析GC日志发现Minor GC执行的十分频繁，而Major GC仅仅五分钟内就执行了好几次，每次耗时约0.2s，频繁且耗时的STW对接口响应时间造成了很大的影响，对于追求低延时的服务来说肯定是不可取的。要想优化就必须得先知其原因，首先JVM的默认内存为64M，这肯定是不够的，其次频繁的Major GC主要是因为老年代的空间不够，那接下来就是通过调整总堆大小以及年轻代和老年代的比例来减少GC的频率和STW的时间。当然，这里的内存不是调的越大越好，调的过小会导致GC频率过高，而调的过大虽然GC频率降低了，但每次GC的耗时也会变长。</p>
+<p>先通过GC日志得到活跃数据的大小（活跃数据的大小是指Full GC后堆中老年代占用空间的大小），然后通过以下策略设置基本参数：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">空间</th>
+<th style="text-align:center">倍数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">总堆</td>
+<td style="text-align:center">3-4 倍活跃数据的大小</td>
+</tr>
+<tr>
+<td style="text-align:center">新生代</td>
+<td style="text-align:center">1-1.5 活跃数据的大小</td>
+</tr>
+<tr>
+<td style="text-align:center">老年代</td>
+<td style="text-align:center">2-3 倍活跃数据的大小</td>
+</tr>
+<tr>
+<td style="text-align:center">永久代</td>
+<td style="text-align:center">1.2-1.5 倍Full GC后的永久代空间占用</td>
+</tr>
+</tbody>
+</table>
+<p>我在这个例子中经过计算后设置的参数如下：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-Xmx640m</span><br><span class="line">-Xms640m</span><br><span class="line">-XX:NewSize=240m</span><br><span class="line">-XX:MaxNewSize=240m</span><br></pre></td></tr></table></figure>
+<p>此时再启动项目并用jmeter模拟真实环境进行测试，可以发现调大总堆大小并设置合适的年轻代与老年代的比例后，Minor GC每分钟的频率已经降到了70-80次，而Major GC十分钟才会出现一次，每次的耗时在100ms以下，TP95下降了约10ms，TP99下降了约100ms。</p>
+<p><img src="http://blog.default.nanwulife.com/0Y%5D$ZI%60U6X6J052%25CSB2VTU.png" alt=""></p>
 
       
     </div>
@@ -636,7 +674,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#商品表的优化"><span class="nav-number">1.</span> <span class="nav-text">商品表的优化</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#商品表的优化"><span class="nav-number">1.</span> <span class="nav-text">商品表的优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GC调优"><span class="nav-number">2.</span> <span class="nav-text">GC调优</span></a></li></ol></div>
             
 
           </div>
