@@ -91,9 +91,9 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.algorithms.nanwulife.com/partitioning.png">
 <meta property="og:image" content="http://blog.algorithms.nanwulife.com/766aedd0-1b00-4065-aa2b-7d31138df84f.png">
-<meta property="og:image" content="http://pheh3bztc.bkt.clouddn.com/img_20181106_151412.882~2.png">
+<meta property="og:image" content="http://blog.algorithms.nanwulife.com/img_20181106_151412.882~2.png">
 <meta property="og:image" content="http://blog.algorithms.nanwulife.com/partitioning3-overview.png">
-<meta property="og:updated_time" content="2019-01-28T10:59:37.752Z">
+<meta property="og:updated_time" content="2019-02-11T02:44:31.397Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常见排序算法之快速排序">
 <meta name="twitter:description" content="前言排序算法的成本模型计算的是比较和交换的次数。less()方法对元素进行比较，exch()方法将元素交换位置。 123456789private static boolean less(Comparable v, Comparable w) &amp;#123;   return (v.compareTo(w) &amp;lt; 0);&amp;#125;private static void exch(Compara">
@@ -419,7 +419,7 @@
 <li>最优空间复杂度 O(logn)</li>
 <li>不稳定</li>
 </ul>
-<h2 id="最优时间复杂度的数学证明"><a href="#最优时间复杂度的数学证明" class="headerlink" title="最优时间复杂度的数学证明"></a>最优时间复杂度的数学证明</h2><p><img src="http://pheh3bztc.bkt.clouddn.com/img_20181106_151412.882~2.png" alt="数学证明"></p>
+<h2 id="最优时间复杂度的数学证明"><a href="#最优时间复杂度的数学证明" class="headerlink" title="最优时间复杂度的数学证明"></a>最优时间复杂度的数学证明</h2><p><img src="http://blog.algorithms.nanwulife.com/img_20181106_151412.882~2.png" alt="数学证明"></p>
 <h2 id="算法改进"><a href="#算法改进" class="headerlink" title="算法改进"></a>算法改进</h2><h3 id="切换到插入排序"><a href="#切换到插入排序" class="headerlink" title="切换到插入排序"></a>切换到插入排序</h3><p>因为快速排序在小数组中也会递归调用自己，对于小数组，插入排序比快速排序的性能更好，因此在小数组中可以切换到插入排序。</p>
 <p>只需要将代码中的<code>if (hi &lt;= lo) return;</code>改为<code>if (hi &lt;= lo + M) {Insertion.sort(a, lo, hi); return;}</code>。</p>
 <h3 id="三取样切分"><a href="#三取样切分" class="headerlink" title="三取样切分"></a>三取样切分</h3><p>最好的情况下是每次都能取数组的中位数作为切分元素，但是计算中位数的代价很高。人们发现取 3 个元素并将大小居中的元素作为切分元素的效果最好。</p>
@@ -561,7 +561,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -583,7 +583,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
