@@ -91,7 +91,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.default.nanwulife.com/870109-20160503213708857-429280187.png">
 <meta property="og:image" content="http://blog.default.nanwulife.com/2ebc07fadf474b07bd5663a8ec8fe2db.png">
-<meta property="og:updated_time" content="2019-01-28T10:53:44.308Z">
+<meta property="og:updated_time" content="2019-02-13T02:46:15.109Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解JVM-类加载机制">
 <meta name="twitter:description" content="类的生命周期 类加载过程类加载的过程包括了加载、验证、准备、解析、初始化五个阶段。 在这五个阶段中，加载、验证、准备和初始化这四个阶段发生的顺序是确定的，而解析阶段则不一定，它在某些情况下可以在初始化阶段之后开始，这是为了支持Java语言的运行时绑定（也称为动态绑定或晚期绑定）。另外注意这里的几个阶段是按顺序开始，而不是按顺序进行或完成，因为这些阶段通常都是互相交叉地混合进行的，通常在一个阶段执行">
@@ -432,6 +432,9 @@
 <p>直接引用：直接引用可以是直接指向目标的指针、相对偏移量或是一个能间接定位到目标的句柄。直接引用是和虚拟机实现的内存布局相关的，引用的目标必定已经在内存中存在。</p>
 </blockquote>
 <p>其中解析过程在某些情况下可以在初始化阶段之后再开始，这是为了支持Java的动态绑定。</p>
+<blockquote>
+<p>动态绑定是指在执行期间（非编译期）判断所引用对象的实际类型，根据其实际的类型调用其相应的方法。 程序运行过程中，把函数（或过程）调用与响应调用所需要的代码相结合的过程称为动态绑定。</p>
+</blockquote>
 <h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>初始化阶段才真正开始执行类中定义的Java程序代码。初始化阶段即虚拟机执行类构造器<code>&lt;clinit&gt;()</code>方法的过程。</p>
 <blockquote>
 <ul>
@@ -611,7 +614,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
