@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-02-13T11:26:41.181Z</updated>
+  <updated>2019-02-14T10:16:08.953Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,8 +20,8 @@
     <title>访问一个网页的全过程</title>
     <link href="http://yoursite.com/2019/02/13/%E8%AE%BF%E9%97%AE%E4%B8%80%E4%B8%AA%E7%BD%91%E9%A1%B5%E7%9A%84%E5%85%A8%E8%BF%87%E7%A8%8B/"/>
     <id>http://yoursite.com/2019/02/13/访问一个网页的全过程/</id>
-    <published>2019-02-13T10:09:31.000Z</published>
-    <updated>2019-02-13T11:26:41.181Z</updated>
+    <published>2019-02-13T10:09:00.000Z</published>
+    <updated>2019-02-14T10:16:08.953Z</updated>
     
     <content type="html"><![CDATA[<ol><li>客户端用户从浏览器输入<code>www.google.com</code>网站网址后回车，系统会查询本地hosts文件及DNS缓存信息，查找是否存在网址对应的IP解析记录。如果有就直接获取到IP地址，然后访问网站，一般第一次请求时，DNS缓存是没有解析记录的。</li></ol><a id="more"></a><ol start="3"><li><p>如果hosts与DNS缓存都没有解析记录时，系统会把浏览器的解析请求交给客户端本地设置的DNS服务器地址解析，如果本地DNS服务器的本地缓存有对应的解析记录，就会直接返回IP地址。</p></li><li><p>如果本地DNS服务器没有对应的解析记录，则根据本地DNS服务器的设置（是否设置转发器）进行查询，如果未用转发模式，本地DNS就把请求发至13台根DNS，根DNS服务器收到请求后会判断这个域名(.com)是谁来授权管理，并会返回一个负责该顶级域名服务器的一个IP。本地DNS服务器收到IP信息后，将会联系负责.com域的这台服务器。这台负责.com域的服务器收到请求后，如果自己无法解析，它就会找一个管理.com域的下一级DNS服务器地址(<code>google.com</code>)给本地DNS服务器。当本地DNS服务器收到这个地址后，就会找<code>google.com</code>域服务器，重复上面的动作，进行查询，直至找到<code>www.google.com</code>主机。</p></li><li><p>如果用的是转发模式，此DNS服务器就会把请求转发至上一级DNS服务器，由上一级服务器进行解析，上一级服务器如果不能解析，或找根DNS或把转请求转至上上级，以此循环。不管是本地DNS服务器用是是转发，还是根提示，最后都是把结果返回给本地DNS服务器，由此DNS服务器再返回给客户机。</p></li><li><p>通过DNS解析拿到了ip之后，就可以通过ip向服务器发送http请求了，因为http工作在应用层，tcp工作在传输层，所以发生http请求之前，还会进行tcp的三次握手建立连接。</p></li><li><p>在连接成功建立后，开始向web服务器发送请求，当浏览器向Web服务器发出请求时，它向服务器传递了一个数据块，也就是请求报文，请求报文由<code>请求方法 URI 协议/版本</code>、<code>请求头</code>、<code>请求正文</code>三部分组成。</p></li><li><p>请求报文由应用层通过TCP/IP模型向下，在传输层附加TCP包首部，网络层附加IP包首部，数据链路层附加以太网包首部，之后通过以太网电缆传送到服务器，服务器拿到数据包后再由数据链路层、网络层、传输层向上解析，应用层最终收到该请求。</p></li><li><p>服务器收到请求报文之后，就会将响应报文返回给客户端，响应报文由<code>协议/版本 状态码 描述</code>、<code>响应头</code>、<code>响应正文</code>三部分组成。这里的状态码分为1XX（信息类）、2XX（成功类）、3XX（重定向类）、4XX（客户端错误）、5XX（服务器错误）。</p></li><li><p>当浏览器加载一个完整的页面时，还需要与服务器断开连接，这个过程就是tcp的四次挥手。</p></li><li><p>在HTTP协议的初始版本中，每进行一次HTTP通信就要断开一次TCP连接。因此，每次的请求都会造成无谓的TCP连接建立与断开，增加通信量的开销。为了解决这个问题，HTTP/1.1使用长连接减少开销，只要任意一端没有明确提出断开连接，就保持TCP连接状态，当客户端再次访问这个服务器上的网页时，会继续使用这一条已经建立的连接。</p></li></ol>]]></content>
     
@@ -32,6 +32,8 @@
 &lt;/ol&gt;
     
     </summary>
+    
+      <category term="计算机网络" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
   </entry>
