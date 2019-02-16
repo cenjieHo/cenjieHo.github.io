@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="简介在多线程并发编程中synchronized和volatile都扮演着重要的角色，volatile是轻量级的synchronized，如果使用恰当的话，它会比synchronized的使用和执行成本更低，因为它不会引起线程上下文的切换和调度。如果一个字段被声明成volatile，它将具有以下两个特性：  可见性：对一个volatile变量的读，总是能看到任意线程对这个volatile变量最后的写">
+<meta name="description" content="简介volatile是轻量级的synchronized，如果使用恰当的话，它会比synchronized的使用成本更低，因为它不会引起线程上下文的切换和调度。如果一个字段被声明成volatile，它将具有以下两个特性：  可见性：对一个volatile变量的读，总是能看到任意线程对这个volatile变量最后的写入。 原子性：对任意单个volatile变量的读/写具有原子性，但类似于volatil">
 <meta name="keywords" content="并发,volatile">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入分析volatile关键字">
 <meta property="og:url" content="http://yoursite.com/2019/02/08/深入分析volatile关键字/index.html">
 <meta property="og:site_name" content="Cenjie&#39;s Blog">
-<meta property="og:description" content="简介在多线程并发编程中synchronized和volatile都扮演着重要的角色，volatile是轻量级的synchronized，如果使用恰当的话，它会比synchronized的使用和执行成本更低，因为它不会引起线程上下文的切换和调度。如果一个字段被声明成volatile，它将具有以下两个特性：  可见性：对一个volatile变量的读，总是能看到任意线程对这个volatile变量最后的写">
+<meta property="og:description" content="简介volatile是轻量级的synchronized，如果使用恰当的话，它会比synchronized的使用成本更低，因为它不会引起线程上下文的切换和调度。如果一个字段被声明成volatile，它将具有以下两个特性：  可见性：对一个volatile变量的读，总是能看到任意线程对这个volatile变量最后的写入。 原子性：对任意单个volatile变量的读/写具有原子性，但类似于volatil">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-08T08:00:02.333Z">
+<meta property="og:updated_time" content="2019-02-15T12:30:03.806Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入分析volatile关键字">
-<meta name="twitter:description" content="简介在多线程并发编程中synchronized和volatile都扮演着重要的角色，volatile是轻量级的synchronized，如果使用恰当的话，它会比synchronized的使用和执行成本更低，因为它不会引起线程上下文的切换和调度。如果一个字段被声明成volatile，它将具有以下两个特性：  可见性：对一个volatile变量的读，总是能看到任意线程对这个volatile变量最后的写">
+<meta name="twitter:description" content="简介volatile是轻量级的synchronized，如果使用恰当的话，它会比synchronized的使用成本更低，因为它不会引起线程上下文的切换和调度。如果一个字段被声明成volatile，它将具有以下两个特性：  可见性：对一个volatile变量的读，总是能看到任意线程对这个volatile变量最后的写入。 原子性：对任意单个volatile变量的读/写具有原子性，但类似于volatil">
 
 
 
@@ -386,7 +386,7 @@
       
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>在多线程并发编程中<code>synchronized</code>和<code>volatile</code>都扮演着重要的角色，<code>volatile</code>是轻量级的<code>synchronized</code>，如果使用恰当的话，它会比<code>synchronized</code>的使用和执行成本更低，因为它不会引起线程上下文的切换和调度。如果一个字段被声明成<code>volatile</code>，它将具有以下两个特性：</p>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><code>volatile</code>是轻量级的<code>synchronized</code>，如果使用恰当的话，它会比<code>synchronized</code>的使用成本更低，因为它不会引起线程上下文的切换和调度。如果一个字段被声明成<code>volatile</code>，它将具有以下两个特性：</p>
 <ul>
 <li>可见性：对一个<code>volatile</code>变量的读，总是能看到任意线程对这个<code>volatile</code>变量最后的写入。</li>
 <li>原子性：对任意单个<code>volatile</code>变量的读/写具有原子性，但类似于<code>volatile++</code>这种复合操作不具有原子性。</li>
@@ -539,7 +539,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -550,7 +550,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -561,7 +561,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

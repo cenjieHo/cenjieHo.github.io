@@ -91,7 +91,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.default.nanwulife.com/1787733-248f411a83669fff.webp">
 <meta property="og:image" content="http://blog.default.nanwulife.com/6021163-4e29a753826e7d23.webp">
-<meta property="og:updated_time" content="2019-02-13T01:11:13.546Z">
+<meta property="og:updated_time" content="2019-02-15T12:25:56.291Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java线程池与Executor框架">
 <meta name="twitter:description" content="为什么要使用线程池 降低资源消耗：通过重复利用已创建的线程降低线程创建和销毁造成的消耗。 提高响应速度：当任务到达时，任务可以不需要等到线程创建就能立即执行。 提高线程的可管理性：线程是稀缺资源，使用线程池可以进行统一分配、调优和监控。">
@@ -423,7 +423,7 @@
 <li><code>shutdown()</code>先将线程池状态置为<code>SHUTDOWN</code>，停止接受外部提交的新任务，而等到正在执行的任务以及队列中等待的任务执行完才真正停止。</li>
 <li><code>shutdownNow()</code>先将线程池状态置为<code>STOP</code>，停止接受外部提交的新任务，忽略队列里等待的任务，使用<code>interrupt()</code>方法尝试将正在跑的任务中断，然后返回未执行的任务列表。</li>
 </ul>
-<p>注意，如果线程中没有<code>sleep</code>、<code>wait</code>、<code>Condition</code>、定时锁等应用，<code>interrupt()</code>方法是无法中断当前的线程的。所以，<code>shutdownNow()</code>并不代表线程池就一定立即就能退出，它也可能必须要等待所有正在执行的任务都执行完成了才能退出。</p>
+<p>注意，如果线程中没有<code>sleep</code>、<code>wait</code>、<code>Condition</code>等应用，<code>interrupt()</code>方法是无法中断当前的线程的。所以，<code>shutdownNow()</code>并不代表线程池一定立即就能退出，它也可能必须要等待所有正在执行的任务都执行完成了才能退出。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a href="http://ifeve.com/java-threadpool/" target="_blank" rel="noopener">聊聊并发（三）Java线程池的分析和使用</a></li>
 </ul>
@@ -552,7 +552,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -563,7 +563,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -574,7 +574,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

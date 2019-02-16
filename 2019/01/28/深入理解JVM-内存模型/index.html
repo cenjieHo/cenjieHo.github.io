@@ -91,7 +91,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.default.nanwulife.com/V%29M4K%7D%7BE0VJ5B%28%7B7XV2PJ7D.png">
 <meta property="og:image" content="http://blog.default.nanwulife.com/asdasdasdasdasdsada.png">
-<meta property="og:updated_time" content="2019-02-13T07:12:31.385Z">
+<meta property="og:updated_time" content="2019-02-15T08:04:00.942Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解JVM-内存模型">
 <meta name="twitter:description" content="Java内存模型由于计算机上的内存模型涉及到物理的主内存、高速缓存和寄存器等。这些不同的计算机不同的操场系统可能会存在差异，Java虚拟机规范中试图定义一种Java内存模型，来屏蔽掉各种硬件和操作系统的内存访问差异，让Java程序在各个平台下都能达到一致的访问效果。">
@@ -393,7 +393,7 @@
 <a id="more"></a>
 <h2 id="主内存与工作内存"><a href="#主内存与工作内存" class="headerlink" title="主内存与工作内存"></a>主内存与工作内存</h2><p><img src="http://blog.default.nanwulife.com/V%29M4K%7D%7BE0VJ5B%28%7B7XV2PJ7D.png" alt=""></p>
 <p>Java内存模型规定了所有变量都存储在主内存内（主内存包括方法区和堆），此处主内存隶属于Java虚拟机内存的一部分，而虚拟机内存是操作系统分配的。每条Java线程还有自己的工作内存，工作内存中保存了被该线程使用到的变量的主内存的副本，线程对变量的所有操作都在工作内存中进行，Java线程之间的变量值传递都通过主内存来完成。</p>
-<h2 id="内存间的交互"><a href="#内存间的交互" class="headerlink" title="内存间的交互"></a>内存间的交互</h2><p>关于主内存和工作内存间的交互协议，即一个变量如何从工作内存拷贝到工作内存、又是如何从工作内存同步回主内存之类的实现细节，Java内存模型中定义了8种操作，这8种操作实现时必须保证每一种操作都是原子的、不可再分的，其中前4条是作用于主内存，后4条作用于工作内存：</p>
+<h2 id="内存间的交互"><a href="#内存间的交互" class="headerlink" title="内存间的交互"></a>内存间的交互</h2><p>关于主内存和工作内存间的交互协议，即一个变量如何从主内存拷贝到工作内存、又是如何从工作内存同步回主内存之类的实现细节，Java内存模型中定义了8种操作，这8种操作实现时必须保证每一种操作都是原子的、不可再分的，其中前4条是作用于主内存，后4条作用于工作内存：</p>
 <ul>
 <li>lock锁定：将一个变量标识为线程独占状态</li>
 <li>unlock解锁：将锁定状态的变量解除锁定，释放后的变量才可以被其他变量锁定</li>
@@ -554,7 +554,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -565,7 +565,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -576,7 +576,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

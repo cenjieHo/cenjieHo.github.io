@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Cenjie&#39;s Blog">
 <meta property="og:description" content="整型TINYINT, SMALLINT, MEDIUMINT, INT, BIGINT分别使用1，2，3，4，8字节的存储空间。 可以使用UNSIGNED属性表示不允许负值以提高正数的上限，但有符号和无符号类型的存储空间和性能依旧一样。 MySQL可以为整数类型指定宽度，如INT(11)，但它不会限制值的合法范围，只是规定了交互工具显示字符的个数。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-28T14:32:52.503Z">
+<meta property="og:updated_time" content="2019-02-16T03:44:00.050Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL常用数据类型">
 <meta name="twitter:description" content="整型TINYINT, SMALLINT, MEDIUMINT, INT, BIGINT分别使用1，2，3，4，8字节的存储空间。 可以使用UNSIGNED属性表示不允许负值以提高正数的上限，但有符号和无符号类型的存储空间和性能依旧一样。 MySQL可以为整数类型指定宽度，如INT(11)，但它不会限制值的合法范围，只是规定了交互工具显示字符的个数。">
@@ -405,7 +405,7 @@
 <p>CPU原生支持浮点运算，但不支持对<code>DECIMAL</code>的运算，因此浮点运算会更快。但是浮点数会引起精度问题，像货币这样对精度敏感的数据，应该用<code>DECIMAL</code>来存储。</p>
 <p>浮点和定点都可以指定精度，例如<code>DECIMAL(18, 9)</code>表示总共18位，取9位存储小数部分，剩下9位存储整数部分。</p>
 <h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>MySQL主要有<code>VARCHAR</code>和<code>CHAR</code>两种字符串类型。</p>
-<p><code>VARCHAR</code>类型用于存储可变长字符串，它比定长类型更节省空间，因为它仅使用必要的空间。但是在执行UPDATE时可能会使行变得比原来长，当超出一个页所能容纳的大小时，就要执行额外的操作，MyISAM会将行拆成不同的片段存储，InnoDB则需要分裂页来使行放进页内。</p>
+<p><code>VARCHAR</code>类型是可变长的，它比定长类型更节省空间，因为它仅使用必要的空间。但是在执行UPDATE时可能会使行变得比原来长，当超出一个页所能容纳的大小时，就要执行额外的操作，MyISAM会将行拆成不同的片段存储，InnoDB则需要分裂页来使行放进页内。</p>
 <p><code>CHAR</code>类型是定长的，总是根据定义的字符串长度分配足够的空间，并且在存储和检索时删除末尾的空格，而<code>VARCHAR</code>是会保留末尾的空格的。</p>
 <p>当字符串列的长度比平均长度大很多时、列的更新很少时，使用<code>VARCHAR</code>类型更好；对于定长的字符串如MD5、经常变更或者非常短的字符串（因为<code>VARCHAR</code>需要额外的1个或2个字节记录字符串长度）则使用<code>CHAR</code>类型更好。</p>
 <h2 id="日期和时间"><a href="#日期和时间" class="headerlink" title="日期和时间"></a>日期和时间</h2><p>MySQL提供两种相似的日期类型：<code>DATETIME</code>和<code>TIMESTAMP</code>。</p>
@@ -533,7 +533,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -544,7 +544,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -555,7 +555,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
