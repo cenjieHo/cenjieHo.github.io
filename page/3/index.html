@@ -1667,7 +1667,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/常用查找算法之二叉查找树/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/常用查找算法之二分查找/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="水木今山">
@@ -1686,7 +1686,7 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/28/常用查找算法之二叉查找树/" itemprop="url">常用查找算法之二叉查找树</a></h2>
+                <a class="post-title-link" href="/2019/01/28/常用查找算法之二分查找/" itemprop="url">常用查找算法之二分查找</a></h2>
         
 
         <div class="post-meta">
@@ -1759,12 +1759,11 @@
 
       
         
-          <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>一棵二叉查找树（又称二叉排序树、二叉搜索树）是一棵二叉树，其中每个节点都含有一个Comparable的键以及相关联的值且每个节点的键都大于其左子树中的任意节点的键而小于右子树的任意节点的键。</p>
-<p>二叉查找树有一个重要性质，就是它的中序遍历结果递增排序。</p>
-<p><img src="http://blog.algorithms.nanwulife.com/binary-tree-anatomy.png" alt="bt"><img src="http://blog.algorithms.nanwulife.com/bst-anatomy.png" alt="bst"></p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>符号表是一种存储键值对的数据结构，可以支持高效地插入、查找等操作，因此在这里使用一个有序符号表接口来定义这些操作，这个符号表将保持键的有序性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OrderedST</span>&lt;<span class="title">Key</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">Key</span>&gt;, <span class="title">Value</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">put</span><span class="params">(Key key, Value value)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">Value <span class="title">get</span><span class="params">(Key key)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">Key <span class="title">min</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">Key <span class="title">max</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">rank</span><span class="params">(Key key)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">List&lt;Key&gt; <span class="title">keys</span><span class="params">(Key l, Key h)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/01/28/常用查找算法之二叉查找树/#more" rel="contents">
+            <a class="btn" href="/2019/01/28/常用查找算法之二分查找/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
