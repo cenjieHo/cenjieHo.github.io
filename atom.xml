@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Cenjie&#39;s Blog</title>
+  <title>水木今山的博客</title>
   
-  <subtitle>水木今山的个人博客</subtitle>
+  <subtitle>Coding the World</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
