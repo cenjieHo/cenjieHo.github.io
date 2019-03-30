@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+
+
+
+
+
+
+<head>
+	
+	
+	<link rel="stylesheet" href="/css/allinone.min.css">
+
+	
+	<!-- Global Site Tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXXX-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-XXXXXXXXXX-1');
+	</script>
+	
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>Redis持久化：AOF与RDB | 水木今山的博客</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="水木今山">
+	<meta name="description" content="">
+
+	
+	<meta name="keywords" content="">
+	
+
+	
+	<link rel="shortcut icon" href="/images/avator2.png">
+	<link rel="apple-touch-icon" href="/images/avator2.png">
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="水木今山的博客">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Redis持久化：AOF与RDB | 水木今山的博客">
+	<meta property="og:description" content="">
+	<meta property="og:url" content="http://yoursite.com/2019/03/30/Redis五种数据类型/">
+
+	
+	<meta property="article:published_time" content="2019-03-30T11:03:00+08:00"> 
+	<meta property="article:author" content="水木今山">
+	<meta property="article:published_first" content="水木今山的博客, /2019/03/30/Redis五种数据类型/">
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header outer" style="z-index: 999">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/column" title="COLUMN">COLUMN</a>
+            </li>
+            
+            <li>
+                <a href="https://portal.qiniu.com/bucket/default/resource" title="PICS">PICS</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button">
+        <a href="#search" class="subscribe-button" style="margin: 0 10px;">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="subscribe-button" style="margin: 0 10px;">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/cenjieHo" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <section class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2019-03-30T03:30:00.000Z" itemprop="datePublished">
+                    2019-03-30
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Redis/">Redis</a>&nbsp;&nbsp;
+                
+                
+            </section>
+            <h1 class="post-full-title">Redis持久化：AOF与RDB</h1>
+        </header>
+        <article class="post-full no-image">
+            
+            <section class="post-full-content">
+                <div id="lightgallery" class="markdown-body">
+                    <h2 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h2><p>Redis是内存数据库，数据都是存储在内存中，为了避免进程退出导致数据的永久丢失，需要定期将Redis中的数据以某种形式(数据或命令)从内存保存到硬盘，当下次Redis重启时，利用持久化文件实现数据恢复。</p>
+<p>Redis持久化分为RDB持久化和AOF持久化：前者将当前数据保存到硬盘，后者则是将每次执行的写命令保存到硬盘（类似于MySQL的binlog）。</p>
+<h2 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h2><p>RDB持久化是将当前进程中的数据生成快照保存到硬盘，保存的文件后缀是rdb，当Redis重新启动时，可以读取快照文件恢复数据。RDB持久化分为手动触发和自动触发两种方式：</p>
+<h3 id="手动触发"><a href="#手动触发" class="headerlink" title="手动触发"></a>手动触发</h3><p>手动触发可以使用<code>save</code>命令和<code>bgsave</code>命令，都可以生成rdb文件。它们的区别在于<code>save</code>命令会阻塞Redis服务器进程，直到RDB文件创建完毕为止，在Redis服务器阻塞期间，服务器不能处理任何命令请求；而<code>bgsave</code>命令会创建一个子进程，由子进程来负责创建RDB文件，父进程（即Redis主进程）则继续处理请求，整个过程中只有<code>fork</code>子进程时会阻塞服务器。</p>
+<h3 id="自动触发"><a href="#自动触发" class="headerlink" title="自动触发"></a>自动触发</h3><p>自动触发最常见的情况是在配置文件中通过<code>save m n</code>，指定当m秒内发生n次变化时，会触发<code>bgsave</code>。例如默认配置文件中有以下三行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br></pre></td></tr></table></figure></p>
+<p>只要上面三行任意一条满足时，就会执行<code>bgsave</code>。除此之外，在主从复制的场景下，如果从节点执行全量复制操作，则主节点会执行<code>bgsave</code>命令，并将rdb文件发送给从节点。执行<code>shutdown</code>命令时，也会自动执行rdb持久化。</p>
+<h3 id="启动时加载"><a href="#启动时加载" class="headerlink" title="启动时加载"></a>启动时加载</h3><p>RDB文件的载入工作是在服务器启动时自动执行的，并没有专门的命令。但是由于AOF的优先级更高，因此当AOF开启时，Redis会优先载入AOF文件来恢复数据；只有当AOF关闭时，才会在Redis服务器启动时检测RDB文件，并自动载入。服务器载入RDB文件期间处于阻塞状态，直到载入完成为止。</p>
+<h2 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h2><p>RDB持久化是将进程数据写入文件，而AOF持久化则是将Redis执行的每次写命令记录到单独的日志文件中（有点像MySQL的binlog），当Redis重启时再次执行AOF文件中的命令来恢复数据。与RDB相比，AOF的实时性更好，因此已成为主流的持久化方案。</p>
+<h3 id="三种策略"><a href="#三种策略" class="headerlink" title="三种策略"></a>三种策略</h3><p>为了提高文件写入效率，在现代操作系统中，当用户将数据写入文件时（<code>write</code>命令），操作系统通常会将数据暂存到一个内存缓冲区里，当缓冲区被填满或超过了指定时限，才真正将缓冲区的数据写入到硬盘里。这样的操作虽然提高了效率，但如果系统崩溃，内存缓冲区中的数据将会丢失。因此可以设置同步选项，强制操作系统什么时候将缓冲区中的数据写入到硬盘中（<code>fsync</code>命令），Redis提供了以下三种同步策略：</p>
+<ul>
+<li>always：每个写命令都同步</li>
+<li>everysec：每秒同步一次</li>
+<li>no：让操作系统来决定何时同步</li>
+</ul>
+<p>always会严重降低服务器的性能，而no的不可控性太强，因此Redis使用everysec作为默认配置，但在系统崩溃时可能会丢失一秒的数据。</p>
+<h3 id="文件重写"><a href="#文件重写" class="headerlink" title="文件重写"></a>文件重写</h3><p>随着Redis服务器执行的写命令越来越多，AOF文件也会越来越大，过大的AOF文件不仅会影响服务器的正常运行，也会导致数据恢复需要的时间过长。文件重写是指定期重写AOF文件，减小AOF文件的体积。需要注意的是，AOF重写是把Redis进程内的数据转化为写命令，同步到新的AOF文件，而不会对旧的AOF文件进行任何读取、写入操作。</p>
+<p>文件重写主要是针对以下一些语句：</p>
+<ul>
+<li>过期的数据（如<code>expire</code>），可以不用再写入文件。</li>
+<li>多次<code>INCR</code>命令可以合并为一个<code>SET</code>命令。</li>
+<li>无效的命令不再写入文件，比如有些数据被删除了。</li>
+</ul>
+<h3 id="手动触发-1"><a href="#手动触发-1" class="headerlink" title="手动触发"></a>手动触发</h3><p>可以直接调用<code>bgrewriteaof</code>命令重写文件，该命令的执行与<code>bgsave</code>有些类似，都是<code>fork</code>子进程进行具体的工作，且都只有在<code>fork</code>时阻塞。</p>
+<h3 id="自动触发-1"><a href="#自动触发-1" class="headerlink" title="自动触发"></a>自动触发</h3><p>默认配置是当AOF文件大小是上次重写后大小的一倍（<code>auto-aof-rewrite-min-size</code>）且文件大于64M时触发（<code>auto-aof-rewrite-percentage</code>）。</p>
+<h3 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h3><ol>
+<li>父进程执行<code>fork</code>操作创建子进程，这个过程中父进程是阻塞的。</li>
+<li>子进程创建后，Redis的所有写命令依然写入AOF缓冲区，并根据设置策略同步到硬盘，保证原有AOF机制的正确。</li>
+<li>由于<code>fork</code>操作使用写时复制技术，子进程只能共享<code>fork</code>操作时的内存数据。由于父进程依然在响应命令，因此Redis使用AOF重写缓冲区（图中的aof_rewrite_buf）保存这部分数据，防止新AOF文件生成期间丢失这部分数据。也就是说，bgrewriteaof执行期间，Redis的写命令同时追加到aof_buf和aof_rewirte_buf两个缓冲区。</li>
+<li>子进程根据内存快照，按照命令合并规则写入到新的AOF文件。</li>
+<li>子进程写完新的AOF文件后，向父进程发信号，父进程把AOF重写缓冲区的数据写入到新的AOF文件，这样就保证了新AOF文件所保存的数据库状态和服务器当前状态一致。</li>
+<li>使用新的AOF文件替换老文件，完成AOF重写。</li>
+</ol>
+<p><img alt="" class="post-img b-lazy" href="http://blog.default.nanwulife.com/1174710-20180605092001589-1724580361.png" data-src="http://blog.default.nanwulife.com/1174710-20180605092001589-1724580361.png"></p>
+<h2 id="RDB与AOF对比"><a href="#RDB与AOF对比" class="headerlink" title="RDB与AOF对比"></a>RDB与AOF对比</h2><ul>
+<li>RDB持久化：RDB文件紧凑，体积小，恢复速度比AOF快很多，但数据的实时性较低。</li>
+<li>AOF持久化：实时性较高，但是文件大，并且恢复速度较慢，且对性能有一定影响。</li>
+</ul>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="fork阻塞：CPU的阻塞"><a href="#fork阻塞：CPU的阻塞" class="headerlink" title="fork阻塞：CPU的阻塞"></a>fork阻塞：CPU的阻塞</h3><p>在Redis中，无论是RDB持久化的<code>bgsave</code>，还是AOF重写的<code>bgrewriteaof</code>，都需要<code>fork</code>出子进程来进行操作，而在操作系统<code>fork</code>的实现中，基本都采用了写时复制技术，即在父/子进程试图修改数据空间之前，父子进程实际上共享数据空间，但是当父/子进程的任何一个试图修改数据空间时，操作系统会为修改的那一部分（内存的一页）制作一个副本。</p>
+<p>也就是说，虽然<code>fork</code>时子进程不会复制父进程的数据空间，但是会复制内存页表，如果Redis内存过大，会导致fork操作时复制内存页表耗时过多，而Redis主进程在进行<code>fork</code>时是完全阻塞的，意味着无法响应客户端的请求，造成请求延迟过大。</p>
+<p>为了防止该问题的发生，我们需要控制Redis单机内存的大小，并且适当放宽AOF重写的触发条件，尽量在写入较少的时间段完成重写。</p>
+<h3 id="AOF追加阻塞：硬盘的阻塞"><a href="#AOF追加阻塞：硬盘的阻塞" class="headerlink" title="AOF追加阻塞：硬盘的阻塞"></a>AOF追加阻塞：硬盘的阻塞</h3><p>AOF持久化过程中，通过<code>fsync</code>命令每秒一次将缓冲区的数据写入磁盘中，但在硬盘负载过高时，<code>fsync</code>操作可能会超过1s，当继续向缓冲区内写入数据时，磁盘负载会越来越大，如果此时Redis进程异常退出，丢失的数据也有可能远超1s。</p>
+<p>为此，Redis的处理策略是这样的：主线程每次进行AOF会对比距离上次<code>fsync</code>成功的时间，如果距上次不到2s，主线程直接返回；如果超过2s，则主线程阻塞直到<code>fsync</code>同步完成。因此，如果系统硬盘负载过大导致<code>fsync</code>速度太慢，会导致Redis主线程的阻塞。这里还要注意的是，如果使用everysec策略，AOF最多可能丢失2s的数据，而不是1s。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li>《Redis开发与运维》</li>
+<li><a href="https://www.cnblogs.com/kismetv/p/9137897.html" target="_blank" rel="noopener">深入学习Redis（2）：持久化</a></li>
+</ul>
+
+                </div>
+            </section>
+        </article>
+    </div>
+
+    
+    <div style="height: 4vw;width: 100%"></div>
+    <nav id="gobottom" class="pagination">
+        
+        <a class="prev-post" title="Redis主从复制" href="/2019/03/30/dis主从复制/">
+            ← Redis主从复制
+        </a>
+        
+        <span class="prev-next-post">•</span>
+        
+        <a class="next-post" title="Linux五种IO模型" href="/2019/03/27/Linux-五种IO模型/">
+            Linux五种IO模型 →
+        </a>
+        
+    </nav>
+
+    
+</main>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis持久化"><span class="toc-text">Redis持久化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RDB"><span class="toc-text">RDB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#手动触发"><span class="toc-text">手动触发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自动触发"><span class="toc-text">自动触发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动时加载"><span class="toc-text">启动时加载</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOF"><span class="toc-text">AOF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#三种策略"><span class="toc-text">三种策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件重写"><span class="toc-text">文件重写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#手动触发-1"><span class="toc-text">手动触发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自动触发-1"><span class="toc-text">自动触发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#具体流程"><span class="toc-text">具体流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RDB与AOF对比"><span class="toc-text">RDB与AOF对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见问题"><span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#fork阻塞：CPU的阻塞"><span class="toc-text">fork阻塞：CPU的阻塞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AOF追加阻塞：硬盘的阻塞"><span class="toc-text">AOF追加阻塞：硬盘的阻塞</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+    </div>
+</div>
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(/images/v2-d858191577356128b31c88e186eea0db_r.jpg)">
+	<header class="read-next-card-header" style="padding-bottom: 20px">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/AOP/" style="font-size: 14px;">AOP</a> <a href="/tags/ArrayList/" style="font-size: 14px;">ArrayList</a> <a href="/tags/BST/" style="font-size: 14px;">BST</a> <a href="/tags/B树/" style="font-size: 14px;">B树</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 14px;">ConcurrentHashMap</a> <a href="/tags/Dijkstra/" style="font-size: 14px;">Dijkstra</a> <a href="/tags/Executor/" style="font-size: 14px;">Executor</a> <a href="/tags/Fork-join/" style="font-size: 14px;">Fork/join</a> <a href="/tags/Github/" style="font-size: 14px;">Github</a> <a href="/tags/HTTPS/" style="font-size: 14px;">HTTPS</a> <a href="/tags/HashMap/" style="font-size: 15.67px;">HashMap</a> <a href="/tags/IO/" style="font-size: 14px;">IO</a> <a href="/tags/IOC/" style="font-size: 14px;">IOC</a> <a href="/tags/InnoDB/" style="font-size: 14px;">InnoDB</a> <a href="/tags/JDK/" style="font-size: 19px;">JDK</a> <a href="/tags/JVM/" style="font-size: 17.33px;">JVM</a> <a href="/tags/LinkedList/" style="font-size: 14px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/MyISAM/" style="font-size: 14px;">MyISAM</a> <a href="/tags/MySQL/" style="font-size: 19px;">MySQL</a> <a href="/tags/NIO/" style="font-size: 14px;">NIO</a> <a href="/tags/README/" style="font-size: 14px;">README</a> <a href="/tags/Redis/" style="font-size: 17.33px;">Redis</a> <a href="/tags/Spring/" style="font-size: 14px;">Spring</a> <a href="/tags/TLS/" style="font-size: 14px;">TLS</a> <a href="/tags/WSN/" style="font-size: 14px;">WSN</a> <a href="/tags/final/" style="font-size: 14px;">final</a> <a href="/tags/happens-before/" style="font-size: 14px;">happens-before</a> <a href="/tags/hello/" style="font-size: 14px;">hello</a> <a href="/tags/markdown/" style="font-size: 14px;">markdown</a> <a href="/tags/synchronized/" style="font-size: 14px;">synchronized</a> <a href="/tags/volatile/" style="font-size: 14px;">volatile</a> <a href="/tags/事务/" style="font-size: 14px;">事务</a> <a href="/tags/内存模型/" style="font-size: 14px;">内存模型</a> <a href="/tags/同步/" style="font-size: 14px;">同步</a> <a href="/tags/垃圾收集/" style="font-size: 14px;">垃圾收集</a> <a href="/tags/多线程/" style="font-size: 14px;">多线程</a> <a href="/tags/并发/" style="font-size: 22.33px;">并发</a> <a href="/tags/排序/" style="font-size: 19px;">排序</a> <a href="/tags/操作系统/" style="font-size: 20.67px;">操作系统</a> <a href="/tags/操作系统/" style="font-size: 14px;">操作系统 </a> <a href="/tags/支付宝/" style="font-size: 14px;">支付宝</a> <a href="/tags/断点续传/" style="font-size: 14px;">断点续传</a> <a href="/tags/杂谈/" style="font-size: 14px;">杂谈</a> <a href="/tags/查找/" style="font-size: 20.67px;">查找</a> <a href="/tags/树的遍历/" style="font-size: 14px;">树的遍历</a> <a href="/tags/死锁/" style="font-size: 14px;">死锁</a> <a href="/tags/算法/" style="font-size: 24px;">算法</a> <a href="/tags/索引/" style="font-size: 14px;">索引</a> <a href="/tags/红黑树/" style="font-size: 14px;">红黑树</a> <a href="/tags/线程池/" style="font-size: 14px;">线程池</a> <a href="/tags/范式/" style="font-size: 14px;">范式</a> <a href="/tags/设计模式/" style="font-size: 14px;">设计模式</a> <a href="/tags/进程/" style="font-size: 14px;">进程</a> <a href="/tags/锁/" style="font-size: 15.67px;">锁</a> <a href="/tags/项目/" style="font-size: 15.67px;">项目</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay subscribe-overlay">
+    <div class="search-form">
+        
+        <img class="search-overlay-logo" src="/images/avator2.png" alt="水木今山的博客">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<section class="copyright">
+			<a href="/" title="水木今山的博客">水木今山的博客</a>
+			&copy; 2019
+		</section>
+		<nav class="site-footer-nav">
+			
+            <a href="https://hexo.io" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+            <a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+        </nav>
+    </div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations()
+        .then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister();
+            }
+        });
+    }
+</script>
+
+
+
+
+
+
+
+<div class="floating-header">
+	<div class="floating-header-logo">
+        <a href="/" title="水木今山的博客">
+			
+                <img src="/images/avator2.png" alt="水木今山的博客 icon">
+			
+            <span>水木今山的博客</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Redis持久化：AOF与RDB</div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+
+
+
+<script src="/js/mix/post-lazy-local.min.js"></script>
+
+<script>;(function() {var bLazy = new Blazy()})();</script>
+
+
+
+
+<script src="/js/lightgallery.min.js"></script>
+<link rel="stylesheet" href="/css/lightgallery.min.css">
+<script>
+    lightGallery(document.getElementById('lightgallery'), {
+        selector: '.post-img'
+    });
+</script>
+
+
+
+
+
+
+
+
+
+<script>searchFunc("/")</script>
+
+
+
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    console.log("this theme is from https://github.com/xzhih/hexo-theme-casper")
+</script>
+
+</body>
+</html>
