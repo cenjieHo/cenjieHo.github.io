@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+
+
+
+
+
+
+<head>
+	
+	
+	<link rel="stylesheet" href="/css/allinone.min.css">
+
+	
+	<!-- Global Site Tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXXX-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-XXXXXXXXXX-1');
+	</script>
+	
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>Redis Cluster | 水木今山的博客</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="水木今山">
+	<meta name="description" content="">
+
+	
+	<meta name="keywords" content="">
+	
+
+	
+	<link rel="shortcut icon" href="/images/avator2.png">
+	<link rel="apple-touch-icon" href="/images/avator2.png">
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="水木今山的博客">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Redis Cluster | 水木今山的博客">
+	<meta property="og:description" content="">
+	<meta property="og:url" content="http://yoursite.com/2019/03/31/Redis-Cluster/">
+
+	
+	<meta property="article:published_time" content="2019-03-31T13:03:00+08:00"> 
+	<meta property="article:author" content="水木今山">
+	<meta property="article:published_first" content="水木今山的博客, /2019/03/31/Redis-Cluster/">
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header outer" style="z-index: 999">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/column" title="STACK">STACK</a>
+            </li>
+            
+            <li>
+                <a href="https://portal.qiniu.com/bucket/default/resource" title="PICS">PICS</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button">
+        <a href="#search" class="subscribe-button" style="margin: 0 10px;">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="subscribe-button" style="margin: 0 10px;">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/cenjieHo" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <section class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2019-03-31T05:21:00.000Z" itemprop="datePublished">
+                    2019-03-31
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Redis/">Redis</a>&nbsp;&nbsp;
+                
+                
+            </section>
+            <h1 class="post-full-title">Redis Cluster</h1>
+        </header>
+        <article class="post-full no-image">
+            
+            <section class="post-full-content">
+                <div id="lightgallery" class="markdown-body">
+                    <h2 id="Redis-Cluster作用"><a href="#Redis-Cluster作用" class="headerlink" title="Redis Cluster作用"></a>Redis Cluster作用</h2><p>Redis Cluster是Redis 3.0开始引入的分布式存储方案，集群由多个节点组成，Redis的数据分布在这些节点中。集群中的节点分为主节点和从节点：只有主节点负责读写请求和集群信息的维护，从节点只进行主节点数据和状态信息的复制。集群的作用，可以归纳为两点：</p>
+<ul>
+<li>数据分片：集群将数据分散到多个节点，突破了Redis单机内存大小的限制，存储容量大大增加。</li>
+<li>高可用：集群支持主从复制和主节点的自动故障转移（与哨兵类似），当任一节点发生故障时，集群仍然可以对外提供服务。</li>
+</ul>
+<h2 id="数据分区方案"><a href="#数据分区方案" class="headerlink" title="数据分区方案"></a>数据分区方案</h2><p>常见的哈希分区方案包括：哈希取余分区、一致性哈希分区、带虚拟节点的一致性哈希分区等。</p>
+<ul>
+<li>哈希取余分区：哈希取余分区思路非常简单，首先计算key的hash值，然后对节点数量进行取余，从而决定数据映射到哪个节点上。该方案最大的问题是，当新增或删减节点时，节点数量发生变化，系统中所有的数据都需要重新计算映射关系，引发大规模数据迁移。</li>
+<li>一致性哈希分区：一致性哈希算法将整个哈希值空间组织成一个虚拟的圆环，范围为<code>0 ~ 2^32-1</code>。对于每个数据，根据key计算hash值，确定数据在环上的位置，然后从此位置沿环顺时针行走，找到的第一台服务器就是其应该映射到的服务器。与哈希取余分区相比，一致性哈希分区将增减节点的影响限制在相邻节点。<br><img alt="" class="post-img b-lazy" href="http://blog.default.nanwulife.com/U%7BKC_N~EU%5DO%5B9_%7B3KK03U58.png" data-src="http://blog.default.nanwulife.com/U%7BKC_N~EU%5DO%5B9_%7B3KK03U58.png"></li>
+<li>一致性哈希分区（虚拟节点机制）：普通的一致性哈希在服务器节点数量较少时容易产生数据倾斜问题，各个服务器的负载不均匀。为解决这个问题，引入了虚拟节点机制，每台机器可以负责更多节点，数据负担更加均匀。<br><img alt="" class="post-img b-lazy" href="http://blog.default.nanwulife.com/Y90YE9D$%29CU%7B6AA%604QP~VEB.png" data-src="http://blog.default.nanwulife.com/Y90YE9D$%29CU%7B6AA%604QP~VEB.png"></li>
+<li>虚拟槽分区：Redis Cluser底层使用的虚拟槽分区，有一个长度为16384的虚拟槽，每个Master节点都会负责一部分的槽，Redis对key计算哈希值，使用的算法是CRC16，然后根据哈希值计算数据属于哪个槽，最后根据槽与节点的映射关系，计算数据属于哪个节点。其中哪个节点负责哪个槽，这是可以由用户指定的。<br><img alt="" class="post-img b-lazy" href="http://blog.default.nanwulife.com/1174710-20181025213453407-302249562.png" data-src="http://blog.default.nanwulife.com/1174710-20181025213453407-302249562.png"></li>
+</ul>
+<h2 id="节点通信机制"><a href="#节点通信机制" class="headerlink" title="节点通信机制"></a>节点通信机制</h2><h3 id="两个端口"><a href="#两个端口" class="headerlink" title="两个端口"></a>两个端口</h3><p>在redis sentinel中，节点分为数据节点和sentinel节点：前者存储数据，后者实现额外的控制功能。在redis cluster中，没有数据节点与非数据节点之分，所有的节点都存储数据，也都参与集群状态的维护。为此，集群中的每个节点都提供了两个TCP端口，普通端口主要用于为客户端提供服务，集群端口用于节点之间的通信，如搭建集群、增减节点、故障转移等操作时节点间的通信。</p>
+<h3 id="Gossip协议"><a href="#Gossip协议" class="headerlink" title="Gossip协议"></a>Gossip协议</h3><p>Gossip过程是由种子节点发起，当一个种子节点有状态需要更新到网络中的其他节点时，它会随机的选择周围几个节点散播消息，收到消息的节点也会重复该过程，直至最终网络中所有的节点都收到了消息。这个过程可能需要一定的时间，由于不能保证某个时刻所有节点都收到消息，但是理论上最终所有节点都会收到消息，因此它是一个最终一致性协议。</p>
+<p><img alt="" class="post-img b-lazy" href="http://blog.default.nanwulife.com/v2-575e785e7d03ad317e5bce4e36debb03_b.gif" data-src="http://blog.default.nanwulife.com/v2-575e785e7d03ad317e5bce4e36debb03_b.gif"></p>
+<p>Gossip协议的优点：</p>
+<ul>
+<li>负载低：比广播低，广播每条消息都要发送给所有节点，CPU、带宽等消耗较大。</li>
+<li>去中心化：Gossip协议不要求任何中心节点，所有节点都可以是对等的，任何一个节点无需知道整个网络状况，只要网络是连通的，任意一个节点就可以把消息散播到全网。</li>
+<li>容错性高：网络中任何节点的宕机和重启都不会影响Gossip消息的传播，Gossip协议具有天然的分布式系统容错特性。<br>Gossip协议的缺点：</li>
+<li>消息的延迟：由于节点只会随机向少数几个节点发送消息，消息最终是通过多个轮次的散播而到达全网的，因此使用Gossip协议会造成不可避免的消息延迟，不适合用在对实时性要求较高的场景下。</li>
+</ul>
+<h3 id="消息类型"><a href="#消息类型" class="headerlink" title="消息类型"></a>消息类型</h3><p>集群节点间发送的消息有以下几种类型：</p>
+<ul>
+<li>meet：在节点握手阶段，当节点收到客户端的<code>cluster meet</code>命令时，会向新加入的节点发送meet消息，请求新节点加入到当前集群，新节点收到meet消息后会回复一个pong消息。</li>
+<li>ping：集群里每个节点每秒钟会选择部分节点发送ping消息，接收者收到消息后会回复一个pong消息。ping消息使用Gossip协议发送，内容是自身节点和部分其他节点的状态信息，作用是彼此交换信息，以及检测节点是否在线。</li>
+<li>pong：pong消息封装了自身状态数据，可以分为两种：第一种是在接到meet/ping消息后回复的pong消息，第二种是指节点向集群广播pong消息，这样其他节点可以获知该节点的最新信息，例如故障恢复后新的主节点会广播pong消息。</li>
+<li>fail：当一个主节点判断另一个主节点客观下线后，会向集群广播这一fail消息，通知集群中所有节点标记故障节点为客观下线，并通知故障节点的从节点触发故障转移流程。</li>
+<li>publish：节点收到publish命令后，会先执行该命令，然后向集群广播这一消息，接收节点也会执行该publish命令。</li>
+</ul>
+<h2 id="客户端路由"><a href="#客户端路由" class="headerlink" title="客户端路由"></a>客户端路由</h2><h3 id="moved重定向"><a href="#moved重定向" class="headerlink" title="moved重定向"></a>moved重定向</h3><p>moved异常代表槽已经确认迁移至别的节点。</p>
+<p><img alt="" class="post-img b-lazy" href="http://blog.default.nanwulife.com/1.png" data-src="http://blog.default.nanwulife.com/1.png"><br><img alt="" class="post-img b-lazy" href="http://blog.default.nanwulife.com/3.png" data-src="http://blog.default.nanwulife.com/3.png"></p>
+<h3 id="ask重定向"><a href="#ask重定向" class="headerlink" title="ask重定向"></a>ask重定向</h3><p>在集群缩容扩容的时候，要对槽进行迁移，在迁移的过程中访问一个key，但是key已经迁移到目标节点，那么就会返回一个ask异常。</p>
+<p><img alt="" class="post-img b-lazy" href="http://blog.default.nanwulife.com/6.png" data-src="http://blog.default.nanwulife.com/6.png"></p>
+<h3 id="Smart-Client"><a href="#Smart-Client" class="headerlink" title="Smart Client"></a>Smart Client</h3><p>redis-cli这一类客户端称为Dummy客户端，因为它们在执行命令前不知道数据在哪个节点上，因此需要借助moved异常重定向。为了追求性能，我们不可能每次都随机访问一个节点，再根据moved或ask异常去重定向到目标节点，因此需要实现一个Smart客户端，比如说JedisCluster。JedisCluster的基本原理大致如下：</p>
+<ol>
+<li>从集群中选一个可运行节点，使用<code>cluster slots</code>命令并将结果映射到本地，这样本地就有了slot-&gt;node的映射关系缓存。</li>
+<li>JedisCluster为每个节点创建连接池(即JedisPool)。</li>
+<li>当执行命令时，JedisCluster根据key-&gt;slot-&gt;node选择需要连接的节点，发送命令。如果成功，则命令执行完毕。如果执行失败，则会随机选择其他节点进行重试，并在出现moved错误时，刷新本地的映射关系缓存。</li>
+</ol>
+<p>这里需要注意的是，JedisCluster中已经包含所有节点的连接池，因此JedisCluster要使用单例。</p>
+<h2 id="集群伸缩"><a href="#集群伸缩" class="headerlink" title="集群伸缩"></a>集群伸缩</h2><p>集群伸缩的核心是槽迁移，通过修改槽与节点的对应关系，实现槽（即数据）在节点之间的移动。例如，如果槽均匀分布在集群的3个节点中，此时增加一个节点，则需要从3个节点中分别拿出一部分槽给新节点，从而实现槽在4个节点中的均匀分布。</p>
+<h3 id="增加节点"><a href="#增加节点" class="headerlink" title="增加节点"></a>增加节点</h3><ol>
+<li>启动节点</li>
+<li>加入集群：使用<code>cluster meet</code>命令。</li>
+<li>迁移槽和数据</li>
+</ol>
+<h3 id="减少节点"><a href="#减少节点" class="headerlink" title="减少节点"></a>减少节点</h3><ol>
+<li>迁移槽和数据</li>
+<li>忘记节点：使用<code>cluster forget</code>命令</li>
+<li>关闭节点</li>
+</ol>
+<p>这里要注意应先下线从节点再下线主节点，因为若主节点先下线，会触发故障的自动转移。</p>
+<p>在槽迁移未完成时，客户端访问了负责该槽的节点，但key此时已经迁移到了别的节点下，这时候会返回ask异常，通过这个机制使得redis cluster可以无痛的完成扩缩容操作。</p>
+<h2 id="故障转移"><a href="#故障转移" class="headerlink" title="故障转移"></a>故障转移</h2><p>集群对故障发现与故障转移的实现与哨兵思路类似：通过定时任务发送ping消息检测其他节点状态，若某个主节点发现另一个主节点不可用（与参数<code>cluster-node-timeout</code>有关），则标记该节点进行主观下线，而当半数以上持有槽的主节点都标记该节点主观下线，则对该节点进行客观下线，并向集群广播fail消息，让集群中所有节点都将其标记为客观下线，并触发从节点的故障转移。</p>
+<p>在故障转移阶段，主要有以下几个步骤：</p>
+<ul>
+<li>检查资格：每个从节点都会检查与故障主节点的断线时间，如果超过默认值150s（<code>cluster-node-timeout * cluster-slave-validity-factor</code>）则会取消资格。</li>
+<li>准备选举时间：为了保证偏移量比较大的从节点更有可能成为主节点，会将该从节点的延迟时间设置更小一些。</li>
+<li>选举投票：从节点选举胜出需要的票数为N/2+1，其中N为主节点数量（包括故障主节点），但故障主节点实际上不能投票。因此为了能够在故障发生时顺利选出从节点，集群中至少需要3个主节点。</li>
+<li>替换主节点。</li>
+</ul>
+<p>与哨兵一样，集群只实现了主节点的故障转移，从节点故障时只会被下线，不会进行故障转移。因此，使用集群时，应谨慎使用读写分离技术，因为从节点故障会导致读服务不可用，可用性变差。</p>
+<h2 id="参数优化"><a href="#参数优化" class="headerlink" title="参数优化"></a>参数优化</h2><h3 id="cluster-node-timeout"><a href="#cluster-node-timeout" class="headerlink" title="cluster_node_timeout"></a>cluster_node_timeout</h3><p><code>cluster_node_timeout</code>的默认值是15s，影响包括：</p>
+<ul>
+<li>值越大对延迟容忍度越高，并且由于节点发现与其它节点最后通信时间超过<code>cluster_node_timeout / 2</code>时会直接发送ping消息，因此调大该参数还可以降低带宽消耗，但同时也会降低收敛速度。</li>
+<li>影响故障转移的判定和时间，值越大越不容易误判，但完成转移消耗时间越长。</li>
+</ul>
+<h3 id="cluster-require-full-coverage"><a href="#cluster-require-full-coverage" class="headerlink" title="cluster-require-full-coverage"></a>cluster-require-full-coverage</h3><p><code>cluster-require-full-coverage</code>参数设置为yes时，当主节点发生故障而故障转移尚未完成，原主节点中的槽不在任何节点中，此时集群会处于下线状态，无法响应客户端的请求。但在实际应用中为了保证服务的高可用性，都会将该参数设置为no。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li>《Redis开发与运维》</li>
+<li><a href="http://duqingfeng.net/2018/06/12/%E5%93%88%E5%B8%8C%E5%88%86%E5%8C%BA%E6%8A%80%E6%9C%AF%E4%B9%8B%E9%97%B4%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%88%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C%E3%80%81Redis%20cluster%E8%99%9A%E6%8B%9F%E6%A7%BD%EF%BC%89/" target="_blank" rel="noopener">哈希分区技术之间的对比（一致性哈希、Redis cluster虚拟槽）</a></li>
+<li><a href="https://www.cnblogs.com/kismetv/p/9853040.html" target="_blank" rel="noopener">深入学习Redis（5）：集群</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/41228196" target="_blank" rel="noopener">P2P 网络核心技术：Gossip 协议</a></li>
+<li><a href="https://enpsl.top/2019/01/24/2019-01-24-redis-cluster-route/" target="_blank" rel="noopener">Redis cluster 客户端路由</a></li>
+</ul>
+
+                </div>
+            </section>
+        </article>
+    </div>
+
+    
+    <div style="height: 4vw;width: 100%"></div>
+    <nav id="gobottom" class="pagination">
+        
+        <a class="prev-post" title="Redis缓存设计与优化" href="/2019/03/31/Redis缓存设计与优化/">
+            ← Redis缓存设计与优化
+        </a>
+        
+        <span class="prev-next-post">•</span>
+        
+        <a class="next-post" title="Zookeeper集群节点为什么推荐为奇数" href="/2019/03/31/Zookeeper集群节点为什么推荐为奇数/">
+            Zookeeper集群节点为什么推荐为奇数 →
+        </a>
+        
+    </nav>
+
+    
+</main>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-Cluster作用"><span class="toc-text">Redis Cluster作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据分区方案"><span class="toc-text">数据分区方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#节点通信机制"><span class="toc-text">节点通信机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#两个端口"><span class="toc-text">两个端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Gossip协议"><span class="toc-text">Gossip协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#消息类型"><span class="toc-text">消息类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#客户端路由"><span class="toc-text">客户端路由</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#moved重定向"><span class="toc-text">moved重定向</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ask重定向"><span class="toc-text">ask重定向</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Smart-Client"><span class="toc-text">Smart Client</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集群伸缩"><span class="toc-text">集群伸缩</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#增加节点"><span class="toc-text">增加节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#减少节点"><span class="toc-text">减少节点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#故障转移"><span class="toc-text">故障转移</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参数优化"><span class="toc-text">参数优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cluster-node-timeout"><span class="toc-text">cluster_node_timeout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cluster-require-full-coverage"><span class="toc-text">cluster-require-full-coverage</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+    </div>
+</div>
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(/images/v2-d858191577356128b31c88e186eea0db_r.jpg)">
+	<header class="read-next-card-header" style="padding-bottom: 20px">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/AOP/" style="font-size: 14px;">AOP</a> <a href="/tags/ArrayList/" style="font-size: 14px;">ArrayList</a> <a href="/tags/BST/" style="font-size: 14px;">BST</a> <a href="/tags/B树/" style="font-size: 14px;">B树</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 14px;">ConcurrentHashMap</a> <a href="/tags/Dijkstra/" style="font-size: 14px;">Dijkstra</a> <a href="/tags/Executor/" style="font-size: 14px;">Executor</a> <a href="/tags/Fork-join/" style="font-size: 14px;">Fork/join</a> <a href="/tags/Github/" style="font-size: 14px;">Github</a> <a href="/tags/HTTPS/" style="font-size: 14px;">HTTPS</a> <a href="/tags/HashMap/" style="font-size: 15.67px;">HashMap</a> <a href="/tags/IO/" style="font-size: 14px;">IO</a> <a href="/tags/IOC/" style="font-size: 14px;">IOC</a> <a href="/tags/InnoDB/" style="font-size: 14px;">InnoDB</a> <a href="/tags/JDK/" style="font-size: 19px;">JDK</a> <a href="/tags/JVM/" style="font-size: 17.33px;">JVM</a> <a href="/tags/LinkedList/" style="font-size: 14px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/MyISAM/" style="font-size: 14px;">MyISAM</a> <a href="/tags/MySQL/" style="font-size: 19px;">MySQL</a> <a href="/tags/NIO/" style="font-size: 14px;">NIO</a> <a href="/tags/README/" style="font-size: 14px;">README</a> <a href="/tags/Redis/" style="font-size: 19px;">Redis</a> <a href="/tags/Spring/" style="font-size: 14px;">Spring</a> <a href="/tags/TLS/" style="font-size: 14px;">TLS</a> <a href="/tags/WSN/" style="font-size: 14px;">WSN</a> <a href="/tags/Zookeeper/" style="font-size: 14px;">Zookeeper</a> <a href="/tags/final/" style="font-size: 14px;">final</a> <a href="/tags/happens-before/" style="font-size: 14px;">happens-before</a> <a href="/tags/hello/" style="font-size: 14px;">hello</a> <a href="/tags/markdown/" style="font-size: 14px;">markdown</a> <a href="/tags/synchronized/" style="font-size: 14px;">synchronized</a> <a href="/tags/volatile/" style="font-size: 14px;">volatile</a> <a href="/tags/事务/" style="font-size: 14px;">事务</a> <a href="/tags/内存模型/" style="font-size: 14px;">内存模型</a> <a href="/tags/同步/" style="font-size: 14px;">同步</a> <a href="/tags/垃圾收集/" style="font-size: 14px;">垃圾收集</a> <a href="/tags/多线程/" style="font-size: 14px;">多线程</a> <a href="/tags/并发/" style="font-size: 22.33px;">并发</a> <a href="/tags/排序/" style="font-size: 19px;">排序</a> <a href="/tags/操作系统/" style="font-size: 20.67px;">操作系统</a> <a href="/tags/操作系统/" style="font-size: 14px;">操作系统 </a> <a href="/tags/支付宝/" style="font-size: 14px;">支付宝</a> <a href="/tags/断点续传/" style="font-size: 14px;">断点续传</a> <a href="/tags/杂谈/" style="font-size: 14px;">杂谈</a> <a href="/tags/查找/" style="font-size: 20.67px;">查找</a> <a href="/tags/树的遍历/" style="font-size: 14px;">树的遍历</a> <a href="/tags/死锁/" style="font-size: 14px;">死锁</a> <a href="/tags/算法/" style="font-size: 24px;">算法</a> <a href="/tags/索引/" style="font-size: 14px;">索引</a> <a href="/tags/红黑树/" style="font-size: 14px;">红黑树</a> <a href="/tags/线程池/" style="font-size: 14px;">线程池</a> <a href="/tags/范式/" style="font-size: 14px;">范式</a> <a href="/tags/设计模式/" style="font-size: 14px;">设计模式</a> <a href="/tags/进程/" style="font-size: 14px;">进程</a> <a href="/tags/锁/" style="font-size: 15.67px;">锁</a> <a href="/tags/项目/" style="font-size: 15.67px;">项目</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay subscribe-overlay">
+    <div class="search-form">
+        
+        <img class="search-overlay-logo" src="/images/avator2.png" alt="水木今山的博客">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<section class="copyright">
+			<a href="/" title="水木今山的博客">水木今山的博客</a>
+			&copy; 2019
+		</section>
+		<nav class="site-footer-nav">
+			
+            <a href="https://hexo.io" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+            <a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+        </nav>
+    </div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations()
+        .then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister();
+            }
+        });
+    }
+</script>
+
+
+
+
+
+
+
+<div class="floating-header">
+	<div class="floating-header-logo">
+        <a href="/" title="水木今山的博客">
+			
+                <img src="/images/avator2.png" alt="水木今山的博客 icon">
+			
+            <span>水木今山的博客</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Redis Cluster</div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+
+
+
+<script src="/js/mix/post-lazy-local.min.js"></script>
+
+<script>;(function() {var bLazy = new Blazy()})();</script>
+
+
+
+
+<script src="/js/lightgallery.min.js"></script>
+<link rel="stylesheet" href="/css/lightgallery.min.css">
+<script>
+    lightGallery(document.getElementById('lightgallery'), {
+        selector: '.post-img'
+    });
+</script>
+
+
+
+
+
+
+
+
+
+<script>searchFunc("/")</script>
+
+
+
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    console.log("this theme is from https://github.com/xzhih/hexo-theme-casper")
+</script>
+
+</body>
+</html>
