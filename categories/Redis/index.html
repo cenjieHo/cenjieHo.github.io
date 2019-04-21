@@ -143,6 +143,55 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
+					<a class="post-card-content-link" title="Redis入门：单线程及五大数据类型" href="/2019/04/21/Redis五大数据类型及应用场景/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Redis
+								| 
+								
+								<time datetime="2019-04-21T07:29:00.000Z" itemprop="datePublished">
+									2019-04-21
+								</time>
+							</span>
+							<h2 class="post-card-title">Redis入门：单线程及五大数据类型</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								为什么Redis是单线程的首先对于Redis的网络通信模块，它是基于I/O多路复用模型实现的，也就是说只使用一个线程就可以处理多个连接，避免了传统方案使用多线程处理多条连接时的上下文切换开销。而对于命令的执行，因为Redis是基于内存的操作，CPU不是Redis的瓶颈，单线程的处理效率就是最高的，使用多线程反而会增大切换开销，并且引入线程安全的问题，因此Redis使用单线程的方案。
+那什么时候应该使用多线程呢？其实对于类似磁盘I/O读写的操作，如果使用单线程执行，当耗时较长时
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							6
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
 					<a class="post-card-content-link" title="Redis Pipeline" href="/2019/04/21/Redis-管道/">
 						<header class="post-card-header">
 							<span class="post-card-tags">

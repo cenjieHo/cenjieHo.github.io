@@ -128,7 +128,7 @@
             <h1 class="site-title">
                 Archives
             </h1>
-            <h2 class="site-description">Total: 61</h2>
+            <h2 class="site-description">Total: 62</h2>
         </div>
         
         
@@ -139,6 +139,62 @@
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="Linux五种IO模型" href="/2019/03/27/Linux-五种IO模型/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Linux
+								| 
+								
+								<time datetime="2019-03-27T02:39:00.000Z" itemprop="datePublished">
+									2019-03-27
+								</time>
+							</span>
+							<h2 class="post-card-title">Linux五种IO模型</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								IO模型对于一次IO访问，会分为两个阶段，首先等待数据准备好后被拷贝到操作系统内核的缓冲区中，然后再从操作系统内核的缓冲区拷贝到用户空间。IO模型可以分为以下五种类型：
+
+阻塞式I/O（Blocking I/O）
+非阻塞式I/O（Non-blocking I/O）
+多路复用I/O（Multiplexing I/O）
+信号驱动I/O（Signal-driven I/O）
+异步I/O（Asynchronous I/O）
+
+其中信号驱动式IO并不常用，所以重点关注另外四种IO模型。
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							4
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
 			
 			<article class="post-card post  no-image ">
 				
@@ -632,61 +688,6 @@ TIME_WAITING
 
 
 以上规则保证只要对象是正确构造的，那么不需要使用同步（指lock和volatile的使用）就可以保证任意线程都能看到这个final域在构造函数中被初始化之后的值。要实现这个效果，还需要保证在构造函数内部，不
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							1
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="顺序一致性模型与happens-before原则" href="/2019/02/09/顺序一致性模型与happens-before规则/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								并发
-								| 
-								
-								<time datetime="2019-02-09T00:27:00.000Z" itemprop="datePublished">
-									2019-02-09
-								</time>
-							</span>
-							<h2 class="post-card-title">顺序一致性模型与happens-before原则</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								顺序一致性模型顺序一致性内存模型是一个理论参考模型，在设计的时候，处理器的内存模型和编程语言的内存模型都会以顺序一致性内存模型作为参考。顺序一致性内存模型有两大特性：
-
-一个线程中的所有操作必须按照程序的顺序来执行。
-不管程序是否同步，所有线程都只能看到一个单一的操作执行顺序。在顺序一致性内存模型中，每个操作都必须原子执行并且立刻对所有线程可见。
-
-JMM保证如果程序是正确同步的，程序的执行将具有顺序一致性，即程序的执行结果与该程序在顺序一致性内存模型中的执行结果相同。
-
-而
 								...
 							</p>
 						</section>
