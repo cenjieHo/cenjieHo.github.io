@@ -145,6 +145,56 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
+					<a class="post-card-content-link" title="Redis缓存设计与优化" href="/2019/03/31/Redis缓存设计与优化/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Redis
+								| 
+								
+								<time datetime="2019-03-31T12:28:00.000Z" itemprop="datePublished">
+									2019-03-31
+								</time>
+							</span>
+							<h2 class="post-card-title">Redis缓存设计与优化</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								过期策略Redis过期策略是：定期删除+惰性删除。
+所谓定期删除，指的是Redis默认每隔100ms就随机抽取一些设置了过期时间的key（全部都检查的话十分消耗CPU资源），检查其是否过期，如果过期了就删除。但仅依赖此策略会有许多过期的key未被检查到，因此Redis还使用惰性删除策略，即在读/写key的时候再检查其是否过期，如果过期了则删除。
+内存淘汰机制如果某些key没有被定期删除，也没及时去读/写以触发惰性删除，那么Redis的内存会越来越高，当已用内存超过maxmem
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							3
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
 					<a class="post-card-content-link" title="Redis Cluster" href="/2019/03/31/Redis-Cluster/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
@@ -624,61 +674,6 @@ InnoDB不保存表的具体行数，执行select count(*) from table时需要全
 						</div>
 						<span class="reading-time">
 							0
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="访问一个网页的全过程" href="/2019/02/13/访问一个网页的全过程/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								计算机网络
-								| 
-								
-								<time datetime="2019-02-13T10:09:00.000Z" itemprop="datePublished">
-									2019-02-13
-								</time>
-							</span>
-							<h2 class="post-card-title">访问一个网页的全过程</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								
-客户端用户从浏览器输入www.google.com网站网址后回车，系统会查询本地hosts文件及DNS缓存信息，查找是否存在网址对应的IP解析记录。如果有就直接获取到IP地址，然后访问网站，一般第一次请求时，DNS缓存是没有解析记录的。
-
-
-
-如果hosts与DNS缓存都没有解析记录时，系统会把浏览器的解析请求交给客户端本地设置的DNS服务器地址解析，如果本地DNS服务器的本地缓存有对应的解析记录，就会直接返回IP地址。
-
-如果本地DNS服务器没有对应的解析记录，则根据本地
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							3
 							min read
 						</span>
 					</footer>

@@ -128,7 +128,7 @@
             <h1 class="site-title">
                 Archives
             </h1>
-            <h2 class="site-description">Total: 66</h2>
+            <h2 class="site-description">Total: 67</h2>
         </div>
         
         
@@ -139,6 +139,56 @@
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="多线程断点续传下载器" href="/2019/02/12/多线程断点续传下载器/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								项目
+								| 
+								
+								<time datetime="2019-02-12T08:58:00.000Z" itemprop="datePublished">
+									2019-02-12
+								</time>
+							</span>
+							<h2 class="post-card-title">多线程断点续传下载器</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								最近在研究多线程的断点续传下载。断点续传的原理其实很简单，就是在下载时将下载进度保存到一个临时文件中，如果下载过程遇到什么意外中断了，下次下载同一个文件时就可以从临时文件中读取到上次下载发生中断时的进度，然后从这个进度开始继续下载。
+
+要使用断点续传下载首先要判断服务器是否支持范围请求，假如在响应中存在Accept-Ranges首部并且它的值不为 none，那么表示该服务器支持范围请求。通常情况下Web服务器会默认开启对范围请求的支持，我们只需要在请求头中加入Range首部来
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							21
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
 			
 			<article class="post-card post  no-image ">
 				
@@ -642,56 +692,6 @@ Spring框架至今已集成了20多个模块。这些模块主要被分如下图
 						</div>
 						<span class="reading-time">
 							11
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="电商项目优化实践" href="/2019/02/05/mmall电商项目优化日志/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								项目
-								| 
-								
-								<time datetime="2019-02-05T13:24:00.000Z" itemprop="datePublished">
-									2019-02-05
-								</time>
-							</span>
-							<h2 class="post-card-title">电商项目优化实践</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								本篇日志将记录之前做过的mmall项目的一些优化过程，主要包括JVM调优和数据库优化两个方面，通过不断动手实践并总结心得，希望能在此积累起许多经验，为以后能更得心应手的写出高效而又稳健的代码打好基础。
-
-商品表的优化在实际应用中我们往往都会遇到根据名称来查询某个商品或者根据昵称查询某个用户，如果返回的行数较多则要使用分页，而之前项目一直都是使用的PageHelper这个框架来完成分页功能的，这么做自然简单方便，但是当数据量达到几十万甚至百万时就会遇到性能瓶颈，尽管能够使用一些
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							10
 							min read
 						</span>
 					</footer>

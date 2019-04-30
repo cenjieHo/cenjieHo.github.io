@@ -2,7 +2,7 @@
 <html lang="zh-Hans">
 
 
- 
+
 
 
 
@@ -26,16 +26,16 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-	<title>Archives | 水木今山的博客</title>
+	<title>Java异常机制总结 | 水木今山的博客</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 	<meta name="generator" content="hexo">
 	<meta name="author" content="水木今山">
-	<meta name="description" content="Coding the World">
+	<meta name="description" content="">
 
 	
-	<meta name="keywords" content="hexo, casper, ghost, theme">
+	<meta name="keywords" content="">
 	
 
 	
@@ -53,24 +53,26 @@
 	
 
 	<meta property="og:site_name" content="水木今山的博客">
-	<meta property="og:type" content="blog">
-	<meta property="og:title" content="Archives | 水木今山的博客">
-	<meta property="og:description" content="Coding the World">
-	<meta property="og:url" content="http://yoursite.com/archives/2018/06/index.html">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Java异常机制总结 | 水木今山的博客">
+	<meta property="og:description" content="">
+	<meta property="og:url" content="http://yoursite.com/2019/04/30/Java异常机制/">
 
 	
+	<meta property="article:published_time" content="2019-04-30T23:04:00+08:00"> 
+	<meta property="article:author" content="水木今山">
+	<meta property="article:published_first" content="水木今山的博客, /2019/04/30/Java异常机制/">
+	
 </head>
-<body class="tag-template">
+<body class="post-template">
 	<div class="site-wrapper">
 		
 
 
 
 
-<header class="site-header outer " style="background-image: url(/images/pexels-photo-325185.jpeg)">
+<header class="site-header outer" style="z-index: 999">
     <div class="inner">
-        
-        
         
 <nav class="site-nav"> 
     <div class="site-nav-left">
@@ -122,137 +124,84 @@
 </div>
     </div>
 </nav>
-        
-        <div class="site-header-content">
-            
-            <h1 class="site-title">
-                Archives
-            </h1>
-            <h2 class="site-description">Total: 67</h2>
-        </div>
-        
-        
     </div>
 </header>
 
 
 <main id="site-main" class="site-main outer" role="main">
-	<div class="inner">
-		<div class="post-feed">
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="README文档的规范写法总结" href="/2018/06/25/README文档的规范写法总结/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								Github
-								| 
-								
-								<time datetime="2018-06-25T11:15:27.000Z" itemprop="datePublished">
-									2018-06-25
-								</time>
-							</span>
-							<h2 class="post-card-title">README文档的规范写法总结</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								俗话说的好：“一个好开源项目一定有一个好的 README”。
-要想自己放到github上的项目能吸引更多人的眼球，就必须写一个规范舒适的README.md，这么做不仅可以梳理自己对于项目的思路，也方便他人上手使用或学习。因此，此文根据Github上众多项目以及查阅相关资料对README做了一个小小的总结， 方便以后写README的时候可以直接套用该模板。
+    <div class="inner">
+        <header class="post-full-header">
+            <section class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2019-04-30T15:25:32.000Z" itemprop="datePublished">
+                    2019-04-30
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                
+            </section>
+            <h1 class="post-full-title">Java异常机制总结</h1>
+        </header>
+        <article class="post-full no-image">
+            
+            <section class="post-full-content">
+                <div id="lightgallery" class="markdown-body">
+                    <h2 id="Java错误和异常"><a href="#Java错误和异常" class="headerlink" title="Java错误和异常"></a>Java错误和异常</h2><p>在Java中，所有的异常都有一个共同的祖先<code>Throwable</code>，它有两个重要的子类：<code>Exception</code>（异常）和<code>Error</code>（错误），二者都是Java异常处理的重要子类，各自都包含大量子类:<br><img alt="" class="post-img b-lazy" href="http://blog.default.nanwulife.com/Exception.png" data-src="http://blog.default.nanwulife.com/Exception.png"></p>
+<h3 id="Error"><a href="#Error" class="headerlink" title="Error"></a>Error</h3><p><code>Error</code>是程序无法处理的错误，表示代码运行时Java虚拟机出现的问题。例如，当Java虚拟机不再有继续执行操作所需的内存资源时，将出现<code>OutOfMemoryError</code>，而另外还有一个常见的错误是<code>StackOverflowError</code>。这些错误是不可查的，也不应试图去捕获它，当这些错误发生时，Java虚拟机一般会选择终止。</p>
+<h3 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h3><p><code>Exception</code>异常是程序本身可以处理的异常，它有一个重要的子类<code>RuntimeException</code>，表示JVM常用操作引发的异常。例如，若试图使用空值对象引用、除数为零或数组越界，则分别引发运行时异常<code>NullPointerException</code>、<code>ArithmeticException</code>和<code>ArrayIndexOutOfBoundException</code>。</p>
+<h3 id="运行时异常"><a href="#运行时异常" class="headerlink" title="运行时异常"></a>运行时异常</h3><p><code>Exception</code>这种异常分为运行时异常和非运行时异常（编译异常）两大类：</p>
+<ul>
+<li>运行时异常：都是<code>RuntimeException</code>类及其子类异常，如<code>NullPointerException</code>（空指针异常）、<code>IndexOutOfBoundsException</code>（下标越界异常）等。这些异常是不检查异常，Java编译器不会检查它，即使没有用<code>try-catch</code>语句捕获它，也没有用<code>throws</code>子句声明抛出它，也会编译通过。</li>
+<li>非运行时异常：是<code>RuntimeException</code>以外的异常，类型上都属于<code>Exception</code>类及其子类。从程序语法角度讲是必须进行处理的异常（<code>try-catch</code>捕捉或者方法上声明<code>throws</code>抛出），如果不处理，程序就不能编译通过，如<code>IOException</code>、<code>SQLException</code>等。</li>
+</ul>
+<h2 id="处理异常机制"><a href="#处理异常机制" class="headerlink" title="处理异常机制"></a>处理异常机制</h2><p>在Java应用程序中，异常处理机制为：抛出异常，捕捉异常。</p>
+<ul>
+<li>抛出异常：当一个方法出现错误引发异常时，方法创建异常对象并交付运行时系统，异常对象中包含了异常类型和异常出现时的程序状态等异常信息，运行时系统负责寻找处置异常的代码并执行。</li>
+<li>捕获异常：在方法抛出异常之后，运行时系统将转为寻找合适的异常处理器（exception handler）。潜在的异常处理器是异常发生时依次存留在调用栈中的方法的集合。当异常处理器所能处理的异常类型与方法抛出的异常类型相符时，即为合适的异常处理器。运行时系统从发生异常的方法开始，依次回查调用栈中的方法，直至找到含有合适异常处理器的方法并执行。当运行时系统遍历调用栈而未找到合适的异常处理器，则运行时系统终止，同时意味着Java程序的终止。</li>
+</ul>
+<p>一旦某个<code>catch</code>捕获到匹配的异常类型，将进入异常处理代码。一经处理结束，就意味着整个<code>try-catch</code>语句结束，其他的<code>catch</code>子句不再有匹配和捕获异常类型的机会。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://blog.csdn.net/hguisu/article/details/6155636" target="_blank" rel="noopener">深入理解java异常处理机制</a></li>
+</ul>
 
-XXX系统（如果有Logo可以加上Logo）xxx系统是一个..系统，支持…，…（此处为简要描述）
-官方网站 | 文档手
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							2
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="Welcome To My Blog" href="/2018/06/22/Welcome-To-My-Blog/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								杂谈
-								| 
-								
-								<time datetime="2018-06-22T15:30:00.000Z" itemprop="datePublished">
-									2018-06-22
-								</time>
-							</span>
-							<h2 class="post-card-title">Welcome To My Blog</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								写在前面的话大家好！我是就读于南京某高校的一名大二学生，在昨天搭建了这个个人博客网站用于记录自己在学习以及项目过程中的技术积累，希望通过这个平台能与大家分享自己的经验与教训，同时也欢迎大家随时可以联系我，期待与大家共同进步。
+                </div>
+            </section>
+        </article>
+    </div>
 
-关于我我在学校的专业是电子信息科学与技术，曾利用课余时间学习过C、C++、Python等多门语言(仅限于皮毛)，经过两年的不断试错，终于在大二下学期确定了自己以后的发展方向—Java后台研发工程师。于是从基础语法到各大框架，这半年里接触到了许多新技术，
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							1
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-		</div>
-	</div>
+    
+    <div style="height: 4vw;width: 100%"></div>
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">•</span>
+        
+        <a class="next-post" title="JDK与CGLIB动态代理" href="/2019/04/30/JDK与CGLIB动态代理/">
+            JDK与CGLIB动态代理 →
+        </a>
+        
+    </nav>
 
-	
-	
-	<nav class="pagination">
-		
-	</nav>
-	
-	
+    
 </main>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java错误和异常"><span class="toc-text">Java错误和异常</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Error"><span class="toc-text">Error</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exception"><span class="toc-text">Exception</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行时异常"><span class="toc-text">运行时异常</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理异常机制"><span class="toc-text">处理异常机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+    </div>
+</div>
+
 
 
 	</div>
@@ -329,9 +278,45 @@ XXX系统（如果有Logo可以加上Logo）xxx系统是一个..系统，支持�
 
 
 
-<script src="/js/mix/home-lazy-local.min.js"></script>
+
+
+<div class="floating-header">
+	<div class="floating-header-logo">
+        <a href="/" title="水木今山的博客">
+			
+                <img src="/images/avator2.png" alt="水木今山的博客 icon">
+			
+            <span>水木今山的博客</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Java异常机制总结</div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+
+
+
+<script src="/js/mix/post-lazy-local.min.js"></script>
 
 <script>;(function() {var bLazy = new Blazy()})();</script>
+
+
+
+
+<script src="/js/lightgallery.min.js"></script>
+<link rel="stylesheet" href="/css/lightgallery.min.css">
+<script>
+    lightGallery(document.getElementById('lightgallery'), {
+        selector: '.post-img'
+    });
+</script>
+
 
 
 
