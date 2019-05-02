@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+
+
+
+
+
+
+<head>
+	
+	
+	<link rel="stylesheet" href="/css/allinone.min.css">
+
+	
+	<!-- Global Site Tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXXX-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-XXXXXXXXXX-1');
+	</script>
+	
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>AQS源码分析：Condition | 水木今山的博客</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="水木今山">
+	<meta name="description" content="">
+
+	
+	<meta name="keywords" content="">
+	
+
+	
+	<link rel="shortcut icon" href="/images/avator2.png">
+	<link rel="apple-touch-icon" href="/images/avator2.png">
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="水木今山的博客">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="AQS源码分析：Condition | 水木今山的博客">
+	<meta property="og:description" content="">
+	<meta property="og:url" content="http://yoursite.com/2019/05/02/AQS源码分析：Condition/">
+
+	
+	<meta property="article:published_time" content="2019-05-02T22:05:00+08:00"> 
+	<meta property="article:author" content="水木今山">
+	<meta property="article:published_first" content="水木今山的博客, /2019/05/02/AQS源码分析：Condition/">
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header outer" style="z-index: 999">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/column" title="STACK">STACK</a>
+            </li>
+            
+            <li>
+                <a href="https://portal.qiniu.com/bucket/default/resource" title="PICS">PICS</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button">
+        <a href="#search" class="subscribe-button" style="margin: 0 10px;">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="subscribe-button" style="margin: 0 10px;">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/cenjieHo" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <section class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2019-05-02T14:32:16.000Z" itemprop="datePublished">
+                    2019-05-2
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                
+            </section>
+            <h1 class="post-full-title">AQS源码分析：Condition</h1>
+        </header>
+        <article class="post-full no-image">
+            
+            <section class="post-full-content">
+                <div id="lightgallery" class="markdown-body">
+                    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>Condition</code>是一个与<code>Object</code>中的<code>wait() / nofity() / notifyAll()</code>功能相似的接口，AQS的内部类<code>ConditionObject</code>实现了该接口。它与<code>Object</code>提供的这些方法一样用来协调线程间的同步关系，而不同之处在于<code>Object</code>中的这些方法需要配合<code>Synchronized</code>关键字使用（否则会抛出异常），而<code>Condition</code>中的方法则要配合锁（独占锁）来使用（否则也会抛出异常），并且<code>Condition</code>中的方法功能更为丰富一些，比如说可以设置响应或不响应中断、可以设定超时时间等。</p>
+<p><code>ConditionObject</code>内部维护了一个条件队列，当线程不满足某些条件的时候就会通过<code>await()</code>方法将当前线程加入到条件队列中，而当条件队列上等待的线程被<code>signal() / signalAll()</code>后，又会被转移到AQS的同步队列中尝试获取锁。接下来就其中最核心的三个方法<code>await()</code>、<code>signal()</code>、<code>signalAll()</code>说起，它们也分别对标了<code>Object</code>中的那三个方法。</p>
+<h2 id="await"><a href="#await" class="headerlink" title="await()"></a>await()</h2><p><code>await()</code>方法负责将当前线程包装成一个<code>Node</code>后加入到条件队列中，并且需要释放持有的独占锁进入阻塞状态。这里先总结一下它的大致流程：</p>
+<ol>
+<li>将当前线程加入到条件队列中</li>
+<li>完全释放互斥锁</li>
+<li>如果当前线程未在同步队列中，就将其阻塞</li>
+<li>否则，重新获取锁并根据是否发生中断而做出不同反应（抛出异常或重新中断）</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">await</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Thread.interrupted())   <span class="comment">// 响应中断</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br><span class="line">    <span class="comment">// &lt;1&gt; 将当前线程包装成 Node 并加入到条件队列中</span></span><br><span class="line">    Node node = addConditionWaiter();</span><br><span class="line">    <span class="comment">// &lt;2&gt; 完全释放互斥锁（不论锁是否可以重入），如果没有持锁，会抛出异常</span></span><br><span class="line">    <span class="keyword">int</span> savedState = fullyRelease(node);</span><br><span class="line">    <span class="keyword">int</span> interruptMode = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!isOnSyncQueue(node)) &#123;</span><br><span class="line">         <span class="comment">// &lt;3&gt; 只要仍未转移到同步队列就阻塞，转移的情况如下：</span></span><br><span class="line">        <span class="comment">// 1. 其它线程调用 signal 将当前线程节点转移到同步队列并唤醒当前线程</span></span><br><span class="line">        <span class="comment">// 2. 其它线程调用 signalAll</span></span><br><span class="line">        <span class="comment">// 3. 其它线程中断了当前线程，当前线程会自行尝试进入同步队列</span></span><br><span class="line">        LockSupport.park(<span class="keyword">this</span>);</span><br><span class="line">        <span class="comment">// 获取中断模式。在线程从park中被唤醒的时候，需要判断此时是否被中断，若中断则尝试转移到同步队列</span></span><br><span class="line">        <span class="keyword">if</span> ((interruptMode = checkInterruptWhileWaiting(node)) != <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// &lt;4&gt; 重新获取互斥锁过程中如果发生中断并且 interruptMode 不为 THROW_IE，则将 interruptMode 设置为 REINTERRUPT</span></span><br><span class="line">    <span class="keyword">if</span> (acquireQueued(node, savedState) &amp;&amp; interruptMode != THROW_IE)</span><br><span class="line">        interruptMode = REINTERRUPT;</span><br><span class="line">    <span class="keyword">if</span> (node.nextWaiter != <span class="keyword">null</span>) <span class="comment">// clean up if cancelled</span></span><br><span class="line">        unlinkCancelledWaiters();</span><br><span class="line">    <span class="comment">// 如果线程发生过中断则根据 THROW_IE 或是 REINTERRUPT 分别抛出异常或者重新中断</span></span><br><span class="line">    <span class="keyword">if</span> (interruptMode != <span class="number">0</span>)</span><br><span class="line">        reportInterruptAfterWait(interruptMode);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="addConditionWaiter"><a href="#addConditionWaiter" class="headerlink" title="addConditionWaiter()"></a>addConditionWaiter()</h3><p>首先看看第一个关键步骤，也就是将当前线程加入到条件队列中：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">addConditionWaiter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Node t = lastWaiter;</span><br><span class="line">    <span class="comment">// 如果条件队列中最后一个节点的状态是 CANCELLED</span></span><br><span class="line">    <span class="keyword">if</span> (t != <span class="keyword">null</span> &amp;&amp; t.waitStatus != Node.CONDITION) &#123;</span><br><span class="line">        unlinkCancelledWaiters();   <span class="comment">// 清理队列</span></span><br><span class="line">        t = lastWaiter;                 <span class="comment">// 重读 lastWaiter</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 将当前线程封装为一个 Node</span></span><br><span class="line">    Node node = <span class="keyword">new</span> Node(Thread.currentThread(), Node.CONDITION);</span><br><span class="line">    <span class="keyword">if</span> (t == <span class="keyword">null</span>)  <span class="comment">// 如果当前队列没有节点</span></span><br><span class="line">        firstWaiter = node;</span><br><span class="line">    <span class="keyword">else</span>            <span class="comment">// 将当前队列的尾节点连接到新节点</span></span><br><span class="line">        t.nextWaiter = node;</span><br><span class="line">    <span class="comment">// 将新节点作为新尾节点</span></span><br><span class="line">    lastWaiter = node;  </span><br><span class="line">    <span class="comment">// 返回新节点</span></span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里会先判断条件队列中的最后一个节点是否为取消状态，如果是的话就调用<code>unlinkCancelledWaiters()</code>进行清理，清理的过程其实就是将条件队列中所有取消的节点都移除。之后将当前线程封装成<code>Node</code>后与当前队列最后一个节点的<code>nextWaiter</code>关联即可。</p>
+<h3 id="fullyRelease"><a href="#fullyRelease" class="headerlink" title="fullyRelease()"></a>fullyRelease()</h3><p>此时已经将线程加入到条件队列中了，调用<code>fullyRelease()</code>方法完全释放同步状态。这里的“完全”指的是对于重入锁来说，每次加锁都会将AQS的整型成员变量<code>state++</code>，而每次解锁时会将<code>state--</code>，因此这里将<code>state</code>的数量完全释放掉。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">int</span> <span class="title">fullyRelease</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> failed = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 获取同步状态数值</span></span><br><span class="line">        <span class="keyword">int</span> savedState = getState();</span><br><span class="line">        <span class="comment">// 调用 release() 释放指定数量的同步状态</span></span><br><span class="line">        <span class="keyword">if</span> (release(savedState)) &#123;</span><br><span class="line">            failed = <span class="keyword">false</span>; </span><br><span class="line">            <span class="keyword">return</span> savedState;  <span class="comment">// 返回释放的数量</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();   </span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="comment">// 如果释放时出现异常，将该 Node 的等待状态设置为 CANCELLED</span></span><br><span class="line">        <span class="keyword">if</span> (failed)</span><br><span class="line">            node.waitStatus = Node.CANCELLED;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="isOnSyncQueue"><a href="#isOnSyncQueue" class="headerlink" title="isOnSyncQueue()"></a>isOnSyncQueue()</h3><p>该方法用于判断某个节点是否转移到了同步队列上（因为别的线程有可能通过<code>signal() / signalAll()</code>将其转移了），如果没有就将其阻塞。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">isOnSyncQueue</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 等待状态如果是 CONDITION 则一定是在条件队列，或者如果 prev 为 null 也一定是在条件队列</span></span><br><span class="line">    <span class="comment">// （同步队列新入队的节点的 prev 值是不可能为 null 的，因为有dummy节点的存在）</span></span><br><span class="line">    <span class="keyword">if</span> (node.waitStatus == Node.CONDITION || node.prev == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;   <span class="comment">// 不在同步队列中，直接返回 false</span></span><br><span class="line">        </span><br><span class="line">    <span class="comment">// 条件队列的节点是通过 nextWaiter 来维护的，不用 next 和 prev，因此如果节点在条件队列中则 next 和 prev 应该都为 null</span></span><br><span class="line">    <span class="comment">// 如果 next 不为 null，则说明一定是在同步队列中</span></span><br><span class="line">    <span class="comment">// 这里还要说明的是在 cancelAcquire() 方法中，一个节点取消的时候会把自己的 next 域指向自己，即 node.next = next; 而不是node.next = null;</span></span><br><span class="line">    <span class="comment">// 通过这种方式，在这里就可以将其和在同步队列上的情况归一化判断，都返回 true</span></span><br><span class="line">    <span class="comment">// 如果 cancelAcquire() 方法中写成 node.next = null; 的形式，这里的判断不满足条件，那么又要往底下进一步判断</span></span><br><span class="line">    <span class="keyword">if</span> (node.next != <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">   </span><br><span class="line">    <span class="comment">// 虽然 node.prev 为 null 可以说明此时节点不在同步队列中，</span></span><br><span class="line">    <span class="comment">// 但如果 node.next 为 null 并不能说明 node 就不在同步队列中，因为新节点入队时会先设置 prev 然后再设置 next</span></span><br><span class="line">    <span class="comment">// 此时由 tail 节点开始从后向前遍历一次，确定节点是否真的不在同步队列中</span></span><br><span class="line">    <span class="keyword">return</span> findNodeFromTail(node);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="checkInterruptWhileWaiting"><a href="#checkInterruptWhileWaiting" class="headerlink" title="checkInterruptWhileWaiting()"></a>checkInterruptWhileWaiting()</h3><p><code>checkInterruptWhileWaiting()</code>方法用于检测线程在等待期间是否发生了中断，注意该方法是在<code>LockSupport.park(this);</code>这一行之后，也就是说此时线程已经从阻塞中返回了，返回的原因有可能是因为中断，也有可能是因为<code>signal() / signalAll()</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">checkInterruptWhileWaiting</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 检测线程在等待期间是否发生了中断，如果未发生中断，直接返回0</span></span><br><span class="line">    <span class="keyword">return</span> Thread.interrupted() ?</span><br><span class="line">        (transferAfterCancelledWait(node) ? THROW_IE : REINTERRUPT) :</span><br><span class="line">        <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 判断中断发生的时期，分为两种：</span></span><br><span class="line"><span class="comment"> * 1. 中断在节点被转移到同步队列前发生，此时返回 true</span></span><br><span class="line"><span class="comment"> * 2. 中断在节点被转移到同步队列后发生，此时返回 false</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">transferAfterCancelledWait</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 第一种情况，中断在节点被转移到同步队列前发生</span></span><br><span class="line">    <span class="comment">// 此时自行将节点转移到同步队列上，并返回 true</span></span><br><span class="line">    <span class="keyword">if</span> (compareAndSetWaitStatus(node, Node.CONDITION, <span class="number">0</span>)) &#123;</span><br><span class="line">        enq(node);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 如果上面的CAS失败了，说明已经有线程调用 signal() / signalAll() 方法了，</span></span><br><span class="line">    <span class="comment">// 这两个方法都会先将节点等待状态由 CONDITION 设为0后，再调用 enq() 方法转移节点</span></span><br><span class="line">    <span class="comment">// 此时有可能仅设置了等待状态而没来得及将节点转移到同步队列中就被切换走了，</span></span><br><span class="line">    <span class="comment">// 此时自旋等待节点成功进入同步队列</span></span><br><span class="line">    <span class="keyword">while</span> (!isOnSyncQueue(node))</span><br><span class="line">        Thread.yield(); <span class="comment">// 让出 CPU</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行完上面几个方法，当从<code>while (!isOnSyncQueue(node))</code>循环中跳出时，说明节点已经转移到了同步队列中了，此时通过<code>acquireQueued(node, savedState)</code>方法重新获取锁，并且如果线程发生过中断则根据<code>THROW_IE</code>或是<code>REINTERRUPT</code>分别抛出异常或者重新中断。</p>
+<h2 id="signal-signalAll"><a href="#signal-signalAll" class="headerlink" title="signal() / signalAll()"></a>signal() / signalAll()</h2><p>上面的<code>await()</code>方法中从<code>while (!isOnSyncQueue(node))</code>循环跳出可不是自己独立就能做到的，它是需要<code>signal() / signalAll()</code>配合的。<code>signal() / signalAll()</code>的工作就是负责将条件队列中的节点转移到同步队列中，两个方法的区别在于<code>signal()</code>只会转移首节点，而<code>signalAll()</code>会转移队列上的所有节点。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">signal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 检查线程是否获取了独占锁，未获取独占锁调用 signal 方法是不允许的</span></span><br><span class="line">    <span class="keyword">if</span> (!isHeldExclusively())</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</span><br><span class="line">    Node first = firstWaiter;</span><br><span class="line">    <span class="keyword">if</span> (first != <span class="keyword">null</span>)      <span class="comment">// 头节点不为 null</span></span><br><span class="line">        doSignal(first);  <span class="comment">// 将头节点转移到同步队列中</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doSignal</span><span class="params">(Node first)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="comment">// 如果下面这个条件满足了，说明条件队列中只有一个节点，此时 lastWaiter 设为 null</span></span><br><span class="line">        <span class="keyword">if</span> ( (firstWaiter = first.nextWaiter) == <span class="keyword">null</span>)</span><br><span class="line">            lastWaiter = <span class="keyword">null</span>;</span><br><span class="line">        first.nextWaiter = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">// 调用 transferForSignal() 将节点转移到同步队列中，如果失败，且 firstWaiter 不为null，则继续尝试，transferForSignal() 成功了或者队列中没节点了，while 循环就结束了 </span></span><br><span class="line">    &#125; <span class="keyword">while</span> (!transferForSignal(first) &amp;&amp;</span><br><span class="line">             (first = firstWaiter) != <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这个方法用于将条件队列中的节点转移到同步队列中</span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">transferForSignal</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 如果将节点的等待状态由 CONDITION 设为0失败，则表明节点被取消</span></span><br><span class="line">    <span class="comment">// 注意：因为 transferForSignal() 不存在竞争的问题，所以唯一的可能就是节点被取消</span></span><br><span class="line">    <span class="keyword">if</span> (!compareAndSetWaitStatus(node, Node.CONDITION, <span class="number">0</span>))</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调用 enq() 方法将 node 转移到同步队列中，并返回 node 的前驱节点（原尾节点）p</span></span><br><span class="line">    Node p = enq(node);</span><br><span class="line">    <span class="keyword">int</span> ws = p.waitStatus;</span><br><span class="line">    <span class="comment">// 如果前驱结点状态为取消或者无法将状态CAS到SIGNAL，</span></span><br><span class="line">    <span class="comment">// 则需要唤醒参数node节点对应的线程，使其能开始尝试争锁</span></span><br><span class="line">    <span class="keyword">if</span> (ws &gt; <span class="number">0</span> || !compareAndSetWaitStatus(p, ws, Node.SIGNAL))</span><br><span class="line">        LockSupport.unpark(node.thread);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出，<code>signal()</code>一定会转移条件队列中的一个节点，除非队列中彻底空了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">signalAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// // 检查线程是否获取了独占锁，未获取独占锁调用 signalAll() 方法是不允许的</span></span><br><span class="line">    <span class="keyword">if</span> (!isHeldExclusively())</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</span><br><span class="line">    Node first = firstWaiter;</span><br><span class="line">    <span class="keyword">if</span> (first != <span class="keyword">null</span>)</span><br><span class="line">        doSignalAll(first);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doSignalAll</span><span class="params">(Node first)</span> </span>&#123;</span><br><span class="line">    lastWaiter = firstWaiter = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">// 将条件队列中所有节点都转移到同步队列中，与 doSignal() 的主要区别在于 while 循环条件上</span></span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        Node next = first.nextWaiter;</span><br><span class="line">        first.nextWaiter = <span class="keyword">null</span>;</span><br><span class="line">        transferForSignal(first);   <span class="comment">// 调用 transferForSignal() 将节点转移到同步队列中</span></span><br><span class="line">        first = next;</span><br><span class="line">    &#125; <span class="keyword">while</span> (first != <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>signalAll()</code>与<code>signal()</code>的主要不同在于循环条件中，因为它会将条件队列中的所有节点都转移，因此实现起来稍微简单一些。</p>
+<h2 id="JDK-BUG"><a href="#JDK-BUG" class="headerlink" title="JDK BUG"></a>JDK BUG</h2><p>这里再讲一下jdk在上面实现中的一个bug。对比上面<code>await()</code>和<code>signal() / signalAll()</code>的源码可以发现，<code>await()</code>方法并没有做同步控制，也就是<code>signal() / signalAll()</code>方法开头的<code>if (!isHeldExclusively())  throw new IllegalMonitorStateException();</code>。因此，如果没有获取锁就调用该方法，会产生线程竞争的情况，导致条件队列的结构被破坏。例如，以下添加节点到条件队列的方法：</p>
+<pre><code class="java"><span class="function"><span class="keyword">private</span> Node <span class="title">addConditionWaiter</span><span class="params">()</span> </span>{
+    Node t = lastWaiter;
+    <span class="comment">// 如果条件队列中最后一个节点的状态是 CANCELLED</span>
+    <span class="keyword">if</span> (t != <span class="keyword">null</span> &amp;&amp; t.waitStatus != Node.CONDITION) {
+        unlinkCancelledWaiters();   <span class="comment">// 清理队列</span>
+        t = lastWaiter;                 <span class="comment">// 重读 lastWaiter</span>
+    }
+    <span class="comment">// 将当前线程封装为一个 Node</span>
+    Node node = <span class="keyword">new</span> Node(Thread.currentThread(), Node.CONDITION);
+    <span class="keyword">if</span> (t == <span class="keyword">null</span>)  <span class="comment">// 如果当前队列没有节点</span>
+        firstWaiter = node;
+    <span class="keyword">else</span>            <span class="comment">// 将当前队列的尾节点连接到新节点</span>
+        t.nextWaiter = node;
+    <span class="comment">// 将新节点作为新尾节点</span>
+    lastWaiter = node;  
+    <span class="comment">// 返回新节点</span>
+    <span class="keyword">return</span> node;
+}
+</code></pre>
+<p>如果有两个线程同时执行到<code>if (t == null)</code>时，可能会造成<code>firstWaiter</code>先指向其中一个，之后却被另一个给覆盖了，那么此时其中一个线程将会一直阻塞下去，因为这个线程的node并不在条件队列中，也就永远不会被<code>signal() / signalAll()</code>转移到同步队列上，唯一能从阻塞中返回的可能就是被中断。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="http://www.cnblogs.com/micrari/p/7219751.html" target="_blank" rel="noopener">AbstractQueuedSynchronizer源码解读–续篇之Condition</a></li>
+<li><a href="http://www.tianxiaobo.com/2018/05/04/AbstractQueuedSynchronizer-%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90-Condition-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" target="_blank" rel="noopener">AbstractQueuedSynchronizer 原理分析 - Condition 实现原理</a></li>
+</ul>
+
+                </div>
+            </section>
+        </article>
+    </div>
+
+    
+    <div style="height: 4vw;width: 100%"></div>
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">•</span>
+        
+        <a class="next-post" title="AQS源码分析：独占与共享同步状态" href="/2019/05/02/AQS源码分析：独占与共享同步状态/">
+            AQS源码分析：独占与共享同步状态 →
+        </a>
+        
+    </nav>
+
+    
+</main>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#await"><span class="toc-text">await()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#addConditionWaiter"><span class="toc-text">addConditionWaiter()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fullyRelease"><span class="toc-text">fullyRelease()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#isOnSyncQueue"><span class="toc-text">isOnSyncQueue()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#checkInterruptWhileWaiting"><span class="toc-text">checkInterruptWhileWaiting()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#signal-signalAll"><span class="toc-text">signal() / signalAll()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK-BUG"><span class="toc-text">JDK BUG</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+    </div>
+</div>
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(/images/pexels-photo-325185.jpeg)">
+	<header class="read-next-card-header" style="padding-bottom: 20px">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/AOP/" style="font-size: 15.43px;">AOP</a> <a href="/tags/AQS/" style="font-size: 14px;">AQS</a> <a href="/tags/ArrayList/" style="font-size: 14px;">ArrayList</a> <a href="/tags/BST/" style="font-size: 14px;">BST</a> <a href="/tags/B树/" style="font-size: 14px;">B树</a> <a href="/tags/CGLIB/" style="font-size: 14px;">CGLIB</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 14px;">ConcurrentHashMap</a> <a href="/tags/Dijkstra/" style="font-size: 14px;">Dijkstra</a> <a href="/tags/Executor/" style="font-size: 14px;">Executor</a> <a href="/tags/Fork-join/" style="font-size: 14px;">Fork/join</a> <a href="/tags/Github/" style="font-size: 14px;">Github</a> <a href="/tags/HTTPS/" style="font-size: 14px;">HTTPS</a> <a href="/tags/HashMap/" style="font-size: 15.43px;">HashMap</a> <a href="/tags/IO/" style="font-size: 14px;">IO</a> <a href="/tags/IOC/" style="font-size: 14px;">IOC</a> <a href="/tags/InnoDB/" style="font-size: 14px;">InnoDB</a> <a href="/tags/JDK/" style="font-size: 19.71px;">JDK</a> <a href="/tags/JVM/" style="font-size: 16.86px;">JVM</a> <a href="/tags/LinkedList/" style="font-size: 14px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/MyISAM/" style="font-size: 14px;">MyISAM</a> <a href="/tags/MySQL/" style="font-size: 18.29px;">MySQL</a> <a href="/tags/NIO/" style="font-size: 14px;">NIO</a> <a href="/tags/README/" style="font-size: 14px;">README</a> <a href="/tags/RabbitMQ/" style="font-size: 15.43px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 21.14px;">Redis</a> <a href="/tags/Spring/" style="font-size: 15.43px;">Spring</a> <a href="/tags/String/" style="font-size: 14px;">String</a> <a href="/tags/TLS/" style="font-size: 14px;">TLS</a> <a href="/tags/WSN/" style="font-size: 14px;">WSN</a> <a href="/tags/Zookeeper/" style="font-size: 14px;">Zookeeper</a> <a href="/tags/final/" style="font-size: 14px;">final</a> <a href="/tags/happens-before/" style="font-size: 14px;">happens-before</a> <a href="/tags/hello/" style="font-size: 14px;">hello</a> <a href="/tags/markdown/" style="font-size: 14px;">markdown</a> <a href="/tags/synchronized/" style="font-size: 14px;">synchronized</a> <a href="/tags/volatile/" style="font-size: 14px;">volatile</a> <a href="/tags/事务/" style="font-size: 14px;">事务</a> <a href="/tags/内存模型/" style="font-size: 14px;">内存模型</a> <a href="/tags/分布式锁/" style="font-size: 14px;">分布式锁</a> <a href="/tags/动态代理/" style="font-size: 14px;">动态代理</a> <a href="/tags/同步/" style="font-size: 14px;">同步</a> <a href="/tags/垃圾收集/" style="font-size: 14px;">垃圾收集</a> <a href="/tags/多线程/" style="font-size: 14px;">多线程</a> <a href="/tags/并发/" style="font-size: 22.57px;">并发</a> <a href="/tags/排序/" style="font-size: 18.29px;">排序</a> <a href="/tags/操作系统/" style="font-size: 19.71px;">操作系统</a> <a href="/tags/操作系统/" style="font-size: 14px;">操作系统 </a> <a href="/tags/支付宝/" style="font-size: 14px;">支付宝</a> <a href="/tags/断点续传/" style="font-size: 14px;">断点续传</a> <a href="/tags/杂谈/" style="font-size: 14px;">杂谈</a> <a href="/tags/查找/" style="font-size: 19.71px;">查找</a> <a href="/tags/树的遍历/" style="font-size: 14px;">树的遍历</a> <a href="/tags/死锁/" style="font-size: 14px;">死锁</a> <a href="/tags/消息队列/" style="font-size: 15.43px;">消息队列</a> <a href="/tags/源码分析/" style="font-size: 21.14px;">源码分析</a> <a href="/tags/算法/" style="font-size: 24px;">算法</a> <a href="/tags/索引/" style="font-size: 14px;">索引</a> <a href="/tags/红黑树/" style="font-size: 14px;">红黑树</a> <a href="/tags/线程池/" style="font-size: 14px;">线程池</a> <a href="/tags/范式/" style="font-size: 14px;">范式</a> <a href="/tags/设计模式/" style="font-size: 14px;">设计模式</a> <a href="/tags/进程/" style="font-size: 14px;">进程</a> <a href="/tags/锁/" style="font-size: 15.43px;">锁</a> <a href="/tags/项目/" style="font-size: 15.43px;">项目</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay subscribe-overlay">
+    <div class="search-form">
+        
+        <img class="search-overlay-logo" src="/images/avator2.png" alt="水木今山的博客">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<section class="copyright">
+			<a href="/" title="水木今山的博客">水木今山的博客</a>
+			&copy; 2019
+		</section>
+		<nav class="site-footer-nav">
+			
+            <a href="https://hexo.io" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+            <a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+        </nav>
+    </div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations()
+        .then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister();
+            }
+        });
+    }
+</script>
+
+
+
+
+
+
+
+<div class="floating-header">
+	<div class="floating-header-logo">
+        <a href="/" title="水木今山的博客">
+			
+                <img src="/images/avator2.png" alt="水木今山的博客 icon">
+			
+            <span>水木今山的博客</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">AQS源码分析：Condition</div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+
+
+
+<script src="/js/mix/post-lazy-local.min.js"></script>
+
+<script>;(function() {var bLazy = new Blazy()})();</script>
+
+
+
+
+<script src="/js/lightgallery.min.js"></script>
+<link rel="stylesheet" href="/css/lightgallery.min.css">
+<script>
+    lightGallery(document.getElementById('lightgallery'), {
+        selector: '.post-img'
+    });
+</script>
+
+
+
+
+
+
+
+
+
+<script>searchFunc("/")</script>
+
+
+
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    console.log("this theme is from https://github.com/xzhih/hexo-theme-casper")
+</script>
+
+</body>
+</html>
