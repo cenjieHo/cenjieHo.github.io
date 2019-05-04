@@ -128,7 +128,7 @@
             <h1 class="site-title">
                 Archives
             </h1>
-            <h2 class="site-description">Total: 72</h2>
+            <h2 class="site-description">Total: 73</h2>
         </div>
         
         
@@ -139,6 +139,56 @@
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="Redis持久化：AOF与RDB" href="/2019/03/30/Redis五种数据类型/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Redis
+								| 
+								
+								<time datetime="2019-03-30T03:30:00.000Z" itemprop="datePublished">
+									2019-03-30
+								</time>
+							</span>
+							<h2 class="post-card-title">Redis持久化：AOF与RDB</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								Redis持久化Redis是内存数据库，数据都是存储在内存中，为了避免进程退出导致数据的永久丢失，需要定期将Redis中的数据以某种形式(数据或命令)从内存保存到硬盘，当下次Redis重启时，利用持久化文件实现数据恢复。
+Redis持久化分为RDB持久化和AOF持久化：前者将当前数据保存到硬盘，后者则是将每次执行的写命令保存到硬盘（类似于MySQL的binlog）。
+RDBRDB持久化是将当前进程中的数据生成快照保存到硬盘，保存的文件后缀是rdb，当Redis重新启动时，可以
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							6
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
 			
 			<article class="post-card post  no-image ">
 				
@@ -651,60 +701,6 @@ TIME_WAITING
 						</div>
 						<span class="reading-time">
 							8
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="final域的内存语义" href="/2019/02/09/深入分析final关键字/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								并发
-								| 
-								
-								<time datetime="2019-02-09T01:26:00.000Z" itemprop="datePublished">
-									2019-02-09
-								</time>
-							</span>
-							<h2 class="post-card-title">final域的内存语义</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								对于final域，编译器和处理器要遵守两个重排序规则。
-
-在构造函数内对一个final域的写入，与随后把这个被构造对象的引用赋值给一个引用变量，这两个操作之间不能重排序。
-初次读一个包含final域的对象的引用，与随后初次读这个final域，这两个操作之间不能重排序。
-
-
-以上规则保证只要对象是正确构造的，那么不需要使用同步（指lock和volatile的使用）就可以保证任意线程都能看到这个final域在构造函数中被初始化之后的值。要实现这个效果，还需要保证在构造函数内部，不
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							1
 							min read
 						</span>
 					</footer>

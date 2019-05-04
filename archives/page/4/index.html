@@ -128,7 +128,7 @@
             <h1 class="site-title">
                 Archives
             </h1>
-            <h2 class="site-description">Total: 72</h2>
+            <h2 class="site-description">Total: 73</h2>
         </div>
         
         
@@ -139,6 +139,60 @@
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="final域的内存语义" href="/2019/02/09/深入分析final关键字/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								并发
+								| 
+								
+								<time datetime="2019-02-09T01:26:00.000Z" itemprop="datePublished">
+									2019-02-09
+								</time>
+							</span>
+							<h2 class="post-card-title">final域的内存语义</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								对于final域，编译器和处理器要遵守两个重排序规则。
+
+在构造函数内对一个final域的写入，与随后把这个被构造对象的引用赋值给一个引用变量，这两个操作之间不能重排序。
+初次读一个包含final域的对象的引用，与随后初次读这个final域，这两个操作之间不能重排序。
+
+
+以上规则保证只要对象是正确构造的，那么不需要使用同步（指lock和volatile的使用）就可以保证任意线程都能看到这个final域在构造函数中被初始化之后的值。要实现这个效果，还需要保证在构造函数内部，不
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							1
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
 			
 			<article class="post-card post  no-image ">
 				
@@ -628,61 +682,6 @@ HashTable使用synchronized来保证线程安全，因此当一个线程访问Ha
 						</div>
 						<span class="reading-time">
 							5
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="设计模式" href="/2019/01/29/设计模式/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								设计模式
-								| 
-								
-								<time datetime="2019-01-29T15:34:00.000Z" itemprop="datePublished">
-									2019-01-29
-								</time>
-							</span>
-							<h2 class="post-card-title">设计模式</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								七大设计原则开闭原则定义：一个软件实体如类、模块和函数应该对扩展开放，对修改关闭。
-用抽象构建框架，用实现扩展细节。
-依赖倒置原则定义：高层模块不应该依赖低层模块，二者都应该依赖其抽象。
-做到针对接口编程，不要针对实现编程。
-
-单一职责原则定义：不要存在多于一个导致类变更的原因。一个类/接口/方法只负责一项职责。
-接口隔离原则定义：用多个专门的接口，而不使用单一的总接口，客户端不应该依赖它不需要的接口。
-建立单一接口，不要建立庞大臃肿的接口；尽量细化接口，接口中的方法尽量少；
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							162
 							min read
 						</span>
 					</footer>

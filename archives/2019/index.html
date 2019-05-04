@@ -128,7 +128,7 @@
             <h1 class="site-title">
                 Archives
             </h1>
-            <h2 class="site-description">Total: 72</h2>
+            <h2 class="site-description">Total: 73</h2>
         </div>
         
         
@@ -139,6 +139,58 @@
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="Java中的深拷贝与浅拷贝" href="/2019/05/04/Java中的深拷贝与浅拷贝/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Java
+								| 
+								
+								<time datetime="2019-05-04T10:09:00.000Z" itemprop="datePublished">
+									2019-05-04
+								</time>
+							</span>
+							<h2 class="post-card-title">Java中的深拷贝与浅拷贝</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								简介
+浅拷贝：对基本数据类型进行值传递，对引用数据类型进行引用传递的拷贝。
+深拷贝：对基本数据类型进行值传递，对引用数据类型，创建一个新的对象并复制其内容，做到了真正完全的拷贝。
+
+浅拷贝实现以下场景中有两个类，一个是Parent，一个是Child：12345678910111213141516171819202122public class Parent implements Cloneable &#123;    String parentName;    Child c
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							7
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
 			
 			<article class="post-card post  no-image ">
 				
@@ -582,58 +634,6 @@ mandatory当mandatory参数设为true时，交换器无法根据自身的类型�
 						</div>
 						<span class="reading-time">
 							10
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="RabbitMQ基本概念" href="/2019/04/26/RabbitMQ基本概念/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								RabbitMQ
-								| 
-								
-								<time datetime="2019-04-26T02:12:00.000Z" itemprop="datePublished">
-									2019-04-26
-								</time>
-							</span>
-							<h2 class="post-card-title">RabbitMQ基本概念</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								基本架构RabbitMQ整体上是一个生产者-消费者模型，主要负责接收、存储和转发消息。整体架构如下：
-
-这里省略生产者、消费者等最基础的概念，主要介绍队列、交换器、路由键等。
-队列队列（Queue）是RabbitMQ的内部对象，用于存储消息。多个消费者可以订阅同一个队列，这时队列中的消息会被分摊（轮询）给多个消费者进行处理，而不是每个消费者都收到所有的消息并处理。
-交换器生产者不是直接将消息发送到队列中，而是发送给交换器（Exchange），由交换器将消息路由到一个或者多个队
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							2
 							min read
 						</span>
 					</footer>
