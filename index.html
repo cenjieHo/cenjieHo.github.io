@@ -195,6 +195,53 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
+					<a class="post-card-content-link" title="Java序列化与反序列化机制" href="/2019/05/04/Java序列化与反序列化机制/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								| 
+								
+								<time datetime="2019-05-04T14:32:41.000Z" itemprop="datePublished">
+									2019-05-04
+								</time>
+							</span>
+							<h2 class="post-card-title">Java序列化与反序列化机制</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								前言序列化是一种对象持久化的手段，使用Java对象序列化，保存对象时会将其状态保存为一组字节，在之后可以再将这些字节组装成对象。简单来说，要实现Java对象的序列化，我们只需要让被序列化类实现Serializable接口，并且使用ObjectInputStream和ObjectOutputStream进行对象的读写即可。但是，关于Java序列化和反序列化其实还有一些更深层次的特性需要了解。
+如何实现对象的序列化首先，先介绍一下如何将对象序列化并反序列化。在Java中，被序列化
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							14
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
 					<a class="post-card-content-link" title="Java中的深拷贝与浅拷贝" href="/2019/05/04/Java中的深拷贝与浅拷贝/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
@@ -581,62 +628,6 @@ ErrorError是程序无法处理的错误，表示代码运行时Java虚拟机出
 						</div>
 						<span class="reading-time">
 							12
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="Spring AOP源码笔记" href="/2019/04/30/Spring-AOP源码笔记/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								Spring
-								| 
-								
-								<time datetime="2019-04-30T03:52:00.000Z" itemprop="datePublished">
-									2019-04-30
-								</time>
-							</span>
-							<h2 class="post-card-title">Spring AOP源码笔记</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								前言本文是看了田小波博主的Spring AOP源码分析系列后自己总结整理的笔记，内容会更偏向于流程上的总结，具体源码细节并未深入研究，并且关于AOP的相关术语这里也不会再说明。
-大致流程本文将会从AOP的入口开始分析，主要涉及以下四个流程：
-
-入口分析
-筛选合适的通知器
-创建代理对象
-拦截器链的执行过程
-
-入口分析Spring是通过后置处理器BeanPostProcessor接口在init-method的前后通过切点对bean类中的方法进行匹配后织入的，这个接口是Spring
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							16
 							min read
 						</span>
 					</footer>

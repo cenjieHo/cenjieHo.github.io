@@ -145,6 +145,57 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
+					<a class="post-card-content-link" title="Java中的并发工具类" href="/2019/02/10/Java中的并发工具类/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								并发
+								| 
+								
+								<time datetime="2019-02-10T06:27:00.000Z" itemprop="datePublished">
+									2019-02-10
+								</time>
+							</span>
+							<h2 class="post-card-title">Java中的并发工具类</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								CountdownLatchCountDownLatch是一个同步工具类，它允许一个或多个线程一直等待，直到其他线程的操作执行完后再执行。例如，应用程序的主线程希望在负责启动框架服务的线程已经启动所有的框架服务之后再执行。
+
+CountDownLatch是通过一个计数器来实现的，计数器的初始值为线程的数量。每当一个线程完成了自己的任务后，计数器的值就会减1。当计数器值到达0时，它表示所有的线程已经完成了任务，然后在闭锁上等待的线程就可以恢复执行任务。例如：
+123456789
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							4
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
 					<a class="post-card-content-link" title="Java并发编程基础" href="/2019/02/09/Java并发编程基础/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
@@ -658,56 +709,6 @@ poll(time,uni
 						</div>
 						<span class="reading-time">
 							7
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="Fork/join框架分析与实战" href="/2019/02/02/Fork-join框架分析与实战/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								并发
-								| 
-								
-								<time datetime="2019-02-02T09:36:00.000Z" itemprop="datePublished">
-									2019-02-02
-								</time>
-							</span>
-							<h2 class="post-card-title">Fork/join框架分析与实战</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								简介Fork/Join框架是Java7提供了的一个用于并行执行任务的框架，是一个把大任务分割成若干个小任务，最终汇总每个小任务结果后得到大任务结果的框架。Fork就是把一个大任务切分为若干子任务并行的执行，Join就是合并这些子任务的执行结果，最后得到这个大任务的结果。
-
-工作窃取算法工作窃取算法（work-stealing）是指当一个队列所对应的线程先执行完队列中的所有任务后，从其他线程的队列里窃取一个任务来执行。为了减少竞争，通常会使用双端队列，被窃取任务线程永远从双端队
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							6
 							min read
 						</span>
 					</footer>
