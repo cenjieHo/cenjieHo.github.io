@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Java中的装箱与拆箱]]></title>
+    <url>%2F2019%2F05%2F06%2FJava%E4%B8%AD%E7%9A%84%E8%A3%85%E7%AE%B1%E4%B8%8E%E6%8B%86%E7%AE%B1%2F</url>
+    <content type="text"><![CDATA[前言自动装箱和拆箱从Java 1.5开始引入，目的是让原始类型值与对应的包装对象之间可以自动的相互转换，比如将int类型值转换成Integer对象称为装箱，反之将Integer对象转换成int类型值称为拆箱。因为这里的装箱和拆箱是自动进行的而非人为转换，所以就称为自动装箱和拆箱。 在Java中，原始类型byte、short、char、int、long、float、double、boolean分别对应的包装类为Byte、Short、Character、Integer、Long、Float、Double、Boolean。 实现原理自动装箱与拆箱其实是编译器自动为我们调用了相关方法，自动装箱是通过调用包装类的valueOf()方法实现的，而自动拆箱是通过调用包装类的xxxValue()方法实现的（xxx代表对应的基本数据类型）。 何时发生自动装箱和拆箱自动装箱和拆箱主要发生在两种情况，一种是赋值时，另一种是在方法调用时。 赋值时这是最常见的一种情况，在Java 1.5以前我们需要手动地进行转换才行，而现在所有的转换都是由编译器来完成。 1234567//before autoboxingInteger iObject = Integer.valueOf(3);Int iPrimitive = iObject.intValue()//after java5Integer iObject = 3; //autobxing - primitive to wrapper conversionint iPrimitive = iObject; //unboxing - object to primitive conversion 方法调用时这是另一个常用的情况，当我们在方法调用时，我们可以传入原始数据值或者对象，同样编译器会帮我们进行转换。 12345678public static Integer show(Integer iParam)&#123; System.out.println("autoboxing example - method invocation i: " + iParam); return iParam;&#125;//autoboxing and unboxing in method invocationshow(3); //autoboxingint result = show(3); //unboxing because return type of method is Integer show方法接受Integer对象作为参数，当调用show(3)时，会将int值转换成对应的Integer对象，这就是所谓的自动装箱，show方法返回Integer对象，而int result = show(3);中result为int类型，所以这时候发生自动拆箱操作，将show方法的返回的Integer对象转换成int值。 需要注意的问题自动装箱与拆箱虽然为我们省下了很多不必要的工作，使代码更加简洁清晰，但是如果使用不当，则会引起性能问题。 循环中的自动装箱自动装箱有一个问题，那就是在一个循环中进行自动装箱操作的情况，如下面的例子就会创建多余的对象，影响程序的性能： 1234Integer sum = 0; for(int i=1000; i&lt;5000; i++)&#123; sum+=i;&#125; 上面的代码sum+=i可以看成sum = sum + i，但是+这个操作符不适用于Integer对象，首先sum进行自动拆箱操作，进行数值相加操作，最后发生自动装箱操作转换成Integer对象。其内部变化如下：12int result = sum.intValue() + i;Integer sum = Integer.valueOf(result); 由于我们这里声明的sum为Integer类型，在上面的循环中会创建将近4000个无用的Integer对象，在这样庞大的循环中，会降低程序的性能并且加重了垃圾回收的工作量。因此在我们编程时，需要注意到这一点，正确地声明变量类型，避免因为自动装箱引起的性能问题。 对象和原始类型值的比较包装类对象和原始类型值的比较是很容易出错的一个地方，需要注意的是，==可以用于原始值的比较，也可以用于对象的比较，但是用于对象之间的比较时，比较的不是对象代表的值，而是检查两个对象是否是同一对象。而当其中一个操作数是原始类型值或算术运算时，则比较的是数值（触发自动拆箱）。以下几个例子基本可以涵盖所有情况：123456789101112131415161718192021public class Main &#123; public static void main(String[] args) &#123; Integer a = 1; Integer b = 2; Integer c = 3; Integer d = 3; Integer e = 321; Integer f = 321; Long g = 3L; Long h = 2L; System.out.println(c==d); // 比较对象是否为同一个，因为 Integer 会缓存-128~127之间的对象 System.out.println(e==f); // 比较对象是否为同一个，数值在缓存之外 System.out.println(c==(a+b)); // a+b运算触发自动拆箱，之后数值比较 System.out.println(c.equals(a+b)); // a+b运算触发自动拆箱，之后自动装箱 System.out.println(g==(a+b)); // a+b运算触发自动拆箱，之后数值比较 System.out.println(g.equals(a+b)); // a+b运算触发自动拆箱，之后自动装箱，由于不是同一类型，equals() 返回 false System.out.println(g.equals(a+h)); // a+h运算触发自动拆箱，int类型晋升为long，之后自动装箱为Long，equals() 返回 true &#125;&#125; 其运行结果如下：1234567truefalsetruetruetruefalsetrue 参考资料 Java中的自动装箱与拆箱 深入剖析Java中的装箱和拆箱]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[InnoDB的MVCC实现原理]]></title>
     <url>%2F2019%2F05%2F05%2FInnoDB%E7%9A%84MVCC%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%2F</url>
     <content type="text"><![CDATA[锁的种类在数据库中经常能听到各种各样的锁，比如说悲观锁、乐观锁、行锁、表锁等等，但实际上前两者是从思想上进行划分的，而后两者是从锁粒度上进行划分的，真正的锁有共享锁和排他锁，也就是常说的读锁（S锁）和写锁（X锁）。 封锁协议在运用X锁和S锁对数据对象进行加锁时，还需要约定一些规则，例如何时申请X锁或S锁、持锁时间、何时释放等，这些规则称为封锁协议，对封锁方式规定不同的规则，就形成了各种不同的封锁协议。 一级封锁协议一级封锁协议即事务在修改某行数据时必须先对其加X锁，直到事务结束才释放，事务结束包括正常结束（COMMIT）和非正常结束（ROLLBACK）。一级封锁协议可以防止丢失修改，因为此时别的事务要想修改该数据将会阻塞到对方释放X锁，但如果仅仅是读数据不对其进行修改，是不需要加锁的，也就不能保证可重复读和脏读问题。 二级封锁协议二级封锁协议即在一级封锁协议的基础上，事务读取某数据之前必须先对其加S锁，读完后即可释放S锁。二级封锁协议除了防止丢失修改，还可以进一步防止脏读问题，但在二级封锁协议中，由于读完数据后即可释放S锁，所以它不能保证可重复读。 三级封锁协议三级封锁协议即在一级封锁协议的基础上，事务读取某数据之前必须先对其加S锁，直到事务结束才释放。三级封锁协议除了防止丢失修改和脏读问题以外，还进一步防止了不可重复读。 两段锁协议一次性锁协议指的是在事务开始时，一次性申请所有的锁，之后不会再申请任何锁，如果其中某个锁不可用，则整个申请就不成功，事务就不会执行，一次性释放所有的锁。一次性锁协议不会产生死锁的问题，但事务的并发度不高。 数据库遵循的是两段锁协议，将事务分成两个阶段，加锁阶段和解锁阶段（所以叫两段锁）： 加锁阶段：事务只能加锁，也可以操作数据，但不能解锁，直到事务释放第一个锁，就进入解锁阶段 解锁阶段：事务只能解锁，也可以操作数据，但不能加锁 两段锁协议使得事务具有较高的并发度，但是没有解决死锁的问题，因为它在加锁阶段没有顺序要求，如两个事务分别申请了A、B锁，接着又申请了对方的锁，此时进入死锁状态。 多版本并发控制（MVCC）InnoDB采用的是两段锁协议，开始时不断加锁，最后COMMIT或ROLLBACK时一次性释放所有锁，实质上是一种悲观并发控制，而在实际场景下更多都是读多写少的情况，此时悲观的方式会降低系统的并发性能。为了提高并发性能，InnoDB同时实现了MVCC，不再单纯的使用行锁来进行数据库的并发控制，取而代之的是把数据库的行锁与行的多个版本结合起来，只需要很小的开销，就可以实现非锁定读，从而大大提高数据库系统的并发性能。 redo/undo log为了支持事务，InnoDB实现了redo log与undo log： redo log：保存执行的sql语句到一个指定的log文件，当MySQL执行recovery时重新执行redo log记录的sql操作即可，当客户端执行每条sql时，redo log首先会被写入log buffer，当客户端执行COMMIT时，log buffer中的内容会被视情况刷新到磁盘。redo log在磁盘上作为一个独立的文件存在，即InnoDB的log文件。 undo log：与redo log相反，undo log是为回滚而用，把该行修改前的值copy到undo buffer，在适合的时间把undo buffer中的内容刷新到磁盘。与redo log不同的是，磁盘上不存在单独的undo log文件，所有的undo log均存放在.ibd数据文件中。 隐藏字段在MySQL中，InnoDB为每行记录都实现了三个隐藏字段： 6字节的DB_TRX_ID：事务ID，每处理一个事务，其值自动+1 7字节的DATA_ROLL_PTR：回滚指针，指向该行修改前的上一个历史版本 6字节的DB_ROW_ID：如果表中没有显示定义主键或者没有唯一非空索引时InnoDB会自动创建 当插入一条新数据时，记录上对应的回滚指针为null： 更新记录时，原记录将被放入到undo log中，并通过DATA_ROLL_PT指向该记录： MySQL就是根据记录上的回滚指针及事务ID判断记录是否可见，如果不可见则按照DATA_ROLL_PT继续回溯查找。 通过read view判断行记录是否可见) 相关源码如下：1234567891011121314151617181920bool changes_visible(trx_id_t id,const table_name_t&amp; name) constMY_ATTRIBUTE((warn_unused_result))&#123;ut_ad(id &gt; 0);//如果ID小于Read View中最小的, 则这条记录是可以看到。说明这条记录是在select这个事务开始之前就结束的if (id &lt; m_up_limit_id || id == m_creator_trx_id) &#123;return(true);&#125;check_trx_id_sanity(id, name);//如果比Read View中最大的还要大，则说明这条记录是在事务开始之后进行修改的，所以此条记录不应查看到if (id &gt;= m_low_limit_id) &#123;return(false);&#125; else if (m_ids.empty()) &#123;return(true);&#125;const ids_t::value_type* p = m_ids.data();return(!std::binary_search(p, p + m_ids.size(), id)); //判断是否在Read View中， 如果在说明在创建Read View时 此条记录还处于活跃状态则不应该查询到，否则说明创建Read View是此条记录已经是不活跃状态则可以查询到&#125; 这里需要注意的是，InnoDB的MVCC仅针对RR和RC这两种隔离级别而言。对于Read Uncommitted，由于读取到的总是最新的数据，不管该记录是否已经提交，因此不会遍历版本链，也就不需要MVCC；而对于Serializable级别，使用的仍是悲观并发控制，读加共享锁，写加排他锁，读写相互阻塞。而对于RR和RC级别，它们对于MVCC的可见性实现也是不同的： RC：事务内的每个查询语句都会重新创建read view，这样就会产生不可重复读的现象发生 RR：事务开始时创建read view，直到事务结束的这段时间内每一次查询都不会重建read view，从而实现了可重复读 总结MVCC是一种用来解决读-写冲突的无锁并发控制机制，它所支持的RR和RC两种隔离级别，读写之间不会被阻塞，大大提高了并发性能。InnoDB实现的四种隔离级别，总体就是通过MVCC+2PL实现的。 参考资料 MVCC原理探究及MySQL源码实现分析 【mysql】关于innodb中MVCC的一些理解 Innodb中的事务隔离级别和锁的关系 乐观锁和 MVCC 的区别？ MySQL 是如何实现四大隔离级别的？ 两阶段锁协议]]></content>
@@ -38,7 +46,7 @@
       </categories>
       <tags>
         <tag>JDK</tag>
-        <tag>源码阅读</tag>
+        <tag>源码分析</tag>
         <tag>StringBuilder</tag>
         <tag>StringBuffer</tag>
       </tags>
@@ -293,7 +301,6 @@
       </categories>
       <tags>
         <tag>HTTPS</tag>
-        <tag>TLS</tag>
       </tags>
   </entry>
   <entry>
@@ -602,8 +609,8 @@
       </categories>
       <tags>
         <tag>算法</tag>
-        <tag>查找</tag>
         <tag>B树</tag>
+        <tag>查找</tag>
       </tags>
   </entry>
   <entry>
@@ -865,11 +872,6 @@
       <categories>
         <category>Github</category>
       </categories>
-      <tags>
-        <tag>README</tag>
-        <tag>markdown</tag>
-        <tag>Github</tag>
-      </tags>
   </entry>
   <entry>
     <title><![CDATA[Welcome To My Blog]]></title>
