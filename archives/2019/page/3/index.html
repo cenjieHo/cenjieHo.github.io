@@ -128,7 +128,7 @@
             <h1 class="site-title">
                 Archives
             </h1>
-            <h2 class="site-description">Total: 76</h2>
+            <h2 class="site-description">Total: 77</h2>
         </div>
         
         
@@ -139,6 +139,57 @@
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="Redis Cluster" href="/2019/03/31/Redis-Cluster/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Redis
+								| 
+								
+								<time datetime="2019-03-31T05:21:00.000Z" itemprop="datePublished">
+									2019-03-31
+								</time>
+							</span>
+							<h2 class="post-card-title">Redis Cluster</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								Redis Cluster作用Redis Cluster是Redis 3.0开始引入的分布式存储方案，集群由多个节点组成，Redis的数据分布在这些节点中。集群中的节点分为主节点和从节点：只有主节点负责读写请求和集群信息的维护，从节点只进行主节点数据和状态信息的复制。集群的作用，可以归纳为两点：
+
+数据分片：集群将数据分散到多个节点，突破了Redis单机内存大小的限制，存储容量大大增加。
+高可用：集群支持主从复制和主节点的自动故障转移（与哨兵类似），当任一节点发生故障时，集群
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							8
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
 			
 			<article class="post-card post  no-image ">
 				
@@ -626,56 +677,6 @@ InnoDB不保存表的具体行数，执行select count(*) from table时需要全
 						</div>
 						<span class="reading-time">
 							3
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="多线程断点续传下载器" href="/2019/02/12/多线程断点续传下载器/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								项目
-								| 
-								
-								<time datetime="2019-02-12T08:58:00.000Z" itemprop="datePublished">
-									2019-02-12
-								</time>
-							</span>
-							<h2 class="post-card-title">多线程断点续传下载器</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								最近在研究多线程的断点续传下载。断点续传的原理其实很简单，就是在下载时将下载进度保存到一个临时文件中，如果下载过程遇到什么意外中断了，下次下载同一个文件时就可以从临时文件中读取到上次下载发生中断时的进度，然后从这个进度开始继续下载。
-
-要使用断点续传下载首先要判断服务器是否支持范围请求，假如在响应中存在Accept-Ranges首部并且它的值不为 none，那么表示该服务器支持范围请求。通常情况下Web服务器会默认开启对范围请求的支持，我们只需要在请求头中加入Range首部来
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							21
 							min read
 						</span>
 					</footer>
