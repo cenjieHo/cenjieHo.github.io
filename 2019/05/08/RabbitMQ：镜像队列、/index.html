@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+
+
+
+
+
+
+<head>
+	
+	
+	<link rel="stylesheet" href="/css/allinone.min.css">
+
+	
+	<!-- Global Site Tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXXX-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-XXXXXXXXXX-1');
+	</script>
+	
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>RabbitMQ：流控与镜像队列 | 水木今山的博客</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="水木今山">
+	<meta name="description" content="">
+
+	
+	<meta name="keywords" content="">
+	
+
+	
+	<link rel="shortcut icon" href="/images/avator2.png">
+	<link rel="apple-touch-icon" href="/images/avator2.png">
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="水木今山的博客">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="RabbitMQ：流控与镜像队列 | 水木今山的博客">
+	<meta property="og:description" content="">
+	<meta property="og:url" content="http://yoursite.com/2019/05/08/RabbitMQ：镜像队列、/">
+
+	
+	<meta property="article:published_time" content="2019-05-08T18:05:00+08:00"> 
+	<meta property="article:author" content="水木今山">
+	<meta property="article:published_first" content="水木今山的博客, /2019/05/08/RabbitMQ：镜像队列、/">
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header outer" style="z-index: 999">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/column" title="STACK">STACK</a>
+            </li>
+            
+            <li>
+                <a href="https://portal.qiniu.com/bucket/default/resource" title="PICS">PICS</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button">
+        <a href="#search" class="subscribe-button" style="margin: 0 10px;">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="subscribe-button" style="margin: 0 10px;">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/cenjieHo" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <section class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2019-05-08T10:08:45.000Z" itemprop="datePublished">
+                    2019-05-8
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                
+            </section>
+            <h1 class="post-full-title">RabbitMQ：流控与镜像队列</h1>
+        </header>
+        <article class="post-full no-image">
+            
+            <section class="post-full-content">
+                <div id="lightgallery" class="markdown-body">
+                    <p>[toc]</p>
+<h2 id="队列的结构"><a href="#队列的结构" class="headerlink" title="队列的结构"></a>队列的结构</h2><p>通常队列由<code>rabbit_amqqueue_process</code>和<code>backing_queue</code>两部分组成，前者负责协议相关的消息处理，即接受生产者发布的消息、向消费者交付消息、处理消息的确认（包括生产端的<code>confirm</code>和消费端的<code>ack</code>）等。<code>backing_queue</code>是消息存储的具体形式和引擎，并向<code>rabbit_amqqueue_process</code>提供相关的接口以供调用。</p>
+<h3 id="四种状态"><a href="#四种状态" class="headerlink" title="四种状态"></a>四种状态</h3><p>如果消息投递的目的队列是空的，并且有消费者订阅了这个队列，那么该消息会直接发送给消费者，不会经过队列这一步。而当消息无法直接投递给消费者时，需要暂时将消息存入队列，以便重新投递。消息存入队列后，不是固定不变的，它会随着系统的负载在队列中不断地流动，消息的状态会不断发生变化。RabbitMQ中的队列消息可能会处于以下四种状态：</p>
+<ul>
+<li>alpha：消息内容（包括消息体、属性和headers）和消息索引都存储在内存中</li>
+<li>beta：消息内容保存在磁盘中，消息索引保存在内存中</li>
+<li>gamma：消息内容保存在磁盘中，消息索引在磁盘和内存中都有</li>
+<li>delta：消息内容和索引都在磁盘中</li>
+</ul>
+<p>其中，gamma状态的消息是只有持久化的消息才会有的状态。</p>
+<p>RabbitMQ在运行时会根据统计的消息传送速率定期计算一个当前内存中能够保存的最大消息数量，如果alpha状态的消息数量大于此值时，就会引起消息的状态转换，多余的消息可能会转换到beta、gamma或者delta状态。其中，delta状态需要执行两次I/O操作才能读取到消息，一次是读消息索引，一次是读消息内容；而对于beta和gamma状态都只需要一次I/O操作就可以读取到消息。</p>
+<p>对于普通的没有设置优先级和镜像的队列来说，<code>backing_queue</code>内部通过5个子队列Q1、Q2、Delta、Q3和Q4来体现消息的各个状态，其中Q1、Q4只包含alpha状态的消息，Q2、Q3包含beta和gamma状态的消息，Delta只包含delta状态的消息，一般情况下，消息按照Q1-&gt;Q2-&gt;Delta-&gt;Q3-&gt;Q4这样的顺序步骤进行流动。如图：<br><img alt="" class="post-img b-lazy" href="http://blog.designpattern.nanwulife.com/G7FVm50dZ65bV06ppeVXQM8AIizdmM8JWHqfUFiQwNoF=1544076799852compressflag.png" data-src="http://blog.designpattern.nanwulife.com/G7FVm50dZ65bV06ppeVXQM8AIizdmM8JWHqfUFiQwNoF=1544076799852compressflag.png"></p>
+<p>从Q1到Q4基本经历了内存到磁盘，再从磁盘到内存的过程，如此可以在队列负载很高的情况下，能够通过将一部分消息由磁盘保存来节省内存空间，而在负载降低的时候，这部分消息又渐渐回到内存被消费者获取，使得整个队列具有很好的弹性。</p>
+<p>通常在负载正常时，如果消息被消费的速度不小于接受新消息的速度，对于非持久化的消息，通常只会处于alpha状态，而对于持久化的消息，一定会进入gamma状态，并且在开启生产端确认机制时，只有到了gamma状态时才会确认该消息已被接收，若消息消费速度足够快、内存也充足，这些消息也不会继续走到下一个状态。</p>
+<p>在系统负载较高时，这些消息若不能很快的被消费掉，就会进入到很深的队列中去，这样会增加处理每个消息的平均开销，因为要花更多的时间和资源处理堆积的消息，如此用来处理新流入的消息的能力就会降低，导致恶性循环。应对这一问题，RabbitMQ有一套流控机制，在下文会介绍。</p>
+<h3 id="惰性队列"><a href="#惰性队列" class="headerlink" title="惰性队列"></a>惰性队列</h3><p>队列具有两种模式，一个是<code>default</code>，一个是<code>lazy</code>。默认情况下，当生产者将消息发送到RabbitMQ中的时候，队列中的消息会尽可能地存储在内存之中，这样可以更加快速地将消息发送给消费者。当RabbitMQ需要释放内存时，将消息换入磁盘会耗费较长时间，也会阻塞队列的操作，进而无法接受新的消息。</p>
+<p>RabbitMQ从3.6.0版本开始引入了惰性队列的概念，即将接受到的消息直接存入文件系统中，而在消费者消费到相应的消息时才会被加载到内存中，它的一个重要的设计目标是能够支持更长的队列，即支持更多的消息存储。惰性队列虽然减少了内存的消耗，但是增加了I/O的使用，因此对于持久化的消息，本身就不可避免磁盘I/O，使用惰性队列是较佳的选择。要注意的是，如果惰性队列中存储的是非持久化的消息，重启之后消息一样会丢失。</p>
+<h2 id="内存及磁盘告警"><a href="#内存及磁盘告警" class="headerlink" title="内存及磁盘告警"></a>内存及磁盘告警</h2><p>当内存使用超过配置的阈值或者磁盘剩余空间低于配置的阈值时，RabbitMQ会暂时阻塞客户端的连接并停止接收从客户端发来的消息。被阻塞的Connection的状态要么是blocking，要么是blocked，前者对应于并不试图发送消息的Connection，后者对应于一直有消息发送的Connection，这种状态下的Connection会被停止发送消息。注意在一个集群中，如果一个Broker节点的内存或者磁盘受限，都会引起整个集群中所有的Connection被阻塞。</p>
+<h3 id="内存告警"><a href="#内存告警" class="headerlink" title="内存告警"></a>内存告警</h3><p>默认情况下内存阈值为0.4，表示当RabbitMQ使用的内存超过40%时，会产生内存告警并阻塞所有生产者的连接。一旦告警被解除（有消息被消费或者从内存转储到磁盘等情况的发生），一切都会恢复正常。</p>
+<p>在某个Broker快达到内存阈值时，会先尝试将队列中的消息换页到磁盘以释放内存空间。默认情况下，在内存到达内存阈值的50%时会进行换页动作。</p>
+<h3 id="磁盘告警"><a href="#磁盘告警" class="headerlink" title="磁盘告警"></a>磁盘告警</h3><p>当剩余磁盘空间低于确定的阈值时，RabbitMQ同样会阻塞生产者，这样可以避免因非持久化的消息持续换页而耗尽磁盘空间导致服务崩溃。默认情况下，磁盘阈值为50MB。RabbitMQ会定期检测磁盘剩余空间，检测的频率与上一次执行检测到的磁盘剩余空间大小有关，随着磁盘剩余空间与磁盘阈值的接近，检测频率会有所增加。</p>
+<h2 id="流控"><a href="#流控" class="headerlink" title="流控"></a>流控</h2><p>当RabbitMQ出现内存或者磁盘资源达到阈值时，会触发流控机制，阻塞生产者的Connection，让生产者不能继续发送消息，直到内存或者磁盘资源得到释放。RabbitMQ基于Erlang开发，一个消息的生命周期中，会涉及多个进程间的转发，这些Erlang进程之间不共享内存，每个进程都有自己独立的内存空间，如果没有合适的流控机制，可能会导致某个进程占用内存过大，导致OOM。因此，要保证各个进程占用的内容在一个合理的范围。</p>
+<p>RabbitMQ的流控机制的原理实质上就是通过监控各进程的mailbox，当某个进程负载过高来不及接收消息时，这个进程的mailbox就会开始堆积消息，当堆积到一定量时，就会阻塞住上游进程让其不得接收新消息，从而慢慢上游进程的mailbox也会开始积压消息，到了一定的量也会阻塞上游的上游的进程，最后就会使得负责网络数据包接收的进程阻塞掉，暂停接收数据。</p>
+<p>从Connection到Channel到队列再到消息持久化存储形成了一个完整的流控链：<br><img alt="" class="post-img b-lazy" href="http://blog.designpattern.nanwulife.com/7415a593-fa83-383b-869c-42659884dd1b.jpg" data-src="http://blog.designpattern.nanwulife.com/7415a593-fa83-383b-869c-42659884dd1b.jpg"></p>
+<p>其中的各个进程如下所述：</p>
+<ul>
+<li>rabbit_reader：Connection的处理进程，负责接收、解析AMQP协议数据包等</li>
+<li>rabbit_channel：Channel的处理进程，负责处理AMQP协议的各种方法、进行路由解析等</li>
+<li>rabbit_amqqueue_process：队列的处理进程，负责实现队列的所有逻辑</li>
+<li>rabbit_msg_store：负责实现消息的持久化</li>
+</ul>
+<p>对于处于整个流控链中的任意进程，只要该进程阻塞，上游的进程必定全部被阻塞。也就是说，如果某个进程达到性能瓶颈，必然会导致上游所有的进程被阻塞。所以我们可以利用流控机制的这个特点找出瓶颈所在。</p>
+<p>一个Connection触发流控时会处于<code>flow</code>的状态，也就意味着这个Connection的状态每秒在<code>blocked</code>和<code>unblocked</code>之间来回切换数次，这样可以将消息发送的速率控制在服务器能够支撑的范围之内。</p>
+<h2 id="镜像队列"><a href="#镜像队列" class="headerlink" title="镜像队列"></a>镜像队列</h2><p>RabbitMQ的集群在默认模式下，队列实例只存在于一个节点上，既不能保证该节点崩溃的情况下队列还可以继续运行，也不能线性扩展该队列的吞吐量。虽然RabbitMQ的队列实际只会在一个节点上，但元数据可以存在于各个节点上。举个例子来说，当创建一个新的交换器时，RabbitMQ会把该信息同步到所有节点上，这个时候客户端不管连接到哪个RabbitMQ节点，都可以访问到这个新的交换器，也就能找到交换器下的队列：</p>
+<p><img alt="" class="post-img b-lazy" href="http://blog.designpattern.nanwulife.com/OFqjExcshZpj=tsMaQJXIBApa06sCdts0=91EuBoQhpl31544076799852compressflag.png" data-src="http://blog.designpattern.nanwulife.com/OFqjExcshZpj=tsMaQJXIBApa06sCdts0=91EuBoQhpl31544076799852compressflag.png"></p>
+<p>RabbitMQ内部的元数据主要有：</p>
+<ol>
+<li>队列元数据：队列名称和属性</li>
+<li>交换器元数据：交换器名称，类型和属性</li>
+<li>绑定元数据：路由信息</li>
+</ol>
+<p>尽管交换器和绑定关系能够在单点故障问题上幸免于难，但是队列和其上存储的消息却不行，它们仅存在于单个节点上。引入镜像队列的机制，可以将队列镜像到集群中的其它Broker节点之上，如果集群中的一个节点失效了，队列能够自动地切换到镜像中的另一个节点上以保证服务的可用性。通常情况下，针对每一个配置镜像的队列都包含一个主拷贝和若干个从拷贝，相应架构如下：</p>
+<p><img alt="" class="post-img b-lazy" href="http://blog.designpattern.nanwulife.com/0JeBkrdwK7qUqTzySTsBegsoe6Bhg9PiMa3HYIMFSnPGQ1544076799852compressflag.png" data-src="http://blog.designpattern.nanwulife.com/0JeBkrdwK7qUqTzySTsBegsoe6Bhg9PiMa3HYIMFSnPGQ1544076799852compressflag.png"></p>
+<p>除了发送消息外的所有动作都只会向主拷贝发送，然后再由主拷贝将命令执行的结果广播给各个从拷贝，从拷贝实际只是个冷备（默认的情况下所有RabbitMQ节点上都会有镜像队列的拷贝），如果使用消息确认模式，RabbitMQ会在主拷贝和从拷贝都安全的接受到消息时才通知生产者。从这个结构上来看，如果从拷贝的节点挂了，实际没有任何影响，如果主拷贝挂了，那么会有一个重新选举的过程，这也是镜像队列的优点，除非所有节点都挂了，才会导致消息丢失。重新选举后，RabbitMQ会给消费者一个消费者取消通知（Consumer Cancellation），让消费者重连新的主拷贝。</p>
+<h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>不同于普通的非镜像队列，镜像队列的实现结构如下：<br><img alt="" class="post-img b-lazy" href="http://blog.designpattern.nanwulife.com/8=93STeAbnCfJrE7VLgGxEOr1IDyCPEUR8Lb8jY1F6IiF1544076799852compressflag.png" data-src="http://blog.designpattern.nanwulife.com/8=93STeAbnCfJrE7VLgGxEOr1IDyCPEUR8Lb8jY1F6IiF1544076799852compressflag.png"></p>
+<p>所有对镜像队列主拷贝的操作，都会通过GM同步到各个slave节点，Coodinator负责组播结果的确认。GM是一种可靠的组播通信协议，该协议能够保证组播消息的原子性，即保证组内的存活节点要么都收到消息要么都收不到。</p>
+<p>GM的组播并不是由master来负责通知所有slave的（目的是为了避免master压力过大，同时避免master失效导致消息无法最终ack)，RabbitMQ把所有节点组成一个链表，每个节点都会监控位于自己左右两边的节点，当有节点新增时，相邻的节点保证当前广播的消息会复制到新节点上；当有节点失效时，相邻的节点会接管以保证本次广播的消息会复制到所有的节点。操作命令由master发起，也由master最终确认通知到了所有的slave，而中间过程则由slave接力的方式进行消息传播。</p>
+<p><img alt="" class="post-img b-lazy" href="http://blog.designpattern.nanwulife.com/WUD5eU3KpIo3rCJZti5tw1TvD0yeQMZYCnHvQ6i5fXoCb1544076799853compressflag.png" data-src="http://blog.designpattern.nanwulife.com/WUD5eU3KpIo3rCJZti5tw1TvD0yeQMZYCnHvQ6i5fXoCb1544076799853compressflag.png"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li>RabbitMQ实战指南. 朱忠华</li>
+<li><a href="https://sq.163yun.com/blog/article/229026816937607168" target="_blank" rel="noopener">深入理解：RabbitMQ的前世今生</a></li>
+<li><a href="https://ybbct.iteye.com/blog/1562326" target="_blank" rel="noopener">通过流控机制分析rabbitmq性能（持久化）瓶颈</a></li>
+</ul>
+
+                </div>
+            </section>
+        </article>
+    </div>
+
+    
+    <div style="height: 4vw;width: 100%"></div>
+    <nav id="gobottom" class="pagination">
+        
+        <a class="prev-post" title="ThreadLocal源码分析" href="/2019/05/11/ThreadLocal源码分析/">
+            ← ThreadLocal源码分析
+        </a>
+        
+        <span class="prev-next-post">•</span>
+        
+        <a class="next-post" title="Java8新特性" href="/2019/05/06/Java-8新特性/">
+            Java8新特性 →
+        </a>
+        
+    </nav>
+
+    
+</main>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#队列的结构"><span class="toc-text">队列的结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#四种状态"><span class="toc-text">四种状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#惰性队列"><span class="toc-text">惰性队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存及磁盘告警"><span class="toc-text">内存及磁盘告警</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#内存告警"><span class="toc-text">内存告警</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#磁盘告警"><span class="toc-text">磁盘告警</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控"><span class="toc-text">流控</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#镜像队列"><span class="toc-text">镜像队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现原理"><span class="toc-text">实现原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+    </div>
+</div>
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(/images/pexels-photo-325185.jpeg)">
+	<header class="read-next-card-header" style="padding-bottom: 20px">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/AOP/" style="font-size: 15.11px;">AOP</a> <a href="/tags/AQS/" style="font-size: 15.11px;">AQS</a> <a href="/tags/ArrayList/" style="font-size: 14px;">ArrayList</a> <a href="/tags/BST/" style="font-size: 14px;">BST</a> <a href="/tags/B树/" style="font-size: 14px;">B树</a> <a href="/tags/CGLIB/" style="font-size: 14px;">CGLIB</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 14px;">ConcurrentHashMap</a> <a href="/tags/CountDownLatch/" style="font-size: 14px;">CountDownLatch</a> <a href="/tags/CyclicBarrier/" style="font-size: 14px;">CyclicBarrier</a> <a href="/tags/Dijkstra/" style="font-size: 14px;">Dijkstra</a> <a href="/tags/Executor/" style="font-size: 15.11px;">Executor</a> <a href="/tags/Fork-join/" style="font-size: 14px;">Fork/join</a> <a href="/tags/HTTPS/" style="font-size: 14px;">HTTPS</a> <a href="/tags/HashMap/" style="font-size: 15.11px;">HashMap</a> <a href="/tags/IO/" style="font-size: 14px;">IO</a> <a href="/tags/IOC/" style="font-size: 14px;">IOC</a> <a href="/tags/InnoDB/" style="font-size: 15.11px;">InnoDB</a> <a href="/tags/JDK/" style="font-size: 19.56px;">JDK</a> <a href="/tags/JUC/" style="font-size: 16.22px;">JUC</a> <a href="/tags/JVM/" style="font-size: 16.22px;">JVM</a> <a href="/tags/LinkedList/" style="font-size: 14px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/MVCC/" style="font-size: 14px;">MVCC</a> <a href="/tags/MyISAM/" style="font-size: 14px;">MyISAM</a> <a href="/tags/MySQL/" style="font-size: 17.33px;">MySQL</a> <a href="/tags/NIO/" style="font-size: 14px;">NIO</a> <a href="/tags/RabbitMQ/" style="font-size: 15.11px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 20.67px;">Redis</a> <a href="/tags/ReentrantLock/" style="font-size: 14px;">ReentrantLock</a> <a href="/tags/Spring/" style="font-size: 15.11px;">Spring</a> <a href="/tags/String/" style="font-size: 14px;">String</a> <a href="/tags/StringBuffer/" style="font-size: 14px;">StringBuffer</a> <a href="/tags/StringBuilder/" style="font-size: 14px;">StringBuilder</a> <a href="/tags/ThreadLocal/" style="font-size: 14px;">ThreadLocal</a> <a href="/tags/WSN/" style="font-size: 14px;">WSN</a> <a href="/tags/Zookeeper/" style="font-size: 14px;">Zookeeper</a> <a href="/tags/final/" style="font-size: 14px;">final</a> <a href="/tags/happens-before/" style="font-size: 14px;">happens-before</a> <a href="/tags/hello/" style="font-size: 14px;">hello</a> <a href="/tags/synchronized/" style="font-size: 14px;">synchronized</a> <a href="/tags/volatile/" style="font-size: 14px;">volatile</a> <a href="/tags/事务/" style="font-size: 14px;">事务</a> <a href="/tags/内存模型/" style="font-size: 14px;">内存模型</a> <a href="/tags/分布式锁/" style="font-size: 14px;">分布式锁</a> <a href="/tags/动态代理/" style="font-size: 14px;">动态代理</a> <a href="/tags/同步/" style="font-size: 14px;">同步</a> <a href="/tags/垃圾收集/" style="font-size: 14px;">垃圾收集</a> <a href="/tags/多线程/" style="font-size: 14px;">多线程</a> <a href="/tags/封锁协议/" style="font-size: 14px;">封锁协议</a> <a href="/tags/并发/" style="font-size: 21.78px;">并发</a> <a href="/tags/排序/" style="font-size: 17.33px;">排序</a> <a href="/tags/操作系统/" style="font-size: 18.44px;">操作系统</a> <a href="/tags/操作系统/" style="font-size: 14px;">操作系统 </a> <a href="/tags/支付宝/" style="font-size: 14px;">支付宝</a> <a href="/tags/断点续传/" style="font-size: 14px;">断点续传</a> <a href="/tags/杂谈/" style="font-size: 14px;">杂谈</a> <a href="/tags/查找/" style="font-size: 18.44px;">查找</a> <a href="/tags/树的遍历/" style="font-size: 14px;">树的遍历</a> <a href="/tags/死锁/" style="font-size: 14px;">死锁</a> <a href="/tags/消息队列/" style="font-size: 15.11px;">消息队列</a> <a href="/tags/源码分析/" style="font-size: 24px;">源码分析</a> <a href="/tags/算法/" style="font-size: 22.89px;">算法</a> <a href="/tags/索引/" style="font-size: 14px;">索引</a> <a href="/tags/红黑树/" style="font-size: 14px;">红黑树</a> <a href="/tags/线程池/" style="font-size: 15.11px;">线程池</a> <a href="/tags/范式/" style="font-size: 14px;">范式</a> <a href="/tags/设计模式/" style="font-size: 14px;">设计模式</a> <a href="/tags/进程/" style="font-size: 14px;">进程</a> <a href="/tags/锁/" style="font-size: 15.11px;">锁</a> <a href="/tags/项目/" style="font-size: 15.11px;">项目</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay subscribe-overlay">
+    <div class="search-form">
+        
+        <img class="search-overlay-logo" src="/images/avator2.png" alt="水木今山的博客">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<section class="copyright">
+			<a href="/" title="水木今山的博客">水木今山的博客</a>
+			&copy; 2019
+		</section>
+		<nav class="site-footer-nav">
+			
+            <a href="https://hexo.io" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+            <a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+        </nav>
+    </div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations()
+        .then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister();
+            }
+        });
+    }
+</script>
+
+
+
+
+
+
+
+<div class="floating-header">
+	<div class="floating-header-logo">
+        <a href="/" title="水木今山的博客">
+			
+                <img src="/images/avator2.png" alt="水木今山的博客 icon">
+			
+            <span>水木今山的博客</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">RabbitMQ：流控与镜像队列</div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+
+
+
+<script src="/js/mix/post-lazy-local.min.js"></script>
+
+<script>;(function() {var bLazy = new Blazy()})();</script>
+
+
+
+
+<script src="/js/lightgallery.min.js"></script>
+<link rel="stylesheet" href="/css/lightgallery.min.css">
+<script>
+    lightGallery(document.getElementById('lightgallery'), {
+        selector: '.post-img'
+    });
+</script>
+
+
+
+
+
+
+
+
+
+<script>searchFunc("/")</script>
+
+
+
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    console.log("this theme is from https://github.com/xzhih/hexo-theme-casper")
+</script>
+
+</body>
+</html>
