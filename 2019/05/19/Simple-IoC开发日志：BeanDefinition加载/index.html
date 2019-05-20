@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+
+
+
+
+
+
+<head>
+	
+	
+	<link rel="stylesheet" href="/css/allinone.min.css">
+
+	
+	<!-- Global Site Tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXXX-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-XXXXXXXXXX-1');
+	</script>
+	
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>Simple IoC开发日志：注册BeanDefinitions | 水木今山的博客</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="水木今山">
+	<meta name="description" content="">
+
+	
+	<meta name="keywords" content="">
+	
+
+	
+	<link rel="shortcut icon" href="/images/avator2.png">
+	<link rel="apple-touch-icon" href="/images/avator2.png">
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="水木今山的博客">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Simple IoC开发日志：注册BeanDefinitions | 水木今山的博客">
+	<meta property="og:description" content="">
+	<meta property="og:url" content="http://yoursite.com/2019/05/19/Simple-IoC开发日志：BeanDefinition加载/">
+
+	
+	<meta property="article:published_time" content="2019-05-19T22:05:00+08:00"> 
+	<meta property="article:author" content="水木今山">
+	<meta property="article:published_first" content="水木今山的博客, /2019/05/19/Simple-IoC开发日志：BeanDefinition加载/">
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header outer" style="z-index: 999">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/column" title="STACK">STACK</a>
+            </li>
+            
+            <li>
+                <a href="https://portal.qiniu.com/bucket/default/resource" title="PICS">PICS</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button">
+        <a href="#search" class="subscribe-button" style="margin: 0 10px;">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="subscribe-button" style="margin: 0 10px;">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/cenjieHo" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <section class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2019-05-19T14:29:00.000Z" itemprop="datePublished">
+                    2019-05-19
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Spring/">Spring</a>&nbsp;&nbsp;
+                
+                
+            </section>
+            <h1 class="post-full-title">Simple IoC开发日志：注册BeanDefinitions</h1>
+        </header>
+        <article class="post-full no-image">
+            
+            <section class="post-full-content">
+                <div id="lightgallery" class="markdown-body">
+                    <h2 id="Spring-IoC实现"><a href="#Spring-IoC实现" class="headerlink" title="Spring IoC实现"></a>Spring IoC实现</h2><p>在之前已经介绍过Spring IoC对资源的抽象了，也就是<code>Resource</code>接口。当我们加载了指定的资源后，接下来需要做的就是将资源（也就是XML文件）解析成<code>Document</code>实例，并解析成<code>BeanDefinition</code>然后注册。这个过程的整体流程如下：</p>
+<ol>
+<li><code>loadBeanDefinitions(Resource resource)</code>作为方法入口。</li>
+<li><code>doLoadBeanDefinitions(InputSource inputSource, Resource resource)</code>方法实现了真正的加载逻辑，它首先根据XML获取<code>Document</code>实例，然后根据<code>Document</code>实例注册Bean信息。<br> 2.1. <code>doLoadDocument()</code>方法根据XML获取<code>Document</code>实例，其中会牵扯到获取验证模式和错误处理等过程。<br> 2.2. <code>registerBeanDefinitions()</code>遍历XML的每一个节点并注册它们的<code>BeanDefinition</code>。</li>
+</ol>
+<p>接下来就上面获取<code>Document</code>实例和注册<code>BeanDefinition</code>进行分析。</p>
+<h3 id="获取Document"><a href="#获取Document" class="headerlink" title="获取Document"></a>获取Document</h3><p>解析XML有两种方式，一种是DOM解析，另一种则是SAX解析，关于这两个解析方式在网上也有比较充足的资料，就不在这赘述了。在这一个过程还有两个方面是需要关心的，一个是验证模式，另一个是错误处理（还有一个是Spring实现的<code>EntityResolver</code>，自定义了验证文件的获取方式，在本地建立了一个映射而不需要从网络中获取）。</p>
+<p>首先，验证模式同样也有两种，一种是DTD验证模式，另一种是XSD验证模式。因此，在这里需要根据XML文件中的一些信息来探测决定具体使用哪种验证模式，比如说如果内容中包含<code>DOCTYPE</code>则肯定为DTD验证模式，而如果探测不出的话，最终会使用XSD验证模式。错误处理就是当加载<code>Document</code>发生错误时需要做出的反应，简单的实现就是输出错误日志。当以上两个都准备好了后，就先通过<code>DocumentBuilderFactory</code>创建一个<code>DocumentBuilder</code>，再调用<code>DocumentBuilder</code>的<code>parse()</code>方法直接解析并返回一个<code>Document</code>实例即可。</p>
+<h3 id="注册BeanDefinition"><a href="#注册BeanDefinition" class="headerlink" title="注册BeanDefinition"></a>注册BeanDefinition</h3><p>注册<code>BeanDefinition</code>实际上就是通过上面获取到的<code>Document</code>的根节点开始逐个遍历子节点（要先判断根节点是否使用的默认命名空间），然后根据<code>&lt;import/&gt;</code>、<code>&lt;alias/&gt;</code>、<code>&lt;bean/&gt;</code>、<code>&lt;beans/&gt;</code>这四种标签分别进行解析，其中<code>&lt;beans/&gt;</code>标签的处理是一个递归的过程，而<code>&lt;bean/&gt;</code>标签的处理则是需要重点关注的，在这个过程中主要分为两步：解析出<code>BeanDefinition</code>并且完成注册。</p>
+<h2 id="Simple-IoC实现"><a href="#Simple-IoC实现" class="headerlink" title="Simple IoC实现"></a>Simple IoC实现</h2><h3 id="获取Document-1"><a href="#获取Document-1" class="headerlink" title="获取Document"></a>获取Document</h3><p>目前仅支持XSD格式的验证，并且没有实现<code>EntityResolver</code>，也就是说无法根据自定义的策略从本地拿到验证文件，还是默认的从网络中获取。</p>
+<h3 id="注册BeanDefinition-1"><a href="#注册BeanDefinition-1" class="headerlink" title="注册BeanDefinition"></a>注册BeanDefinition</h3><p>在目前的实现中，并没有像Spring IoC一样支持四种标签的解析，这里只解析了<code>&lt;bean/&gt;</code>标签。之后，需要重点关注的一个方法就是<code>parseBeanDefinitionElement()</code>，这是解析<code>&lt;bean/&gt;</code>标签的核心逻辑，主要完成了从<code>&lt;bean/&gt;</code>标签的<code>id</code>属性和<code>name</code>属性还有一些别的属性以及子元素中获取到值并组装成一个<code>BeanDefinition</code>（实际上还会包装一层<code>BeanDefinitionHolder</code>，其中保存了<code>beanName</code>和<code>aliases</code>），下面对这一部分的细节进行分析。</p>
+<h4 id="parseBeanDefinitionElement"><a href="#parseBeanDefinitionElement" class="headerlink" title="parseBeanDefinitionElement"></a>parseBeanDefinitionElement</h4><p>这个方法主要完成以下这些事：</p>
+<ol>
+<li>解析出<code>&lt;bean&gt;</code>标签中的<code>id</code>属性和<code>name</code>属性，在Spring中是以<code>,</code>作为分隔符取得多个别名，但在这里的实现中只考虑一种别名的情况，也就是没有使用<code>,</code>进行分割。</li>
+<li>优先使用id作为<code>beanName</code>，但如果并没有设置<code>id</code>属性的话，就使用第一个别名作为<code>beanName</code>，那么在这里就只有唯一的一个别名，当id没设置时它就是<code>beanName</code>。</li>
+<li>检查<code>beanName</code>和别名的唯一性，如果不唯一，则抛出异常，唯一的话则加入到集合中去。（注意，别名也是需要唯一的）</li>
+<li>解析别的属性以及子元素，开始构造<code>AbstractBeanDefinition</code>。上面几步只是对名称做一些解析，这一步的工作量则相对要大很多，下面是一些比较常见的属性：<br> 4.1. 解析<code>class</code>属性，最重要的了<br>4.2. 解析<code>parent</code>属性，未实现<br>4.3. 解析<code>scope</code>属性<br>4.4. 解析<code>autowire</code>属性<br>4.5. 解析<code>init-method</code>属性<br>4.6. 解析<code>destroy-method</code>属性<br>4.7. 解析<code>factory-bean</code>属性<br>4.8. 解析<code>factory-method</code>属性<br>4.9. 解析<code>&lt;lookup-method/&gt;</code>子元素，未实现<br>4.10. 解析<code>&lt;replaced-method/&gt;</code>子元素，未实现<br>4.11. 解析<code>&lt;property/&gt;</code>子元素，这一步也很重要，它将属性名和属性值封装到了<code>PropertyValue</code>中，并且用<code>PropertyValues</code>封装所有属性（也就是每个<code>BeanDefinition</code>都有一个<code>PropertyValues</code>类型的成员变量）。<br>4.12. 解析<code>&lt;constructor-arg/&gt;</code>子元素，未实现</li>
+<li>此时已经构造出了一个相对完整的<code>BeanDefinition</code>了，这时候将其和<code>beanName</code>与别名一起封装成<code>BeanDefinitionHolder</code>对象。</li>
+<li>注册<code>beanName</code> -&gt; <code>BeanDefinition</code>以及<code>alias</code> -&gt; <code>beanName</code>的映射关系（个人认为，这正是IoC的本质所在，通过一个映射表维护一个名称到<code>BeanDefinition</code>的关系，而这个<code>BeanDefinition</code>中封装了这个Bean的各种信息）。这里要注意的是，在注册<code>alias</code> -&gt; <code>beanName</code>的映射关系时，Spring考虑了别名循环指向的问题，它是通过递归来进行判断的。</li>
+<li>此时，这个<code>BeanDefinition</code>已经注册成功，可以等待使用了</li>
+</ol>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><p>针对根据XML获取<code>Document</code>实例并注册<code>BeanDefinition</code>的过程做一些简单的测试：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testLoadBeanDefinitions</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ResourceLoader resourceLoader = <span class="keyword">new</span> FileSystemResourceLoader();</span><br><span class="line">    Resource resource = resourceLoader.getResource(<span class="string">"C:\\Users\\canjie\\Desktop\\simple.xml"</span>);</span><br><span class="line">    BeanDefinitionRegistry registry = <span class="keyword">new</span> DefaultListableBeanFactory();</span><br><span class="line">    BeanDefinitionReader beanDefinitionReader = <span class="keyword">new</span> XmlBeanDefinitionReader(registry);</span><br><span class="line">    assertEquals(beanDefinitionReader.loadBeanDefinitions(resource), <span class="number">2</span>);</span><br><span class="line">    assertEquals(((DefaultListableBeanFactory) registry).getBeanDefinition(<span class="string">"first"</span>).getBeanClassName(),</span><br><span class="line">            <span class="string">"beans.First"</span>);</span><br><span class="line">    assertEquals(((DefaultListableBeanFactory) registry).getBeanDefinition(<span class="string">"second"</span>).getBeanClassName(),</span><br><span class="line">            <span class="string">"beans.Second"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+                </div>
+            </section>
+        </article>
+    </div>
+
+    
+    <div style="height: 4vw;width: 100%"></div>
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">•</span>
+        
+        <a class="next-post" title="Simple IoC开发日志：资源加载" href="/2019/05/19/Simple-IoC开发日志：资源加载/">
+            Simple IoC开发日志：资源加载 →
+        </a>
+        
+    </nav>
+
+    
+</main>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-IoC实现"><span class="toc-text">Spring IoC实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取Document"><span class="toc-text">获取Document</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注册BeanDefinition"><span class="toc-text">注册BeanDefinition</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Simple-IoC实现"><span class="toc-text">Simple IoC实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取Document-1"><span class="toc-text">获取Document</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注册BeanDefinition-1"><span class="toc-text">注册BeanDefinition</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#parseBeanDefinitionElement"><span class="toc-text">parseBeanDefinitionElement</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快速开始"><span class="toc-text">快速开始</span></a></li></ol>
+    </div>
+</div>
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(/images/pexels-photo-325185.jpeg)">
+	<header class="read-next-card-header" style="padding-bottom: 20px">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/AOP/" style="font-size: 15.11px;">AOP</a> <a href="/tags/AQS/" style="font-size: 15.11px;">AQS</a> <a href="/tags/ArrayList/" style="font-size: 14px;">ArrayList</a> <a href="/tags/BST/" style="font-size: 14px;">BST</a> <a href="/tags/B树/" style="font-size: 14px;">B树</a> <a href="/tags/CGLIB/" style="font-size: 14px;">CGLIB</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 14px;">ConcurrentHashMap</a> <a href="/tags/CountDownLatch/" style="font-size: 14px;">CountDownLatch</a> <a href="/tags/CyclicBarrier/" style="font-size: 14px;">CyclicBarrier</a> <a href="/tags/Dijkstra/" style="font-size: 14px;">Dijkstra</a> <a href="/tags/Executor/" style="font-size: 15.11px;">Executor</a> <a href="/tags/Fork-join/" style="font-size: 14px;">Fork/join</a> <a href="/tags/HTTPS/" style="font-size: 14px;">HTTPS</a> <a href="/tags/HashMap/" style="font-size: 15.11px;">HashMap</a> <a href="/tags/IO/" style="font-size: 14px;">IO</a> <a href="/tags/IOC/" style="font-size: 14px;">IOC</a> <a href="/tags/InnoDB/" style="font-size: 15.11px;">InnoDB</a> <a href="/tags/IoC/" style="font-size: 14px;">IoC</a> <a href="/tags/JDK/" style="font-size: 19.56px;">JDK</a> <a href="/tags/JUC/" style="font-size: 16.22px;">JUC</a> <a href="/tags/JVM/" style="font-size: 16.22px;">JVM</a> <a href="/tags/LinkedList/" style="font-size: 14px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/MVCC/" style="font-size: 14px;">MVCC</a> <a href="/tags/MyBatis/" style="font-size: 18.44px;">MyBatis</a> <a href="/tags/MyISAM/" style="font-size: 14px;">MyISAM</a> <a href="/tags/MySQL/" style="font-size: 17.33px;">MySQL</a> <a href="/tags/NIO/" style="font-size: 14px;">NIO</a> <a href="/tags/PreparedStatement/" style="font-size: 14px;">PreparedStatement</a> <a href="/tags/RabbitMQ/" style="font-size: 15.11px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 20.67px;">Redis</a> <a href="/tags/ReentrantLock/" style="font-size: 14px;">ReentrantLock</a> <a href="/tags/Spring/" style="font-size: 15.11px;">Spring</a> <a href="/tags/Spring-MVC/" style="font-size: 15.11px;">Spring MVC</a> <a href="/tags/String/" style="font-size: 14px;">String</a> <a href="/tags/StringBuffer/" style="font-size: 14px;">StringBuffer</a> <a href="/tags/StringBuilder/" style="font-size: 14px;">StringBuilder</a> <a href="/tags/ThreadLocal/" style="font-size: 14px;">ThreadLocal</a> <a href="/tags/WSN/" style="font-size: 14px;">WSN</a> <a href="/tags/Zookeeper/" style="font-size: 14px;">Zookeeper</a> <a href="/tags/final/" style="font-size: 14px;">final</a> <a href="/tags/happens-before/" style="font-size: 14px;">happens-before</a> <a href="/tags/hello/" style="font-size: 14px;">hello</a> <a href="/tags/synchronized/" style="font-size: 14px;">synchronized</a> <a href="/tags/volatile/" style="font-size: 14px;">volatile</a> <a href="/tags/事务/" style="font-size: 14px;">事务</a> <a href="/tags/内存模型/" style="font-size: 14px;">内存模型</a> <a href="/tags/分布式锁/" style="font-size: 14px;">分布式锁</a> <a href="/tags/动态代理/" style="font-size: 14px;">动态代理</a> <a href="/tags/同步/" style="font-size: 14px;">同步</a> <a href="/tags/垃圾收集/" style="font-size: 14px;">垃圾收集</a> <a href="/tags/多线程/" style="font-size: 14px;">多线程</a> <a href="/tags/封锁协议/" style="font-size: 14px;">封锁协议</a> <a href="/tags/并发/" style="font-size: 21.78px;">并发</a> <a href="/tags/排序/" style="font-size: 17.33px;">排序</a> <a href="/tags/操作系统/" style="font-size: 18.44px;">操作系统</a> <a href="/tags/操作系统/" style="font-size: 14px;">操作系统 </a> <a href="/tags/支付宝/" style="font-size: 14px;">支付宝</a> <a href="/tags/断点续传/" style="font-size: 14px;">断点续传</a> <a href="/tags/杂谈/" style="font-size: 14px;">杂谈</a> <a href="/tags/查找/" style="font-size: 18.44px;">查找</a> <a href="/tags/树的遍历/" style="font-size: 14px;">树的遍历</a> <a href="/tags/死锁/" style="font-size: 14px;">死锁</a> <a href="/tags/消息队列/" style="font-size: 15.11px;">消息队列</a> <a href="/tags/源码分析/" style="font-size: 24px;">源码分析</a> <a href="/tags/算法/" style="font-size: 22.89px;">算法</a> <a href="/tags/索引/" style="font-size: 14px;">索引</a> <a href="/tags/红黑树/" style="font-size: 14px;">红黑树</a> <a href="/tags/线程池/" style="font-size: 15.11px;">线程池</a> <a href="/tags/范式/" style="font-size: 14px;">范式</a> <a href="/tags/设计模式/" style="font-size: 14px;">设计模式</a> <a href="/tags/进程/" style="font-size: 14px;">进程</a> <a href="/tags/锁/" style="font-size: 15.11px;">锁</a> <a href="/tags/项目/" style="font-size: 15.11px;">项目</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay subscribe-overlay">
+    <div class="search-form">
+        
+        <img class="search-overlay-logo" src="/images/avator2.png" alt="水木今山的博客">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<section class="copyright">
+			<a href="/" title="水木今山的博客">水木今山的博客</a>
+			&copy; 2019
+		</section>
+		<nav class="site-footer-nav">
+			
+            <a href="https://hexo.io" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+            <a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+        </nav>
+    </div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations()
+        .then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister();
+            }
+        });
+    }
+</script>
+
+
+
+
+
+
+
+<div class="floating-header">
+	<div class="floating-header-logo">
+        <a href="/" title="水木今山的博客">
+			
+                <img src="/images/avator2.png" alt="水木今山的博客 icon">
+			
+            <span>水木今山的博客</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Simple IoC开发日志：注册BeanDefinitions</div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+
+
+
+<script src="/js/mix/post-lazy-local.min.js"></script>
+
+<script>;(function() {var bLazy = new Blazy()})();</script>
+
+
+
+
+<script src="/js/lightgallery.min.js"></script>
+<link rel="stylesheet" href="/css/lightgallery.min.css">
+<script>
+    lightGallery(document.getElementById('lightgallery'), {
+        selector: '.post-img'
+    });
+</script>
+
+
+
+
+
+
+
+
+
+<script>searchFunc("/")</script>
+
+
+
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    console.log("this theme is from https://github.com/xzhih/hexo-theme-casper")
+</script>
+
+</body>
+</html>

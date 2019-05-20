@@ -195,6 +195,252 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
+					<a class="post-card-content-link" title="Simple IoC开发日志：注册BeanDefinitions" href="/2019/05/19/Simple-IoC开发日志：BeanDefinition加载/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Spring
+								| 
+								
+								<time datetime="2019-05-19T14:29:00.000Z" itemprop="datePublished">
+									2019-05-19
+								</time>
+							</span>
+							<h2 class="post-card-title">Simple IoC开发日志：注册BeanDefinitions</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								Spring IoC实现在之前已经介绍过Spring IoC对资源的抽象了，也就是Resource接口。当我们加载了指定的资源后，接下来需要做的就是将资源（也就是XML文件）解析成Document实例，并解析成BeanDefinition然后注册。这个过程的整体流程如下：
+
+loadBeanDefinitions(Resource resource)作为方法入口。
+doLoadBeanDefinitions(InputSource inputSource, Resource 
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							7
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="Simple IoC开发日志：资源加载" href="/2019/05/19/Simple-IoC开发日志：资源加载/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								| 
+								
+								<time datetime="2019-05-19T13:51:40.000Z" itemprop="datePublished">
+									2019-05-19
+								</time>
+							</span>
+							<h2 class="post-card-title">Simple IoC开发日志：资源加载</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								Spring IoC实现Spring对资源文件和资源的加载都做了统一的抽象，以下是资源文件的继承体系：
+其中，顶层接口InputStreamSource只包含一个getInputStream()方法用于返回指定资源的InputStream；而Resource是对资源的一个抽象，里面提供了判断资源是否存在、资源是否可读、资源大小等常见接口，并且大部分接口由抽象子类AbstractResource提供了默认实现，而一些方法则由具体的子类如FileSystemResource、Cl
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							4
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="Mybatis之Mapper接口" href="/2019/05/19/Mybatis之Mapper接口/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								MyBatis
+								| 
+								
+								<time datetime="2019-05-19T11:26:00.000Z" itemprop="datePublished">
+									2019-05-19
+								</time>
+							</span>
+							<h2 class="post-card-title">Mybatis之Mapper接口</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								前言MyBatis有两种方式能和数据库打交道，一种是直接调用SqlSession的select()、update()等方法，传入statementId参数即可；另一种则是通过Mapper接口，这种方式在实际应用中更加常见，因为它使我们可以使用面向接口编程的方式操作数据库。
+XML映射文件Mybatis将所有XML配置信息都封装到Configuration内部，在XML映射文件中：
+
+&lt;parameterMap&gt;标签，会被解析为ParameterMap对象，其每个子
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							2
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="深入分析Spring MVC：请求处理流程" href="/2019/05/19/Spring-MVC：请求处理流程/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Spring
+								| 
+								
+								<time datetime="2019-05-19T09:12:00.000Z" itemprop="datePublished">
+									2019-05-19
+								</time>
+							</span>
+							<h2 class="post-card-title">深入分析Spring MVC：请求处理流程</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								处理流程
+FrameworkServlet虽然在上面的整体流程图中，我们看到请求首先是被DispatcherServlet所处理，但是实际上，FrameworkServlet才是真正的入口：12345678910111213@Overrideprotected void service(HttpServletRequest request, HttpServletResponse response)		throws ServletException, IOException 
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							24
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="深入分析Spring MVC：WebApplicationContext容器初始化" href="/2019/05/19/WebApplicationContext容器初始化/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Spring
+								| 
+								
+								<time datetime="2019-05-19T04:39:00.000Z" itemprop="datePublished">
+									2019-05-19
+								</time>
+							</span>
+							<h2 class="post-card-title">深入分析Spring MVC：WebApplicationContext容器初始化</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								web.xml123456789101112131415161718192021222324252627282930&lt;!-- 省略非关键的配置 --&gt;&lt;!-- [1] Spring配置 --&gt;&lt;listener&gt;    &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;&lt;/listener&
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							9
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
 					<a class="post-card-content-link" title="MyBatis插件机制" href="/2019/05/17/MyBatis插件机制/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
@@ -398,258 +644,6 @@ MyBatis和数据库交互有两种方式：
 				</div>
 			</article>
 			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="JDBC：PreparedStatement和Statement" href="/2019/05/16/JDBC：PreparedStatement和Statement/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								MySQL
-								| 
-								
-								<time datetime="2019-05-16T06:49:00.000Z" itemprop="datePublished">
-									2019-05-16
-								</time>
-							</span>
-							<h2 class="post-card-title">JDBC：PreparedStatement和Statement</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								MySQL支持预编译在不使用预编译时，客户端每发送一条sql语句给服务器后，服务器总是需要校验sql语句的语法格式是否正确，然后把sql语句编译成可执行函数，最后才是执行sql语句。其中，校验语法和编译所花的时间可能比执行sql语句花的时间还要多。因此，如果我们需要执行多次insert语句，但每次只是插入的值不同，MySQL都要校验语法和编译，会浪费许多时间，而如果使用预编译功能，那么就只用对sql语句进行一次语法校验和编译，所以效率要高。
-MySQL本身是支持预编译的，My
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							4
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="Java线程池源码分析" href="/2019/05/12/Java线程池源码分析/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								Java
-								| 
-								
-								<time datetime="2019-05-12T13:51:00.000Z" itemprop="datePublished">
-									2019-05-12
-								</time>
-							</span>
-							<h2 class="post-card-title">Java线程池源码分析</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								前言在Java中实现异步任务的处理，我们通常会使用Executor框架，而它的子类ThreadPoolExecutor则提供了线程池的实现，避免了线程频繁创建与销毁所带来的性能开销，为线程做了统一的管理与监控。因此，本文将从Executor接口开始逐层向下分析，重点关注ThreadPoolExecutor，这也是我们平时使用最多的一个类，深入理解它的原理还是很重要的。
-继承体系Executor接口位于整个体系的最顶层，它只包含一个execute()方法；ExecutorSer
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							47
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="ThreadLocal源码分析" href="/2019/05/11/ThreadLocal源码分析/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								Java
-								| 
-								
-								<time datetime="2019-05-11T03:31:00.000Z" itemprop="datePublished">
-									2019-05-11
-								</time>
-							</span>
-							<h2 class="post-card-title">ThreadLocal源码分析</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								实现原理每个线程读写ThreadLocal是线程隔离的，互相之间不会影响。其原因就是在于Thread类有一个ThreadLocal.ThreadLocalMap类型的属性，也就是说每个线程有一个自己的ThreadLocalMap，读写某个ThreadLocal时都会获取当前线程以及当前线程的ThreadLocalMap属性，对其进行读写，以此实现线程隔离。以下是ThreadLocal的几个关键方法：12345678910111213141516171819202122publ
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							25
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="RabbitMQ：流控与镜像队列" href="/2019/05/08/RabbitMQ：镜像队列、/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								| 
-								
-								<time datetime="2019-05-08T10:08:45.000Z" itemprop="datePublished">
-									2019-05-08
-								</time>
-							</span>
-							<h2 class="post-card-title">RabbitMQ：流控与镜像队列</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								[toc]
-队列的结构通常队列由rabbit_amqqueue_process和backing_queue两部分组成，前者负责协议相关的消息处理，即接受生产者发布的消息、向消费者交付消息、处理消息的确认（包括生产端的confirm和消费端的ack）等。backing_queue是消息存储的具体形式和引擎，并向rabbit_amqqueue_process提供相关的接口以供调用。
-四种状态如果消息投递的目的队列是空的，并且有消费者订阅了这个队列，那么该消息会直接发送给消费者，不
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							8
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="Java8新特性" href="/2019/05/06/Java-8新特性/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								Java
-								| 
-								
-								<time datetime="2019-05-06T09:03:00.000Z" itemprop="datePublished">
-									2019-05-06
-								</time>
-							</span>
-							<h2 class="post-card-title">Java8新特性</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								前言Java 8是Java开发的一个主要版本，也是一个有着重大改变的版本，在此对Java 8的部分新特性进行总结，主要总结以下几个部分：
-
-Lambda表达式
-函数式接口
-默认方法
-Stream
-
-Lambda表达式Lambda表达式能够让我们把函数作为方法参数，或者把代码作为数据对待，使用Lambda表达式可以使代码变得更加简洁紧凑。语法如下：
-
-方法体为表达式，该表达式的值作为返回值返回：(parameters) -&gt; expression
-方法体为代码块，必须用{
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							6
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
 		</div>
 	</div>
 
@@ -684,7 +678,7 @@ Lambda表达式Lambda表达式能够让我们把函数作为方法参数，或�
 		<h3 class="read-next-card-header-title">Tag Cloud</h3>
 	</header>
 	<div class="read-next-card-content-ext">
-		<a href="/tags/AOP/" style="font-size: 15.11px;">AOP</a> <a href="/tags/AQS/" style="font-size: 15.11px;">AQS</a> <a href="/tags/ArrayList/" style="font-size: 14px;">ArrayList</a> <a href="/tags/BST/" style="font-size: 14px;">BST</a> <a href="/tags/B树/" style="font-size: 14px;">B树</a> <a href="/tags/CGLIB/" style="font-size: 14px;">CGLIB</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 14px;">ConcurrentHashMap</a> <a href="/tags/CountDownLatch/" style="font-size: 14px;">CountDownLatch</a> <a href="/tags/CyclicBarrier/" style="font-size: 14px;">CyclicBarrier</a> <a href="/tags/Dijkstra/" style="font-size: 14px;">Dijkstra</a> <a href="/tags/Executor/" style="font-size: 15.11px;">Executor</a> <a href="/tags/Fork-join/" style="font-size: 14px;">Fork/join</a> <a href="/tags/HTTPS/" style="font-size: 14px;">HTTPS</a> <a href="/tags/HashMap/" style="font-size: 15.11px;">HashMap</a> <a href="/tags/IO/" style="font-size: 14px;">IO</a> <a href="/tags/IOC/" style="font-size: 14px;">IOC</a> <a href="/tags/InnoDB/" style="font-size: 15.11px;">InnoDB</a> <a href="/tags/JDK/" style="font-size: 19.56px;">JDK</a> <a href="/tags/JUC/" style="font-size: 16.22px;">JUC</a> <a href="/tags/JVM/" style="font-size: 16.22px;">JVM</a> <a href="/tags/LinkedList/" style="font-size: 14px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/MVCC/" style="font-size: 14px;">MVCC</a> <a href="/tags/MyBatis/" style="font-size: 17.33px;">MyBatis</a> <a href="/tags/MyISAM/" style="font-size: 14px;">MyISAM</a> <a href="/tags/MySQL/" style="font-size: 17.33px;">MySQL</a> <a href="/tags/NIO/" style="font-size: 14px;">NIO</a> <a href="/tags/PreparedStatement/" style="font-size: 14px;">PreparedStatement</a> <a href="/tags/RabbitMQ/" style="font-size: 15.11px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 20.67px;">Redis</a> <a href="/tags/ReentrantLock/" style="font-size: 14px;">ReentrantLock</a> <a href="/tags/Spring/" style="font-size: 15.11px;">Spring</a> <a href="/tags/String/" style="font-size: 14px;">String</a> <a href="/tags/StringBuffer/" style="font-size: 14px;">StringBuffer</a> <a href="/tags/StringBuilder/" style="font-size: 14px;">StringBuilder</a> <a href="/tags/ThreadLocal/" style="font-size: 14px;">ThreadLocal</a> <a href="/tags/WSN/" style="font-size: 14px;">WSN</a> <a href="/tags/Zookeeper/" style="font-size: 14px;">Zookeeper</a> <a href="/tags/final/" style="font-size: 14px;">final</a> <a href="/tags/happens-before/" style="font-size: 14px;">happens-before</a> <a href="/tags/hello/" style="font-size: 14px;">hello</a> <a href="/tags/synchronized/" style="font-size: 14px;">synchronized</a> <a href="/tags/volatile/" style="font-size: 14px;">volatile</a> <a href="/tags/事务/" style="font-size: 14px;">事务</a> <a href="/tags/内存模型/" style="font-size: 14px;">内存模型</a> <a href="/tags/分布式锁/" style="font-size: 14px;">分布式锁</a> <a href="/tags/动态代理/" style="font-size: 14px;">动态代理</a> <a href="/tags/同步/" style="font-size: 14px;">同步</a> <a href="/tags/垃圾收集/" style="font-size: 14px;">垃圾收集</a> <a href="/tags/多线程/" style="font-size: 14px;">多线程</a> <a href="/tags/封锁协议/" style="font-size: 14px;">封锁协议</a> <a href="/tags/并发/" style="font-size: 21.78px;">并发</a> <a href="/tags/排序/" style="font-size: 17.33px;">排序</a> <a href="/tags/操作系统/" style="font-size: 18.44px;">操作系统</a> <a href="/tags/操作系统/" style="font-size: 14px;">操作系统 </a> <a href="/tags/支付宝/" style="font-size: 14px;">支付宝</a> <a href="/tags/断点续传/" style="font-size: 14px;">断点续传</a> <a href="/tags/杂谈/" style="font-size: 14px;">杂谈</a> <a href="/tags/查找/" style="font-size: 18.44px;">查找</a> <a href="/tags/树的遍历/" style="font-size: 14px;">树的遍历</a> <a href="/tags/死锁/" style="font-size: 14px;">死锁</a> <a href="/tags/消息队列/" style="font-size: 15.11px;">消息队列</a> <a href="/tags/源码分析/" style="font-size: 24px;">源码分析</a> <a href="/tags/算法/" style="font-size: 22.89px;">算法</a> <a href="/tags/索引/" style="font-size: 14px;">索引</a> <a href="/tags/红黑树/" style="font-size: 14px;">红黑树</a> <a href="/tags/线程池/" style="font-size: 15.11px;">线程池</a> <a href="/tags/范式/" style="font-size: 14px;">范式</a> <a href="/tags/设计模式/" style="font-size: 14px;">设计模式</a> <a href="/tags/进程/" style="font-size: 14px;">进程</a> <a href="/tags/锁/" style="font-size: 15.11px;">锁</a> <a href="/tags/项目/" style="font-size: 15.11px;">项目</a>
+		<a href="/tags/AOP/" style="font-size: 15.11px;">AOP</a> <a href="/tags/AQS/" style="font-size: 15.11px;">AQS</a> <a href="/tags/ArrayList/" style="font-size: 14px;">ArrayList</a> <a href="/tags/BST/" style="font-size: 14px;">BST</a> <a href="/tags/B树/" style="font-size: 14px;">B树</a> <a href="/tags/CGLIB/" style="font-size: 14px;">CGLIB</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 14px;">ConcurrentHashMap</a> <a href="/tags/CountDownLatch/" style="font-size: 14px;">CountDownLatch</a> <a href="/tags/CyclicBarrier/" style="font-size: 14px;">CyclicBarrier</a> <a href="/tags/Dijkstra/" style="font-size: 14px;">Dijkstra</a> <a href="/tags/Executor/" style="font-size: 15.11px;">Executor</a> <a href="/tags/Fork-join/" style="font-size: 14px;">Fork/join</a> <a href="/tags/HTTPS/" style="font-size: 14px;">HTTPS</a> <a href="/tags/HashMap/" style="font-size: 15.11px;">HashMap</a> <a href="/tags/IO/" style="font-size: 14px;">IO</a> <a href="/tags/IOC/" style="font-size: 14px;">IOC</a> <a href="/tags/InnoDB/" style="font-size: 15.11px;">InnoDB</a> <a href="/tags/IoC/" style="font-size: 14px;">IoC</a> <a href="/tags/JDK/" style="font-size: 19.56px;">JDK</a> <a href="/tags/JUC/" style="font-size: 16.22px;">JUC</a> <a href="/tags/JVM/" style="font-size: 16.22px;">JVM</a> <a href="/tags/LinkedList/" style="font-size: 14px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/MVCC/" style="font-size: 14px;">MVCC</a> <a href="/tags/MyBatis/" style="font-size: 18.44px;">MyBatis</a> <a href="/tags/MyISAM/" style="font-size: 14px;">MyISAM</a> <a href="/tags/MySQL/" style="font-size: 17.33px;">MySQL</a> <a href="/tags/NIO/" style="font-size: 14px;">NIO</a> <a href="/tags/PreparedStatement/" style="font-size: 14px;">PreparedStatement</a> <a href="/tags/RabbitMQ/" style="font-size: 15.11px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 20.67px;">Redis</a> <a href="/tags/ReentrantLock/" style="font-size: 14px;">ReentrantLock</a> <a href="/tags/Spring/" style="font-size: 15.11px;">Spring</a> <a href="/tags/Spring-MVC/" style="font-size: 15.11px;">Spring MVC</a> <a href="/tags/String/" style="font-size: 14px;">String</a> <a href="/tags/StringBuffer/" style="font-size: 14px;">StringBuffer</a> <a href="/tags/StringBuilder/" style="font-size: 14px;">StringBuilder</a> <a href="/tags/ThreadLocal/" style="font-size: 14px;">ThreadLocal</a> <a href="/tags/WSN/" style="font-size: 14px;">WSN</a> <a href="/tags/Zookeeper/" style="font-size: 14px;">Zookeeper</a> <a href="/tags/final/" style="font-size: 14px;">final</a> <a href="/tags/happens-before/" style="font-size: 14px;">happens-before</a> <a href="/tags/hello/" style="font-size: 14px;">hello</a> <a href="/tags/synchronized/" style="font-size: 14px;">synchronized</a> <a href="/tags/volatile/" style="font-size: 14px;">volatile</a> <a href="/tags/事务/" style="font-size: 14px;">事务</a> <a href="/tags/内存模型/" style="font-size: 14px;">内存模型</a> <a href="/tags/分布式锁/" style="font-size: 14px;">分布式锁</a> <a href="/tags/动态代理/" style="font-size: 14px;">动态代理</a> <a href="/tags/同步/" style="font-size: 14px;">同步</a> <a href="/tags/垃圾收集/" style="font-size: 14px;">垃圾收集</a> <a href="/tags/多线程/" style="font-size: 14px;">多线程</a> <a href="/tags/封锁协议/" style="font-size: 14px;">封锁协议</a> <a href="/tags/并发/" style="font-size: 21.78px;">并发</a> <a href="/tags/排序/" style="font-size: 17.33px;">排序</a> <a href="/tags/操作系统/" style="font-size: 18.44px;">操作系统</a> <a href="/tags/操作系统/" style="font-size: 14px;">操作系统 </a> <a href="/tags/支付宝/" style="font-size: 14px;">支付宝</a> <a href="/tags/断点续传/" style="font-size: 14px;">断点续传</a> <a href="/tags/杂谈/" style="font-size: 14px;">杂谈</a> <a href="/tags/查找/" style="font-size: 18.44px;">查找</a> <a href="/tags/树的遍历/" style="font-size: 14px;">树的遍历</a> <a href="/tags/死锁/" style="font-size: 14px;">死锁</a> <a href="/tags/消息队列/" style="font-size: 15.11px;">消息队列</a> <a href="/tags/源码分析/" style="font-size: 24px;">源码分析</a> <a href="/tags/算法/" style="font-size: 22.89px;">算法</a> <a href="/tags/索引/" style="font-size: 14px;">索引</a> <a href="/tags/红黑树/" style="font-size: 14px;">红黑树</a> <a href="/tags/线程池/" style="font-size: 15.11px;">线程池</a> <a href="/tags/范式/" style="font-size: 14px;">范式</a> <a href="/tags/设计模式/" style="font-size: 14px;">设计模式</a> <a href="/tags/进程/" style="font-size: 14px;">进程</a> <a href="/tags/锁/" style="font-size: 15.11px;">锁</a> <a href="/tags/项目/" style="font-size: 15.11px;">项目</a>
 	</div>
 </article>
 
