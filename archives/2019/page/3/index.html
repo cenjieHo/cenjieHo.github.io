@@ -128,7 +128,7 @@
             <h1 class="site-title">
                 Archives
             </h1>
-            <h2 class="site-description">Total: 90</h2>
+            <h2 class="site-description">Total: 91</h2>
         </div>
         
         
@@ -139,6 +139,55 @@
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="CountDownLatch与CyclicBarrier源码分析" href="/2019/05/03/CountDownLatch与CyclicBarrier源码分析/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Java
+								| 
+								
+								<time datetime="2019-05-03T10:07:00.000Z" itemprop="datePublished">
+									2019-05-03
+								</time>
+							</span>
+							<h2 class="post-card-title">CountDownLatch与CyclicBarrier源码分析</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								CountDownLatchCountDownLatch是基于AQS实现的，它使用AQS中的state成员变量作为计数器，在state不为0的情况下，凡是调用await()方法的线程将会被阻塞，并放入AQS维护的同步队列中，而当state减至0时，队列中的节点会被唤醒，被阻塞的线程即可恢复运行。先来看看它的构造函数：
+1234public CountDownLatch(int count) &#123;    if (count &lt; 0) throw new Illeg
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							18
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
 			
 			<article class="post-card post  no-image ">
 				
@@ -584,63 +633,6 @@ mandatory当mandatory参数设为true时，交换器无法根据自身的类型�
 						</div>
 						<span class="reading-time">
 							6
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="Redis Pipeline" href="/2019/04/21/Redis-管道/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								Redis
-								| 
-								
-								<time datetime="2019-04-21T06:28:00.000Z" itemprop="datePublished">
-									2019-04-21
-								</time>
-							</span>
-							<h2 class="post-card-title">Redis Pipeline</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								命令执行Redis客户端执行一条命令分为以下四个步骤:
-
-发送命令
-命令排队
-命令执行
-返回结果
-
-其中，第一步加第四步称为Round Trip Time（RTT，往返时间）。
-性能瓶颈Redis提供了批量操作命令（例如mget、mset等），有效的节约了RTT，但大部分命令是不支持批量操作的。由于Redis命令执行本身是很快的（微妙级别），而发送命令以及返回结果的网络耗时往往更大，所以说Redis的性能瓶颈其实是网络。
-Pipeline机制Pipeline机制能改善上面这类
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							1
 							min read
 						</span>
 					</footer>

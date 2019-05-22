@@ -7,6 +7,8 @@
 
 
 
+
+
 <head>
 	
 	
@@ -26,7 +28,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-	<title>Archives | 水木今山的博客</title>
+	<title>水木今山的博客 | Coding the World</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -54,13 +56,13 @@
 
 	<meta property="og:site_name" content="水木今山的博客">
 	<meta property="og:type" content="blog">
-	<meta property="og:title" content="Archives | 水木今山的博客">
+	<meta property="og:title" content="水木今山的博客 | Coding the World">
 	<meta property="og:description" content="Coding the World">
-	<meta property="og:url" content="http://yoursite.com/archives/2019/02/page/2/index.html">
+	<meta property="og:url" content="http://yoursite.com/page/10/index.html">
 
 	
 </head>
-<body class="tag-template">
+<body class="home-template">
 	<div class="site-wrapper">
 		
 
@@ -69,6 +71,15 @@
 
 <header class="site-header outer " style="background-image: url(/images/pexels-photo-325185.jpeg)">
     <div class="inner">
+        
+        
+        <div class="site-header-content">
+            
+            <h1 class="site-title">
+                水木今山的博客
+            </h1>
+            <h2 class="site-description">Coding the World</h2>
+        </div>
         
         
         
@@ -123,15 +134,6 @@
     </div>
 </nav>
         
-        <div class="site-header-content">
-            
-            <h1 class="site-title">
-                Archives
-            </h1>
-            <h2 class="site-description">Total: 91</h2>
-        </div>
-        
-        
     </div>
 </header>
 
@@ -143,19 +145,19 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
-					<a class="post-card-content-link" title="深入分析volatile关键字" href="/2019/02/08/深入分析volatile关键字/">
+					<a class="post-card-content-link" title="README文档的规范写法总结" href="/2018/06/25/README文档的规范写法总结/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
 								
 								
-								并发
+								Github
 								| 
 								
-								<time datetime="2019-02-08T00:28:00.000Z" itemprop="datePublished">
-									2019-02-08
+								<time datetime="2018-06-25T11:15:00.000Z" itemprop="datePublished">
+									2018-06-25
 								</time>
 							</span>
-							<h2 class="post-card-title">深入分析volatile关键字</h2>
+							<h2 class="post-card-title">README文档的规范写法总结</h2>
 						</header>
 						<section class="post-card-excerpt">
 							<p>
@@ -164,13 +166,11 @@
 								
 								
 								
-								简介volatile是轻量级的synchronized，如果使用恰当的话，它会比synchronized的使用成本更低，因为它不会引起线程上下文的切换和调度。如果一个字段被声明成volatile，它将具有以下两个特性：
+								俗话说的好：“一个好开源项目一定有一个好的 README”。
+要想自己放到github上的项目能吸引更多人的眼球，就必须写一个规范舒适的README.md，这么做不仅可以梳理自己对于项目的思路，也方便他人上手使用或学习。因此，此文根据Github上众多项目以及查阅相关资料对README做了一个小小的总结， 方便以后写README的时候可以直接套用该模板。
 
-可见性：对一个volatile变量的读，总是能看到任意线程对这个volatile变量最后的写入。
-原子性：对任意单个volatile变量的读/写具有原子性，但类似于volatile++这种复合操作不具有原子性。
-
-
-volatile的实现原理如果对声明了vo
+XXX系统（如果有Logo可以加上Logo）xxx系统是一个..系统，支持…，…（此处为简要描述）
+官方网站 | 文档手
 								...
 							</p>
 						</section>
@@ -194,335 +194,6 @@ volatile的实现原理如果对声明了vo
 				</div>
 			</article>
 			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="支付宝的支付流程（当面付）" href="/2019/02/07/支付宝对接流程/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								项目
-								| 
-								
-								<time datetime="2019-02-07T08:19:00.000Z" itemprop="datePublished">
-									2019-02-07
-								</time>
-							</span>
-							<h2 class="post-card-title">支付宝的支付流程（当面付）</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								由于在之前的项目中使用到了用支付宝完成订单支付这一功能，因此在此篇文章中对支付宝的整个支付流程以及背后的细节做一个简单的总结。具体接入指南以及开发文档参考蚂蚁金服 扫码支付接入指引 。
-
-前期准备整体来说前期准备工作有下面两步：
-
-创建应用并获取APPID
-配置密钥
-
-其中配置密钥需要交换双方的公钥，在交易过程中会对交易数据进行双方校验。我们知道公钥加密过的内容只有私钥才可以解密，同样，私钥加签过的内容也只有公钥才能验签。商户系统在发起支付时会使用自己的私钥进行加签，由于私钥
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							1
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="Spring框架知识点总结" href="/2019/02/06/Spring框架知识点总结/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								Spring
-								| 
-								
-								<time datetime="2019-02-06T03:44:00.000Z" itemprop="datePublished">
-									2019-02-06
-								</time>
-							</span>
-							<h2 class="post-card-title">Spring框架知识点总结</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								Spring概述Spring框架是一个为Java应用程序的开发提供了综合、广泛的基础性支持的Java平台。Spring帮助开发者解决了开发中基础性的问题，使得开发人员可以专注于应用程序的开发。Spring框架本身亦是按照设计模式精心打造，这使得我们可以在开发环境中安心的集成Spring框架，不必担心Spring是如何在后台进行工作的。
-
-Spring框架至今已集成了20多个模块。这些模块主要被分如下图所示的核心容器、数据访问/集成,、Web、AOP（面向切面编程）、工具、消息
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							11
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="电商项目优化实践" href="/2019/02/05/mmall电商项目优化日志/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								项目
-								| 
-								
-								<time datetime="2019-02-05T13:24:00.000Z" itemprop="datePublished">
-									2019-02-05
-								</time>
-							</span>
-							<h2 class="post-card-title">电商项目优化实践</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								本篇日志将记录之前做过的mmall项目的一些优化过程，主要包括JVM调优和数据库优化两个方面，通过不断动手实践并总结心得，希望能在此积累起许多经验，为以后能更得心应手的写出高效而又稳健的代码打好基础。
-
-商品表的优化在实际应用中我们往往都会遇到根据名称来查询某个商品或者根据昵称查询某个用户，如果返回的行数较多则要使用分页，而之前项目一直都是使用的PageHelper这个框架来完成分页功能的，这么做自然简单方便，但是当数据量达到几十万甚至百万时就会遇到性能瓶颈，尽管能够使用一些
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							10
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="Java阻塞队列实现生产者-消费者模型" href="/2019/02/03/Java实现生产者-消费者模型/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								并发
-								| 
-								
-								<time datetime="2019-02-03T03:57:00.000Z" itemprop="datePublished">
-									2019-02-03
-								</time>
-							</span>
-							<h2 class="post-card-title">Java阻塞队列实现生产者-消费者模型</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								简介阻塞队列（BlockingQueue）是一个支持阻塞的插入和移除的队列。阻塞插入即当队列满时，队列会阻塞插入元素的线程，直到队列不满；阻塞移除即当队列为空时，获取元素的线程会等待队列变为非空。
-阻塞队列提供了四种处理方法：
-
-
-
-方法\处理方式
-抛出异常
-返回特殊值
-一直阻塞
-超时退出
-
-
-
-
-插入方法
-add(e)
-offer(e)
-put(e)
-offer(e,time,unit)
-
-
-移除方法
-remove()
-poll()
-take()
-poll(time,uni
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							7
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="Fork/join框架分析与实战" href="/2019/02/02/Fork-join框架分析与实战/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								并发
-								| 
-								
-								<time datetime="2019-02-02T09:36:00.000Z" itemprop="datePublished">
-									2019-02-02
-								</time>
-							</span>
-							<h2 class="post-card-title">Fork/join框架分析与实战</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								简介Fork/Join框架是Java7提供了的一个用于并行执行任务的框架，是一个把大任务分割成若干个小任务，最终汇总每个小任务结果后得到大任务结果的框架。Fork就是把一个大任务切分为若干子任务并行的执行，Join就是合并这些子任务的执行结果，最后得到这个大任务的结果。
-
-工作窃取算法工作窃取算法（work-stealing）是指当一个队列所对应的线程先执行完队列中的所有任务后，从其他线程的队列里窃取一个任务来执行。为了减少竞争，通常会使用双端队列，被窃取任务线程永远从双端队
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							6
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="ConcurrentHashMap源码分析" href="/2019/02/01/ConcurrentHashMap源码分析/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								JDK
-								| 
-								
-								<time datetime="2019-02-01T06:05:00.000Z" itemprop="datePublished">
-									2019-02-01
-								</time>
-							</span>
-							<h2 class="post-card-title">ConcurrentHashMap源码分析</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								为什么要使用ConcurrentHashMap
-HashMap线程不安全。在JDK1.8之前的版本中，HashMap的实现在并发执行put操作时会导致HashMap的Entry链表形成环形数据结构，Entry的next节点永远不为空，就会产生死循环获取Entry。在之后的版本中这个死循环的问题不再发生，但仍然无法保证并发环境下的线程安全。
-
-HashTable使用synchronized来保证线程安全，因此当一个线程访问HashTable的同步方法时，其它线程也访问同步方法就
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							5
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
 		</div>
 	</div>
 
@@ -531,7 +202,7 @@ HashTable使用synchronized来保证线程安全，因此当一个线程访问Ha
 	<nav class="pagination">
 		
 		<nav class="page-nav">
-			<a class="extend prev" rel="prev" href="/archives/2019/02/">← Prev</a><a class="page-number" href="/archives/2019/02/">1</a><span class="page-number current">2</span>
+			<a class="extend prev" rel="prev" href="/page/9/">← Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span>
 		</nav>
 		
 	</nav>

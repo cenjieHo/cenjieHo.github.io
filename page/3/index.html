@@ -145,6 +145,56 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
+					<a class="post-card-content-link" title="StringBuilder与StringBuffer源码分析" href="/2019/05/03/StringBuilder与StringBuffer源码分析/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Java
+								| 
+								
+								<time datetime="2019-05-03T13:32:00.000Z" itemprop="datePublished">
+									2019-05-03
+								</time>
+							</span>
+							<h2 class="post-card-title">StringBuilder与StringBuffer源码分析</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								前言StringBuilder与StringBuffer是两个常用的字符串操作类，与String的不同之处在于他们是可变的，不像String的value数组被final修饰的严严实实的，而StringBuilder和StringBuffer的value数组没有被final修饰过，并且这两个类的实现几乎一样，主要的区别在于StringBuffer的方法由synchronized关键字修饰过，所以是线程安全的。这里先贴出整个体系的UML类图：
+
+AbstractStringBui
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							10
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
 					<a class="post-card-content-link" title="CountDownLatch与CyclicBarrier源码分析" href="/2019/05/03/CountDownLatch与CyclicBarrier源码分析/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
@@ -592,55 +642,6 @@ mandatory当mandatory参数设为true时，交换器无法根据自身的类型�
 				</div>
 			</article>
 			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="Redis入门：单线程及五大数据类型" href="/2019/04/21/Redis五大数据类型及应用场景/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								Redis
-								| 
-								
-								<time datetime="2019-04-21T07:29:00.000Z" itemprop="datePublished">
-									2019-04-21
-								</time>
-							</span>
-							<h2 class="post-card-title">Redis入门：单线程及五大数据类型</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								为什么Redis是单线程的首先对于Redis的网络通信模块，它是基于I/O多路复用模型实现的，也就是说只使用一个线程就可以处理多个连接，避免了传统方案使用多线程处理多条连接时的上下文切换开销。而对于命令的执行，因为Redis是基于内存的操作，CPU不是Redis的瓶颈，单线程的处理效率就是最高的，使用多线程反而会增大切换开销，并且引入线程安全的问题，因此Redis使用单线程的方案。
-那什么时候应该使用多线程呢？其实对于类似磁盘I/O读写的操作，如果使用单线程执行，当耗时较长时
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							6
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
 		</div>
 	</div>
 
@@ -649,7 +650,7 @@ mandatory当mandatory参数设为true时，交换器无法根据自身的类型�
 	<nav class="pagination">
 		
 		<nav class="page-nav">
-			<a class="extend prev" rel="prev" href="/page/2/">← Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/">Next →</a>
+			<a class="extend prev" rel="prev" href="/page/2/">← Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/">Next →</a>
 		</nav>
 		
 	</nav>

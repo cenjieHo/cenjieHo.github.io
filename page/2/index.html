@@ -145,6 +145,58 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
+					<a class="post-card-content-link" title="MyBatis架构设计" href="/2019/05/16/MyBatis架构设计/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								MyBatis
+								| 
+								
+								<time datetime="2019-05-16T08:28:00.000Z" itemprop="datePublished">
+									2019-05-16
+								</time>
+							</span>
+							<h2 class="post-card-title">MyBatis架构设计</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								整体架构
+MyBatis和数据库交互有两种方式：
+
+使用传统的MyBatis提供的API：传递Statement Id和查询参数给SqlSession对象，使用SqlSession对象完成和数据库的交互：
+使用Mapper接口：MyBatis将配置文件中的每一个&lt;mapper&gt;节点抽象为一个Mapper接口，而这个接口中声明的方法和&lt;mapper&gt;节点中的&lt;select | update | delete | insert&gt;节点项对应，即s
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							3
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
 					<a class="post-card-content-link" title="JDBC：PreparedStatement和Statement" href="/2019/05/16/JDBC：PreparedStatement和Statement/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
@@ -594,56 +646,6 @@ Lambda表达式Lambda表达式能够让我们把函数作为方法参数，或�
 				</div>
 			</article>
 			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="StringBuilder与StringBuffer源码分析" href="/2019/05/03/StringBuilder与StringBuffer源码分析/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								Java
-								| 
-								
-								<time datetime="2019-05-03T13:32:00.000Z" itemprop="datePublished">
-									2019-05-03
-								</time>
-							</span>
-							<h2 class="post-card-title">StringBuilder与StringBuffer源码分析</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								前言StringBuilder与StringBuffer是两个常用的字符串操作类，与String的不同之处在于他们是可变的，不像String的value数组被final修饰的严严实实的，而StringBuilder和StringBuffer的value数组没有被final修饰过，并且这两个类的实现几乎一样，主要的区别在于StringBuffer的方法由synchronized关键字修饰过，所以是线程安全的。这里先贴出整个体系的UML类图：
-
-AbstractStringBui
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							10
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
 		</div>
 	</div>
 
@@ -652,7 +654,7 @@ AbstractStringBui
 	<nav class="pagination">
 		
 		<nav class="page-nav">
-			<a class="extend prev" rel="prev" href="/">← Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next →</a>
+			<a class="extend prev" rel="prev" href="/">← Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/">Next →</a>
 		</nav>
 		
 	</nav>

@@ -128,7 +128,7 @@
             <h1 class="site-title">
                 Archives
             </h1>
-            <h2 class="site-description">Total: 90</h2>
+            <h2 class="site-description">Total: 91</h2>
         </div>
         
         
@@ -139,6 +139,63 @@
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="Redis Pipeline" href="/2019/04/21/Redis-管道/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Redis
+								| 
+								
+								<time datetime="2019-04-21T06:28:00.000Z" itemprop="datePublished">
+									2019-04-21
+								</time>
+							</span>
+							<h2 class="post-card-title">Redis Pipeline</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								命令执行Redis客户端执行一条命令分为以下四个步骤:
+
+发送命令
+命令排队
+命令执行
+返回结果
+
+其中，第一步加第四步称为Round Trip Time（RTT，往返时间）。
+性能瓶颈Redis提供了批量操作命令（例如mget、mset等），有效的节约了RTT，但大部分命令是不支持批量操作的。由于Redis命令执行本身是很快的（微妙级别），而发送命令以及返回结果的网络耗时往往更大，所以说Redis的性能瓶颈其实是网络。
+Pipeline机制Pipeline机制能改善上面这类
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							1
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
 			
 			<article class="post-card post  no-image ">
 				
@@ -605,71 +662,6 @@ RDBRDB持久化是将当前进程中的数据生成快照保存到硬盘，保�
 						</div>
 						<span class="reading-time">
 							4
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="NIO知识点总结" href="/2019/03/10/NIO知识点总结/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								NIO
-								| 
-								
-								<time datetime="2019-03-10T12:55:00.000Z" itemprop="datePublished">
-									2019-03-10
-								</time>
-							</span>
-							<h2 class="post-card-title">NIO知识点总结</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								简介Java NIO是一个可以替代标准Java IO API的IO API，主要有以下三个核心组件：
-
-Channels
-Buffers
-Selectors
-
-NIO与IO的主要区别在于：
-
-IO是面向流的，NIO是面向缓冲区的。
-IO是阻塞的，NIO是非阻塞的。
-NIO有选择器，允许一个单独的线程来管理多个输入通道。
-
-
-ChannelJava NIO的通道类似流，主要区别在于：
-
-既可以从通道中读取数据，又可以写数据到通道。但流的读写通常是单向的。
-通道可以异步地读写。
-
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							26
 							min read
 						</span>
 					</footer>

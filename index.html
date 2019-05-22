@@ -195,6 +195,54 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
+					<a class="post-card-content-link" title="Simple IoC开发日志：加载Bean" href="/2019/05/21/Simple-IoC开发日志：getBean/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								| 
+								
+								<time datetime="2019-05-21T10:43:00.000Z" itemprop="datePublished">
+									2019-05-21
+								</time>
+							</span>
+							<h2 class="post-card-title">Simple IoC开发日志：加载Bean</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								Spring IoC实现在之前加载注册BeanDefinition完成后，Spring已经存在一组beanName - &gt;BeanDefinition的映射了，接下来我们就可以根据名称或类型实例化并获取我们想要的Bean，而和这个实例化Bean相关的则是整个BeanFactory体系。接下来我们从doGetBean()这个方法开始分析起，这个方法涵盖了实例化Bean的总流程，大致步骤如下：
+
+将 alias name、FactoryBean name 转换为对应的bea
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							17
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
 					<a class="post-card-content-link" title="Simple IoC开发日志：注册BeanDefinitions" href="/2019/05/19/Simple-IoC开发日志：BeanDefinition加载/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
@@ -592,58 +640,6 @@ StatementHandler
 				</div>
 			</article>
 			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="MyBatis架构设计" href="/2019/05/16/MyBatis架构设计/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								MyBatis
-								| 
-								
-								<time datetime="2019-05-16T08:28:00.000Z" itemprop="datePublished">
-									2019-05-16
-								</time>
-							</span>
-							<h2 class="post-card-title">MyBatis架构设计</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								整体架构
-MyBatis和数据库交互有两种方式：
-
-使用传统的MyBatis提供的API：传递Statement Id和查询参数给SqlSession对象，使用SqlSession对象完成和数据库的交互：
-使用Mapper接口：MyBatis将配置文件中的每一个&lt;mapper&gt;节点抽象为一个Mapper接口，而这个接口中声明的方法和&lt;mapper&gt;节点中的&lt;select | update | delete | insert&gt;节点项对应，即s
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							3
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
 		</div>
 	</div>
 
@@ -652,7 +648,7 @@ MyBatis和数据库交互有两种方式：
 	<nav class="pagination">
 		
 		<nav class="page-nav">
-			<span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next →</a>
+			<span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">Next →</a>
 		</nav>
 		
 	</nav>
