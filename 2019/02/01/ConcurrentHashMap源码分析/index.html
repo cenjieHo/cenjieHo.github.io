@@ -157,10 +157,8 @@
 <p>基于以上两点，我们在并发环境中应该选择线程安全且高效的<code>ConcurrentHashMap</code>。</p>
 <a id="more"></a>
 <h2 id="版本演进"><a href="#版本演进" class="headerlink" title="版本演进"></a>版本演进</h2><ul>
-<li><p>jdk1.7采用分段锁技术，整个哈希表被分成多个段，每个段中会对应一个Segment段锁，段与段之间可以并发访问，但是多线程想要操作同一个段是需要获取锁的。所有的put，get，remove等方法都是根据键的哈希值对应到相应的段中，然后尝试获取锁进行访问。</p>
-</li>
-<li><p>jdk1.8取消了基于Segment的分段锁思想，改用CAS + synchronized控制并发操作，在某些方面提升了性能。并且追随1.8版本的 HashMap 底层实现，使用数组+链表+红黑树进行数据存储。</p>
-</li>
+<li>jdk1.7采用分段锁技术，整个哈希表被分成多个段，每个段中会对应一个Segment段锁，段与段之间可以并发访问，但是多线程想要操作同一个段是需要获取锁的。所有的put，get，remove等方法都是根据键的哈希值对应到相应的段中，然后尝试获取锁进行访问。<br><img alt="" class="post-img b-lazy" href="http://blog.default.nanwulife.com/2184951-af57d9d50ae9f547.png" data-src="http://blog.default.nanwulife.com/2184951-af57d9d50ae9f547.png"></li>
+<li>jdk1.8取消了基于Segment的分段锁思想，改用CAS + synchronized控制并发操作，在某些方面提升了性能。并且追随1.8版本的 HashMap 底层实现，使用数组+链表+红黑树进行数据存储。<br><img alt="" class="post-img b-lazy" href="http://blog.default.nanwulife.com/2184951-d9933a0302f72d47.png" data-src="http://blog.default.nanwulife.com/2184951-d9933a0302f72d47.png"></li>
 </ul>
 <h2 id="JDK1-8分析"><a href="#JDK1-8分析" class="headerlink" title="JDK1.8分析"></a>JDK1.8分析</h2><h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> <span class="keyword">volatile</span> Node&lt;K,V&gt;[] table;	<span class="comment">//哈希表，第一次put时才进行初始化</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> Node&lt;K,V&gt;[] nextTable;	<span class="comment">//扩容时新生成的数组，其大小为原数组的两倍。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> <span class="keyword">long</span> baseCount;	<span class="comment">//哈希表中存储的所有的结点的个数总和</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 用来控制table的初始化和扩容操作，默认为0。</span></span><br><span class="line"><span class="comment"> * 当为-1时代表table正在初始化，-N代表N-1个线程正在进行扩容操作，其余情况：</span></span><br><span class="line"><span class="comment"> * 如果table未初始化，表示table需要初始化的大小。</span></span><br><span class="line"><span class="comment"> * 如果table初始化完成，表示table的容量。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> <span class="keyword">int</span> sizeCtl;</span><br></pre></td></tr></table></figure>
 <h3 id="ForwardingNode"><a href="#ForwardingNode" class="headerlink" title="ForwardingNode"></a>ForwardingNode</h3><p>这是一个特殊的<code>Node</code>节点，用来占位表示扩容时该桶的所有节点已完成迁移，hash值为-1，<code>key</code>和<code>value</code>都为null，并且内部存储着扩容后的表<code>nextTable</code>的引用。</p>
@@ -194,6 +192,7 @@
 <li><a href="https://www.cnblogs.com/yangming1996/p/8031199.html" target="_blank" rel="noopener">为并发而生的 ConcurrentHashMap（Java 8）</a></li>
 <li><a href="https://www.jianshu.com/p/c0642afe03e0" target="_blank" rel="noopener">深入浅出ConcurrentHashMap1.8</a></li>
 <li><a href="https://juejin.im/post/5b00160151882565bd2582e0" target="_blank" rel="noopener">并发编程——ConcurrentHashMap#transfer() 扩容逐行分析</a></li>
+<li><a href="">谈谈ConcurrentHashMap1.7和1.8的不同实现</a><br>tps://<a href="http://www.jianshu.com/p/e694f1e868ec" target="_blank" rel="noopener">www.jianshu.com/p/e694f1e868ec</a>)</li>
 </ul>
 
                 </div>

@@ -331,13 +331,10 @@ synchronized实现原理每个对象有一个监视器锁（mo
 								
 								
 								
-								简介volatile是轻量级的synchronized，如果使用恰当的话，它会比synchronized的使用成本更低，因为它不会引起线程上下文的切换和调度。如果一个字段被声明成volatile，它将具有以下两个特性：
+								简介Synchronized能够实现原子性和可见性，在Java内存模型中，Synchronized规定线程在加锁时，先清空工作内存，从主内存中拷贝最新变量的副本到工作内存，执行完代码后再刷新到主内存中，此时才能释放锁。
+volatile是轻量级的synchronized，如果使用恰当的话，它会比synchronized的使用成本更低，因为它不会引起线程上下文的切换和调度。如果一个字段被声明成volatile，它将具有以下两个特性：
 
-可见性：对一个volatile变量的读，总是能看到任意线程对这个volatile变量最后的写入。
-原子性：对任意单个volatile变量的读/写具有原子性，但类似于volatile++这种复合操作不具有原子性。
-
-
-volatile的实现原理如果对声明了vo
+可见性，即一个线程修改了某个变量的值，这新
 								...
 							</p>
 						</section>
@@ -354,7 +351,7 @@ volatile的实现原理如果对声明了vo
 							</div>
 						</div>
 						<span class="reading-time">
-							2
+							3
 							min read
 						</span>
 					</footer>
