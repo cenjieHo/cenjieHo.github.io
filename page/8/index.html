@@ -145,6 +145,57 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
+					<a class="post-card-content-link" title="ConcurrentHashMap源码分析" href="/2019/02/01/ConcurrentHashMap源码分析/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								JDK
+								| 
+								
+								<time datetime="2019-02-01T06:05:00.000Z" itemprop="datePublished">
+									2019-02-01
+								</time>
+							</span>
+							<h2 class="post-card-title">ConcurrentHashMap源码分析</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								为什么要使用ConcurrentHashMap
+HashMap线程不安全。在JDK1.8之前的版本中，HashMap的实现在并发执行put操作时会导致HashMap的Entry链表形成环形数据结构，Entry的next节点永远不为空，就会产生死循环获取Entry。在之后的版本中这个死循环的问题不再发生，但仍然无法保证并发环境下的线程安全。
+
+HashTable使用synchronized来保证线程安全，因此当一个线程访问HashTable的同步方法时，其它线程也访问同步方法就
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							5
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
 					<a class="post-card-content-link" title="设计模式" href="/2019/01/29/设计模式/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
@@ -629,60 +680,6 @@ Analysis对于树我们一般有两种策略：
 						</div>
 						<span class="reading-time">
 							7
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="常用查找算法之B/B+树" href="/2019/01/28/常用查找算法之B-B-树/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								算法
-								| 
-								
-								<time datetime="2019-01-28T14:24:00.000Z" itemprop="datePublished">
-									2019-01-28
-								</time>
-							</span>
-							<h2 class="post-card-title">常用查找算法之B/B+树</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								前言从算法逻辑上讲二叉查找树的查找和插入操作效率都已经很高，但是在实际应用中由于我们不能将整个索引表加载到内存，只能逐一加载每个磁盘页，这里的磁盘页就对应着索引树的节点。因此我们要将原本“瘦高”的树结构变得“矮胖”，从而减少磁盘IO的次数。
-
-B- 树B-树是一种多路平衡查找树，是对2-3树的一个扩展。一个m阶的B树（m的大小取决于磁盘页的大小）具有如下几个特征：
-
-根结点至少有两个子女。
-每个中间节点都包含k-1个元素和k个孩子，其中 k ∈ [m/2, m]
-每一个叶子节
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							4
 							min read
 						</span>
 					</footer>

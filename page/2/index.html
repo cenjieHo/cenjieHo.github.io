@@ -145,6 +145,54 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
+					<a class="post-card-content-link" title="@Autowired源码分析" href="/2019/05/24/Autowired源码分析/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								| 
+								
+								<time datetime="2019-05-24T06:24:18.000Z" itemprop="datePublished">
+									2019-05-24
+								</time>
+							</span>
+							<h2 class="post-card-title">@Autowired源码分析</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								AutowiredAnnotationBeanPostProcessor@Autowired注解的逻辑是由AutowiredAnnotationBeanPostProcessor实现的，AutowiredAnnotationBeanPostProcessor不是一个简单的BeanPostProcessor，而是一个实现了多重接口的BeanPostProcessor，它主要实现了以下两个接口：
+
+InstantiationAwareBeanPostProcessor：对应pos
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							22
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
 					<a class="post-card-content-link" title="破坏双亲委派模型" href="/2019/05/24/破坏双亲委派模型/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
@@ -582,55 +630,6 @@ StatementHandler
 						</div>
 						<span class="reading-time">
 							10
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="MyBatis缓存机制" href="/2019/05/17/MyBatis缓存机制/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								MyBatis
-								| 
-								
-								<time datetime="2019-05-17T04:10:00.000Z" itemprop="datePublished">
-									2019-05-17
-								</time>
-							</span>
-							<h2 class="post-card-title">MyBatis缓存机制</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								前言缓存机制是MyBatis的一大特性，它分为一级和二级缓存，其中一级缓存是SqlSession级别的缓存，其实现较为简单，而二级缓存是mapper级别的缓存，并且多个SqlSession之间可以共享。
-一级缓存每当我们使用MyBatis开启一次和数据库的会话，MyBatis会创建出一个SqlSession对象表示一次数据库会话，对于这种会话级别的数据缓存，我们就称之为一级缓存。通过一级缓存，每次查询时都将结果缓存起来，当下次查询的时候，如果判断先前有个完全一样的查询，会从缓
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							9
 							min read
 						</span>
 					</footer>

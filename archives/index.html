@@ -128,7 +128,7 @@
             <h1 class="site-title">
                 Archives
             </h1>
-            <h2 class="site-description">Total: 102</h2>
+            <h2 class="site-description">Total: 103</h2>
         </div>
         
         
@@ -139,6 +139,53 @@
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="关于Java和Python的一些思考" href="/2019/05/30/关于Java和Python的一些思考/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								| 
+								
+								<time datetime="2019-05-30T11:37:00.000Z" itemprop="datePublished">
+									2019-05-30
+								</time>
+							</span>
+							<h2 class="post-card-title">关于Java和Python的一些思考</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								前言最近实习在做的一些项目都是用Python来写的，虽然在之前就有学习过Python的语法，但真正用到的机会很少，而这次通过项目刚好让我对Python有了更进一步的认识，并且在此总结一下Python与之前用的比较多的Java的一些区别。
+动态类型Python与Java很大的一个区别在于Java必须在第一次声明变量时指定其类型，也就是所谓的静态类型，而Python则不一样，Python可以动态改变变量的类型。虽然Python的这个特性显得十分灵活，并且某些场景下可能开发效率更高
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							2
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
 			
 			<article class="post-card post  no-image ">
 				
@@ -588,55 +635,6 @@ InstantiationAwareBeanPostProcessor：对应pos
 						</div>
 						<span class="reading-time">
 							22
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="破坏双亲委派模型" href="/2019/05/24/破坏双亲委派模型/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								JVM
-								| 
-								
-								<time datetime="2019-05-24T02:34:00.000Z" itemprop="datePublished">
-									2019-05-24
-								</time>
-							</span>
-							<h2 class="post-card-title">破坏双亲委派模型</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								如何破坏双亲委派模型双亲委派模型不是一个强制性的约束模型，而是一个建议型的类加载器实现方式。考虑这么一个问题，如果基础类需要调用用户的代码该怎么办，因为根据双亲委派模型，越基础的类由越上层的加载器进行加载，但是上层的加载器并不认识用户的代码。
-一个典型的例子就是JNDI服务，JNDI现在已经是Java的标准服务，它的代码由启动类加载器去加载（在JDK1.3时就放进rt.jar）,但它需要调用由独立厂商实现并部署在应用程序的ClassPath下的JNDI接口提供者（SPI， S
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							3
 							min read
 						</span>
 					</footer>

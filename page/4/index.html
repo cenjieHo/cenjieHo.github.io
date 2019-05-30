@@ -145,6 +145,55 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
+					<a class="post-card-content-link" title="Java序列化与反序列化机制" href="/2019/05/04/Java序列化与反序列化机制/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Java
+								| 
+								
+								<time datetime="2019-05-04T14:32:00.000Z" itemprop="datePublished">
+									2019-05-04
+								</time>
+							</span>
+							<h2 class="post-card-title">Java序列化与反序列化机制</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								前言序列化是一种对象持久化的手段，使用Java对象序列化，保存对象时会将其状态保存为一组字节，在之后可以再将这些字节组装成对象。简单来说，要实现Java对象的序列化，我们只需要让被序列化类实现Serializable接口，并且使用ObjectInputStream和ObjectOutputStream进行对象的读写即可。但是，关于Java序列化和反序列化其实还有一些更深层次的特性需要了解。
+如何实现对象的序列化首先，先介绍一下如何将对象序列化并反序列化。在Java中，被序列化
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							14
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
 					<a class="post-card-content-link" title="Java中的深拷贝与浅拷贝" href="/2019/05/04/Java中的深拷贝与浅拷贝/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
@@ -587,55 +636,6 @@ ErrorError是程序无法处理的错误，表示代码运行时Java虚拟机出
 						</div>
 						<span class="reading-time">
 							16
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="RabbitMQ高级特性" href="/2019/04/26/RabbitMQ高级特性/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								RabbitMQ
-								| 
-								
-								<time datetime="2019-04-26T05:03:00.000Z" itemprop="datePublished">
-									2019-04-26
-								</time>
-							</span>
-							<h2 class="post-card-title">RabbitMQ高级特性</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								消息返回mandatory和immediate是发布消息时的两个参数，它们都有当消息传递过程中不可达目的地时将消息返回给生产者的功能。mandatory参数告诉服务器该消息至少能路由到一个队列中，而immediate参数告诉服务器要投递的队列必须有消费者。
-mandatory当mandatory参数设为true时，交换器无法根据自身的类型和路由键找到一个符合条件的队列，那么RabbitMQ会调用Basic.Return命令将消息返回给生产者；当mandatory参数设置为fa
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							10
 							min read
 						</span>
 					</footer>

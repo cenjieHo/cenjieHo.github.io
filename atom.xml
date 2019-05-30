@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-05-28T23:57:04.893Z</updated>
+  <updated>2019-05-30T12:28:58.093Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>关于Java和Python的一些思考</title>
+    <link href="http://yoursite.com/2019/05/30/%E5%85%B3%E4%BA%8EJava%E5%92%8CPython%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/"/>
+    <id>http://yoursite.com/2019/05/30/关于Java和Python的一些思考/</id>
+    <published>2019-05-30T11:37:00.000Z</published>
+    <updated>2019-05-30T12:28:58.093Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近实习在做的一些项目都是用Python来写的，虽然在之前就有学习过Python的语法，但真正用到的机会很少，而这次通过项目刚好让我对Python有了更进一步的认识，并且在此总结一下Python与之前用的比较多的Java的一些区别。</p><h2 id="动态类型"><a href="#动态类型" class="headerlink" title="动态类型"></a>动态类型</h2><p>Python与Java很大的一个区别在于Java必须在第一次声明变量时指定其类型，也就是所谓的静态类型，而Python则不一样，Python可以动态改变变量的类型。虽然Python的这个特性显得十分灵活，并且某些场景下可能开发效率更高一些，但稍不注意的话就有可能出错，在写代码时要更加注意。</p><h2 id="缩进"><a href="#缩进" class="headerlink" title="缩进"></a>缩进</h2><p>Python不像很多语言使用花括号定义函数或类，而是使用的缩进将代码分割成块，使得代码可读性更高一些。</p><h2 id="GIL"><a href="#GIL" class="headerlink" title="GIL"></a>GIL</h2><p>因为在项目中有许多要异步执行的任务，如果不了解Python的话，可能就会想到用多线程来解决问题，但实际上，Python中并不存在真正意义上的多线程，原因就是GIL的存在。GIL即全局解释器锁，Python的每个线程运行时首先要获得该锁，这也就意味着任何时刻仅有一个线程在执行，无法利用到多核的优势，使得多线程的效率甚至还不如单线程。但这也并非绝对的，在I/O操作或别的一些情况下，线程会主动释放GIL，这样别的线程就可以继续工作了，而如果是想完成一些CPU密集的任务的话，就只能通过进程或协程来解决了。</p><h2 id="垃圾收集"><a href="#垃圾收集" class="headerlink" title="垃圾收集"></a>垃圾收集</h2><p>不像Java使用的可达性分析算法，Python中的垃圾收集是使用的引用计数法，这也就意味着会有循环引用的问题。比如说，在以下这个代码中：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f2</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        c1=ClassA()</span><br><span class="line">        c2=ClassA()</span><br><span class="line">        c1.t=c2</span><br><span class="line">        c2.t=c1</span><br><span class="line">        <span class="keyword">del</span> c1</span><br><span class="line">        <span class="keyword">del</span> c2</span><br></pre></td></tr></table></figure></p><p>在执行完上面的代码后，两个对象的引用计数都为1而非0，虽然它们都应该要被回收销毁的，但由于存在循环引用，所以不会被回收掉，也就导致了内存泄露。要解决这个问题，可以使用gc模块。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;最近实习在做的一些项目都是用Python来写的，虽然在之前就有学习过Python的语法，但真正用到的机会很少，而这次通过项目刚好让我对Pyt
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>常见查找算法之跳跃表</title>
@@ -480,31 +501,6 @@
       
       
         &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;缓存机制是MyBatis的一大特性，它分为一级和二级缓存，其中一级缓存是&lt;code&gt;SqlSession&lt;/code&gt;级别的缓存，其实现较为
-      
-    
-    </summary>
-    
-      <category term="MyBatis" scheme="http://yoursite.com/categories/MyBatis/"/>
-    
-    
-      <category term="MyBatis" scheme="http://yoursite.com/tags/MyBatis/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MyBatis之#{}和${}的区别</title>
-    <link href="http://yoursite.com/2019/05/16/MyBatis%E4%B9%8B-%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
-    <id>http://yoursite.com/2019/05/16/MyBatis之-和-的区别/</id>
-    <published>2019-05-16T09:58:00.000Z</published>
-    <updated>2019-05-16T10:00:29.823Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>动态SQL是MyBatis的强大特性之一，我们在使用MyBatis作为持久层框架时，经常需要动态传递参数，例如我们需要根据用户的姓名来筛选用户时，SQL如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">"Lihua"</span>;</span><br></pre></td></tr></table></figure></p><p>上述SQL中，我们希望<code>name</code>是动态可变的，即不同的时刻根据不同的姓名来查询用户，那么在MyBatis的xml中可以如下配置：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">name</span> = #&#123;<span class="keyword">name</span>&#125;;</span><br></pre></td></tr></table></figure></p><p>或者<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">'$&#123;name&#125;'</span>;</span><br></pre></td></tr></table></figure></p><p>这两种方式的本质是不同的，如果不了解其原理，在某些场景下会导致意想不到的后果。</p><h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>MyBatis在对SQL语句进行预编译之前，会对SQL进行动态解析，解析为一个<code>BoundSql</code>对象，也正是在这个阶段<code>#{}</code>和<code>${}</code>会有不同的表现。</p><h3 id=""><a href="#" class="headerlink" title="#{}"></a>#{}</h3><p>在动态SQL解析阶段，<code>#{}</code>解析为一个JDBC预编译（<code>PreparedStatement</code>）的参数标记符。例如，如下的SQL语句：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">name</span> = #&#123;<span class="keyword">name</span>&#125;;</span><br></pre></td></tr></table></figure></p><p>会被解析为：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">name</span> = ?;</span><br></pre></td></tr></table></figure></p><p>也就是说，一个<code>#{}</code>被解析为一个参数占位符<code>?</code>。</p><h3 id="-1"><a href="#-1" class="headerlink" title="${}"></a>${}</h3><p>在动态SQL解析阶段，<code>${}</code>仅仅为一个纯粹的字符串替换。例如，如下的SQL语句：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">'$&#123;name&#125;'</span>;</span><br></pre></td></tr></table></figure></p><p>当我们传递的参数为<code>Lihua</code>时，上述SQL解析为：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">"Lihua"</span>;</span><br></pre></td></tr></table></figure></p><p>也就是说，预编译前的SQL语句已经不包含变量<code>name</code>了。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>对于<code>#{}</code>，它其实就对应着JDBC中的<code>PreparedStatement</code>的<code>?</code>，因此一旦MySQL服务器对SQL模板进行了编译，并且存储了函数，<code>PreparedStatement</code>做的就是把参数进行转义后直接传入参数到数据库，然后让函数执行，也就避免了SQL注入的问题；而<code>${}</code>的变量替换是在动态SQL解析阶段，也就是预编译之前，相当于这个SQL语句已经是个常量了，因此会产生SQL注入的问题。</p><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul><li><a href="https://segmentfault.com/a/1190000004617028" target="_blank" rel="noopener">mybatis深入理解(一)之 # 与 $ 区别以及 sql 预编译</a></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;动态SQL是MyBatis的强大特性之一，我们在使用MyBatis作为持久层框架时，经常需要动态传递参数，例如我们需要根据用户的姓名来筛选用
       
     
     </summary>

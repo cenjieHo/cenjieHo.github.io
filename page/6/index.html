@@ -145,6 +145,57 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
+					<a class="post-card-content-link" title="Redis主从复制" href="/2019/03/30/dis主从复制/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Redis
+								| 
+								
+								<time datetime="2019-03-30T08:06:00.000Z" itemprop="datePublished">
+									2019-03-30
+								</time>
+							</span>
+							<h2 class="post-card-title">Redis主从复制</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								概述主从复制是指将主节点（master）的数据复制到从节点（slave）中，数据的复制是单向的，只能由主节点到从节点。
+基本原理主从复制过程大体可以分为3个阶段：连接建立阶段、数据同步阶段、命令传播阶段。
+连接建立阶段主从复制的开启，完全是在从节点发起的（通过slaveof命令），不需要我们在主节点做任何事情。需要注意的是，slaveof是异步命令，从节点完成主节点ip和port的保存后，向发送slaveof命令的客户端直接返回OK，实际的复制操作在这之后才开始进行。
+数据同
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							4
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
 					<a class="post-card-content-link" title="Redis持久化：AOF与RDB" href="/2019/03/30/Redis五种数据类型/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
@@ -626,81 +677,6 @@ CountDownLatch是通过一个计数器来实现的，计数器的初始值为线
 						</div>
 						<span class="reading-time">
 							4
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="Java并发编程基础" href="/2019/02/09/Java并发编程基础/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								并发
-								| 
-								
-								<time datetime="2019-02-09T02:24:00.000Z" itemprop="datePublished">
-									2019-02-09
-								</time>
-							</span>
-							<h2 class="post-card-title">Java并发编程基础</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								线程状态Java线程在运行的生命周期中可能处于以下6种不同的状态：
-
-
-
-状态名称
-说明
-
-
-
-
-NEW
-初始状态，线程被构建，但是还没调用start()方法
-
-
-RUNNABLE
-运行状态，Java线程将操作系统中的就绪和运行两种状态笼统地称作“运行中”
-
-
-BLOCKED
-阻塞状态，表示线程阻塞于锁
-
-
-WAITING
-无限期等待状态，进入该状态表示当前线程需要等待其它线程做出一些特定动作（通知或中断）
-
-
-TIME_WAITING
-限期等待状态，可以在指定的时间自行返回
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							8
 							min read
 						</span>
 					</footer>
