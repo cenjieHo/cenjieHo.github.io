@@ -128,7 +128,7 @@
             <h1 class="site-title">
                 Archives
             </h1>
-            <h2 class="site-description">Total: 103</h2>
+            <h2 class="site-description">Total: 104</h2>
         </div>
         
         
@@ -139,6 +139,54 @@
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="汇编程序设计练习" href="/2019/07/04/汇编程序设计练习/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								| 
+								
+								<time datetime="2019-07-04T03:09:19.000Z" itemprop="datePublished">
+									2019-07-04
+								</time>
+							</span>
+							<h2 class="post-card-title">汇编程序设计练习</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								[toc]
+把内存中首地址为MEM1的200个字节送到首地址为MEM2的区域中12345678910		MOV SI, OFFSET MEM1			MOV DI, OFFSET MEM2		MOV CX, 200NEXT:   MOV AL, [SI]		MOV [DI], AL		INC SI		INC DI		DEC CX		JNZ NEXT    ;若循环次数（CX）不为0，则转移到 NEXT 标号处		HLT         ;停止
+x、y、z均为32位数，分别存放在
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							9
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
 			
 			<article class="post-card post  no-image ">
 				
@@ -587,54 +635,6 @@ TCP主要提供完整性服务，UDP主要提供及时性服务
 						</div>
 						<span class="reading-time">
 							0
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="@Autowired源码分析" href="/2019/05/24/Autowired源码分析/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								| 
-								
-								<time datetime="2019-05-24T06:24:18.000Z" itemprop="datePublished">
-									2019-05-24
-								</time>
-							</span>
-							<h2 class="post-card-title">@Autowired源码分析</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								AutowiredAnnotationBeanPostProcessor@Autowired注解的逻辑是由AutowiredAnnotationBeanPostProcessor实现的，AutowiredAnnotationBeanPostProcessor不是一个简单的BeanPostProcessor，而是一个实现了多重接口的BeanPostProcessor，它主要实现了以下两个接口：
-
-InstantiationAwareBeanPostProcessor：对应pos
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							22
 							min read
 						</span>
 					</footer>

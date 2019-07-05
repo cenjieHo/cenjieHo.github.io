@@ -195,6 +195,54 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
+					<a class="post-card-content-link" title="汇编程序设计练习" href="/2019/07/04/汇编程序设计练习/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								| 
+								
+								<time datetime="2019-07-04T03:09:19.000Z" itemprop="datePublished">
+									2019-07-04
+								</time>
+							</span>
+							<h2 class="post-card-title">汇编程序设计练习</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								[toc]
+把内存中首地址为MEM1的200个字节送到首地址为MEM2的区域中12345678910		MOV SI, OFFSET MEM1			MOV DI, OFFSET MEM2		MOV CX, 200NEXT:   MOV AL, [SI]		MOV [DI], AL		INC SI		INC DI		DEC CX		JNZ NEXT    ;若循环次数（CX）不为0，则转移到 NEXT 标号处		HLT         ;停止
+x、y、z均为32位数，分别存放在
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							9
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
 					<a class="post-card-content-link" title="关于Java和Python的一些思考" href="/2019/05/30/关于Java和Python的一些思考/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
@@ -565,61 +613,6 @@ SQL线程：负责读取中继日志，解析出主服务器已经执行的数�
 GET用于资源获取，是安全且幂等的，安全的意思是仅仅会获取资源而不会影响资源状态，幂等则是对同一URL的多次请求应该返回同样的结果；POST主要用来传输数据，多次调用会产生多个新的资源，因此是不安全且非幂等的。
 GET请求的数据会包含在URL中，而POST请求则把数据放置在HTTP请求体中。
 正因为GET请求是通过URL提交数据，所以GET请求可提交的数据量跟URL的长度有关系，而POST请求从理论上讲是没有大小限制，可传较大量的数据。
-
-
-								
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							0
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="TCP与UDP的区别" href="/2019/05/26/TCP与UDP的区别/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								计算机网络
-								| 
-								
-								<time datetime="2019-05-26T11:11:00.000Z" itemprop="datePublished">
-									2019-05-26
-								</time>
-							</span>
-							<h2 class="post-card-title">TCP与UDP的区别</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								OSI和TCP/IP模型在传输层定义了两种传输协议：TCP（传输控制协议）和 UDP（用户数据报协议）。它们的主要区别如下：
-
-面向连接与无连接
-TCP保证数据可靠性，错误重发；UDP不可靠，可能丢包 
-TCP保证数据顺序，UDP不保证
-TCP主要提供完整性服务，UDP主要提供及时性服务
 
 
 								

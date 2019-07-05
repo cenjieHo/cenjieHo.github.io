@@ -128,7 +128,7 @@
             <h1 class="site-title">
                 Archives
             </h1>
-            <h2 class="site-description">Total: 103</h2>
+            <h2 class="site-description">Total: 104</h2>
         </div>
         
         
@@ -139,6 +139,62 @@
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="深入理解JVM-垃圾收集与内存分配" href="/2019/01/28/深入理解JVM-垃圾收集与内存分配/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								JVM
+								| 
+								
+								<time datetime="2019-01-28T10:54:00.000Z" itemprop="datePublished">
+									2019-01-28
+								</time>
+							</span>
+							<h2 class="post-card-title">深入理解JVM-垃圾收集与内存分配</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								对象存活判断判断对象是否存活一般有引用计数法和可达性分析两种方式。
+
+引用计数算法为每个对象添加一个引用计数器，新增一个引用时计数器加1，引用释放时计数器减1，计数器为0时该对象可以被回收。
+引用计数法实现简单且高效，但无法解决对象之间相互循环引用的问题。
+可达性分析算法通过一系列GC Roots作为起始点向下搜索，搜索所走过的路径称为引用链，当一个对象到GC Roots没有任何引用链相连时，则证明此对象是不可引用的。
+
+可作为GC Roots的对象包括下面几种：
+
+虚拟机栈
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							10
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
 			
 			<article class="post-card post  no-image ">
 				
@@ -636,56 +692,6 @@ CPU现场信息
 						</div>
 						<span class="reading-time">
 							17
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="ArrayList源码分析" href="/2018/09/06/ArrayList源码分析/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								JDK
-								| 
-								
-								<time datetime="2018-09-06T03:00:00.000Z" itemprop="datePublished">
-									2018-09-06
-								</time>
-							</span>
-							<h2 class="post-card-title">ArrayList源码分析</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								ArrayList简介（jdk1.8）ArrayList就是动态数组，其容量能够自动增长。如下为ArrayList的继承体系结构：
-12public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt;        implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable
-ArrayList实现了List, RandomAccess,
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							18
 							min read
 						</span>
 					</footer>

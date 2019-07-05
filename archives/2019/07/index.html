@@ -56,7 +56,7 @@
 	<meta property="og:type" content="blog">
 	<meta property="og:title" content="Archives | 水木今山的博客">
 	<meta property="og:description" content="Coding the World">
-	<meta property="og:url" content="http://yoursite.com/archives/2018/08/index.html">
+	<meta property="og:url" content="http://yoursite.com/archives/2019/07/index.html">
 
 	
 </head>
@@ -143,19 +143,17 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
-					<a class="post-card-content-link" title="浅谈对尾递归的理解" href="/2018/08/22/浅谈对尾递归的理解/">
+					<a class="post-card-content-link" title="汇编程序设计练习" href="/2019/07/04/汇编程序设计练习/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
 								
-								
-								算法
 								| 
 								
-								<time datetime="2018-08-22T03:06:04.000Z" itemprop="datePublished">
-									2018-08-22
+								<time datetime="2019-07-04T03:09:19.000Z" itemprop="datePublished">
+									2019-07-04
 								</time>
 							</span>
-							<h2 class="post-card-title">浅谈对尾递归的理解</h2>
+							<h2 class="post-card-title">汇编程序设计练习</h2>
 						</header>
 						<section class="post-card-excerpt">
 							<p>
@@ -164,11 +162,9 @@
 								
 								
 								
-								今天在做《剑指Offer》第十题时，发现了一个用尾递归的解法，由于之前对于尾递归并没有太多了解，于是查阅了一些资料，在此对其进行一个简单的总结。关于其它题目的题解与笔记，感兴趣的朋友可以到我的Github或个人博客上看看：剑指Offer笔记  Cenjie’s Blog ，
-以下是正文。
-
-递归本质递归的本质是自己调用自己，因为是嵌套调用，所以栈帧无法回收，在递归调用的层级太多时，往往会引发调用栈溢出，也就是内存溢出。
-尾递归概述尾递归本质与递归并无区别，只不过是递归的一种特
+								[toc]
+把内存中首地址为MEM1的200个字节送到首地址为MEM2的区域中12345678910		MOV SI, OFFSET MEM1			MOV DI, OFFSET MEM2		MOV CX, 200NEXT:   MOV AL, [SI]		MOV [DI], AL		INC SI		INC DI		DEC CX		JNZ NEXT    ;若循环次数（CX）不为0，则转移到 NEXT 标号处		HLT         ;停止
+x、y、z均为32位数，分别存放在
 								...
 							</p>
 						</section>
@@ -185,7 +181,7 @@
 							</div>
 						</div>
 						<span class="reading-time">
-							2
+							9
 							min read
 						</span>
 					</footer>
