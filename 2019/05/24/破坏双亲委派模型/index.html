@@ -160,10 +160,10 @@
 <li><code>sharedLoader</code>：各个Webapp共享的类加载器，加载路径中的class对于所有Webapp可见，但是对于Tomcat容器不可见。</li>
 <li><code>WebappClassLoader</code>：各个Webapp私有的类加载器，加载路径中的class只对当前Webapp可见。</li>
 </ul>
-<p>Common ClassLoader能加载的类都可以被Catalina ClassLoader和Shared ClassLoader使用，从而实现了公有类库的共用，而Catalina ClassLoader和Shared ClassLoader自己能加载的类则与对方相互隔离，从而保证了安全性。WebApp ClassLoader可以使用Shared ClassLoader加载到的类，但各个WebApp ClassLoader实例之间相互隔离。JasperLoader的加载范围仅仅是这个JSP文件所编译出来的那一个.Class文件，它出现的目的就是为了被丢弃：当Web容器检测到JSP文件被修改时，会替换掉目前的JasperLoader的实例，并通过再建立一个新的Jsp类加载器来实现JSP文件的HotSwap功能。</p>
+<p>Common ClassLoader能加载的类都可以被Catalina ClassLoader和Shared ClassLoader使用，从而实现了公有类库的共用，而Catalina ClassLoader和Shared ClassLoader自己能加载的类则与对方相互隔离，从而保证了安全性。WebApp ClassLoader可以使用Shared ClassLoader加载到的类，但各个WebApp ClassLoader实例之间相互隔离。JasperLoader的加载范围仅仅是这个JSP文件所编译出来的那一个.Class文件，它出现的目的就是为了被丢弃：当Web容器检测到JSP文件被修改时，会替换掉目前的JasperLoader的实例，并通过再建立一个新的Jsp类加载器来实现JSP文件的HotSwap功能，否则如果类名还是一样，旧的类加载器会直接取方法区中已经存在的，修改后的JSP是不会重新加载的。</p>
 <p>可以看出，Tomcat没有遵循双亲委派模型，每个Webapp ClassLoader加载自己的目录下的class文件，不会传递给父类加载器。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="www.jianshu.com/p/abf6fd4531e7?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">深入理解 Tomcat（四）Tomcat 类加载器之为何违背双亲委派模型</a></li>
+<li><a href="https://www.jianshu.com/p/abf6fd4531e7?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation" target="_blank" rel="noopener">深入理解 Tomcat（四）Tomcat 类加载器之为何违背双亲委派模型</a></li>
 </ul>
 
                 </div>
