@@ -146,8 +146,7 @@
             
             <section class="post-full-content">
                 <div id="lightgallery" class="markdown-body">
-                    <p>[toc]</p>
-<h2 id="队列的结构"><a href="#队列的结构" class="headerlink" title="队列的结构"></a>队列的结构</h2><p>通常队列由<code>rabbit_amqqueue_process</code>和<code>backing_queue</code>两部分组成，前者负责协议相关的消息处理，即接受生产者发布的消息、向消费者交付消息、处理消息的确认（包括生产端的<code>confirm</code>和消费端的<code>ack</code>）等。<code>backing_queue</code>是消息存储的具体形式和引擎，并向<code>rabbit_amqqueue_process</code>提供相关的接口以供调用。</p>
+                    <h2 id="队列的结构"><a href="#队列的结构" class="headerlink" title="队列的结构"></a>队列的结构</h2><p>通常队列由<code>rabbit_amqqueue_process</code>和<code>backing_queue</code>两部分组成，前者负责协议相关的消息处理，即接受生产者发布的消息、向消费者交付消息、处理消息的确认（包括生产端的<code>confirm</code>和消费端的<code>ack</code>）等。<code>backing_queue</code>是消息存储的具体形式和引擎，并向<code>rabbit_amqqueue_process</code>提供相关的接口以供调用。</p>
 <h3 id="四种状态"><a href="#四种状态" class="headerlink" title="四种状态"></a>四种状态</h3><p>如果消息投递的目的队列是空的，并且有消费者订阅了这个队列，那么该消息会直接发送给消费者，不会经过队列这一步。而当消息无法直接投递给消费者时，需要暂时将消息存入队列，以便重新投递。消息存入队列后，不是固定不变的，它会随着系统的负载在队列中不断地流动，消息的状态会不断发生变化。RabbitMQ中的队列消息可能会处于以下四种状态：</p>
 <ul>
 <li>alpha：消息内容（包括消息体、属性和headers）和消息索引都存储在内存中</li>
@@ -167,7 +166,7 @@
 <h3 id="内存告警"><a href="#内存告警" class="headerlink" title="内存告警"></a>内存告警</h3><p>默认情况下内存阈值为0.4，表示当RabbitMQ使用的内存超过40%时，会产生内存告警并阻塞所有生产者的连接。一旦告警被解除（有消息被消费或者从内存转储到磁盘等情况的发生），一切都会恢复正常。</p>
 <p>在某个Broker快达到内存阈值时，会先尝试将队列中的消息换页到磁盘以释放内存空间。默认情况下，在内存到达内存阈值的50%时会进行换页动作。</p>
 <h3 id="磁盘告警"><a href="#磁盘告警" class="headerlink" title="磁盘告警"></a>磁盘告警</h3><p>当剩余磁盘空间低于确定的阈值时，RabbitMQ同样会阻塞生产者，这样可以避免因非持久化的消息持续换页而耗尽磁盘空间导致服务崩溃。默认情况下，磁盘阈值为50MB。RabbitMQ会定期检测磁盘剩余空间，检测的频率与上一次执行检测到的磁盘剩余空间大小有关，随着磁盘剩余空间与磁盘阈值的接近，检测频率会有所增加。</p>
-<h2 id="流控"><a href="#流控" class="headerlink" title="流控"></a>流控</h2><p>当RabbitMQ出现内存或者磁盘资源达到阈值时，会触发流控机制，阻塞生产者的Connection，让生产者不能继续发送消息，直到内存或者磁盘资源得到释放。RabbitMQ基于Erlang开发，一个消息的生命周期中，会涉及多个进程间的转发，这些Erlang进程之间不共享内存，每个进程都有自己独立的内存空间，如果没有合适的流控机制，可能会导致某个进程占用内存过大，导致OOM。因此，要保证各个进程占用的内容在一个合理的范围。</p>
+<h2 id="流控"><a href="#流控" class="headerlink" title="流控"></a>流控</h2><p>当RabbitMQ出现内存或者磁盘资源达到阈值时，会触发流控机制，阻塞生产者的Connection，让生产者不能继续发送消息，直到内存或者磁盘资源得到释放。RabbitMQ基于Erlang开发，一个消息的生命周期中，会涉及多个进程间的转发，这些Erlang进程之间不共享内存，每个进程都有自己独立的内存空间，如果没有合适的流控机制，可能会导致某个进程占用内存过大，导致OOM。因此，要保证各个进程占用的内存在一个合理的范围。</p>
 <p>RabbitMQ的流控机制的原理实质上就是通过监控各进程的mailbox，当某个进程负载过高来不及接收消息时，这个进程的mailbox就会开始堆积消息，当堆积到一定量时，就会阻塞住上游进程让其不得接收新消息，从而慢慢上游进程的mailbox也会开始积压消息，到了一定的量也会阻塞上游的上游的进程，最后就会使得负责网络数据包接收的进程阻塞掉，暂停接收数据。</p>
 <p>从Connection到Channel到队列再到消息持久化存储形成了一个完整的流控链：<br><img alt="" class="post-img b-lazy" href="http://blog.designpattern.nanwulife.com/7415a593-fa83-383b-869c-42659884dd1b.jpg" data-src="http://blog.designpattern.nanwulife.com/7415a593-fa83-383b-869c-42659884dd1b.jpg"></p>
 <p>其中的各个进程如下所述：</p>

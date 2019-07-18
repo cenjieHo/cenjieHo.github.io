@@ -410,9 +410,8 @@ MySQL本身是支持预编译的，My
 								
 								
 								
-								[toc]
-队列的结构通常队列由rabbit_amqqueue_process和backing_queue两部分组成，前者负责协议相关的消息处理，即接受生产者发布的消息、向消费者交付消息、处理消息的确认（包括生产端的confirm和消费端的ack）等。backing_queue是消息存储的具体形式和引擎，并向rabbit_amqqueue_process提供相关的接口以供调用。
-四种状态如果消息投递的目的队列是空的，并且有消费者订阅了这个队列，那么该消息会直接发送给消费者，不
+								队列的结构通常队列由rabbit_amqqueue_process和backing_queue两部分组成，前者负责协议相关的消息处理，即接受生产者发布的消息、向消费者交付消息、处理消息的确认（包括生产端的confirm和消费端的ack）等。backing_queue是消息存储的具体形式和引擎，并向rabbit_amqqueue_process提供相关的接口以供调用。
+四种状态如果消息投递的目的队列是空的，并且有消费者订阅了这个队列，那么该消息会直接发送给消费者，不会经过队列这
 								...
 							</p>
 						</section>

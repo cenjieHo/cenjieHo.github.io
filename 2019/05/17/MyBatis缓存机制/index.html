@@ -163,7 +163,7 @@
 </ul>
 <h3 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h3><ol>
 <li>对于某个查询，会构建一个key值，根据这个key值去缓存<code>Cache</code>中取出对应的缓存结果</li>
-<li>判断从<code>Cache</code>中根据特定的key值取的数据数据是否为空，即是否命中</li>
+<li>判断从<code>Cache</code>中根据特定的key值取的数据是否为空，即是否命中</li>
 <li>如果命中，则直接将缓存结果返回</li>
 <li>如果没命中：<br> 4.1  去数据库中查询数据，得到查询结果<br> 4.2  将key和查询到的结果分别作为key-value对存储到<code>Cache</code>中<br> 4.3. 将查询结果返回</li>
 <li>结束</li>
@@ -201,7 +201,7 @@
 </ol>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a href="https://blog.csdn.net/luanlouis/article/details/41280959" target="_blank" rel="noopener">《深入理解mybatis原理》 MyBatis的一级缓存实现详解 及使用注意事项</a></li>
-<li><a href="https://blog.csdn.net/luanlouis/article/details/41408341" target="_blank" rel="noopener">《深入理解mybatis原理》 MyBatis的二级缓存的设计原理</a>08341)</li>
+<li><a href="https://blog.csdn.net/luanlouis/article/details/41408341" target="_blank" rel="noopener">《深入理解mybatis原理》 MyBatis的二级缓存的设计原理</a></li>
 </ul>
 
                 </div>
