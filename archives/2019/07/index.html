@@ -162,9 +162,8 @@
 								
 								
 								
-								[toc]
-把内存中首地址为MEM1的200个字节送到首地址为MEM2的区域中12345678910		MOV SI, OFFSET MEM1			MOV DI, OFFSET MEM2		MOV CX, 200NEXT:   MOV AL, [SI]		MOV [DI], AL		INC SI		INC DI		DEC CX		JNZ NEXT    ;若循环次数（CX）不为0，则转移到 NEXT 标号处		HLT         ;停止
-x、y、z均为32位数，分别存放在
+								把内存中首地址为MEM1的200个字节送到首地址为MEM2的区域中12345678910		MOV SI, OFFSET MEM1			MOV DI, OFFSET MEM2		MOV CX, 200NEXT:   MOV AL, [SI]		MOV [DI], AL		INC SI		INC DI		DEC CX		JNZ NEXT    ;若循环次数（CX）不为0，则转移到 NEXT 标号处		HLT         ;停止
+x、y、z均为32位数，分别存放在地址为X，X
 								...
 							</p>
 						</section>
