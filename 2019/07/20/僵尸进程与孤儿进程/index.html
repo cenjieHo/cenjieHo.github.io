@@ -26,16 +26,16 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-	<title>Tag: StringBuffer | 水木今山的博客</title>
+	<title>僵尸进程与孤儿进程 | 水木今山的博客</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 	<meta name="generator" content="hexo">
 	<meta name="author" content="水木今山">
-	<meta name="description" content="Coding the World">
+	<meta name="description" content="">
 
 	
-	<meta name="keywords" content="hexo, casper, ghost, theme">
+	<meta name="keywords" content="">
 	
 
 	
@@ -53,24 +53,26 @@
 	
 
 	<meta property="og:site_name" content="水木今山的博客">
-	<meta property="og:type" content="blog">
-	<meta property="og:title" content="Tag: StringBuffer | 水木今山的博客">
-	<meta property="og:description" content="Coding the World">
-	<meta property="og:url" content="http://yoursite.com/tags/StringBuffer/index.html">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="僵尸进程与孤儿进程 | 水木今山的博客">
+	<meta property="og:description" content="">
+	<meta property="og:url" content="http://yoursite.com/2019/07/20/僵尸进程与孤儿进程/">
 
 	
+	<meta property="article:published_time" content="2019-07-20T19:07:00+08:00"> 
+	<meta property="article:author" content="水木今山">
+	<meta property="article:published_first" content="水木今山的博客, /2019/07/20/僵尸进程与孤儿进程/">
+	
 </head>
-<body class="tag-template">
+<body class="post-template">
 	<div class="site-wrapper">
-		 
+		
 
 
 
 
-<header class="site-header outer " style="background-image: url(/images/pexels-photo-325185.jpeg)">
+<header class="site-header outer" style="z-index: 999">
     <div class="inner">
-        
-        
         
 <nav class="site-nav"> 
     <div class="site-nav-left">
@@ -122,85 +124,77 @@
 </div>
     </div>
 </nav>
-        
-        <div class="site-header-content">
-            
-            <h1 class="site-title">
-                Tag: StringBuffer
-            </h1>
-            <h2 class="site-description">Tags</h2>
-        </div>
-        
-        
     </div>
 </header>
 
 
 <main id="site-main" class="site-main outer" role="main">
-	<div class="inner">
-		<div class="post-feed">
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="StringBuilder与StringBuffer源码分析" href="/2019/05/03/StringBuilder与StringBuffer源码分析/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								Java
-								| 
-								
-								<time datetime="2019-05-03T13:32:00.000Z" itemprop="datePublished">
-									2019-05-03
-								</time>
-							</span>
-							<h2 class="post-card-title">StringBuilder与StringBuffer源码分析</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								前言StringBuilder与StringBuffer是两个常用的字符串操作类，与String的不同之处在于他们是可变的，不像String的value数组被final修饰的严严实实的，而StringBuilder和StringBuffer的value数组没有被final修饰过，并且这两个类的实现几乎一样，主要的区别在于StringBuffer的方法由synchronized关键字修饰过，所以是线程安全的。这里先贴出整个体系的UML类图：
+    <div class="inner">
+        <header class="post-full-header">
+            <section class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2019-07-20T11:24:00.000Z" itemprop="datePublished">
+                    2019-07-20
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/操作系统/">操作系统</a>&nbsp;&nbsp;
+                
+                
+            </section>
+            <h1 class="post-full-title">僵尸进程与孤儿进程</h1>
+        </header>
+        <article class="post-full no-image">
+            
+            <section class="post-full-content">
+                <div id="lightgallery" class="markdown-body">
+                    <h2 id="僵尸进程"><a href="#僵尸进程" class="headerlink" title="僵尸进程"></a>僵尸进程</h2><p>一个父进程利用<code>fork</code>创建子进程，如果子进程结束了，但是父进程没有等待（调用<code>wait</code> / <code>waitpid</code>）它，那么该子进程将变成一个僵尸进程。</p>
+<p>僵尸进程对操作系统是有害的：在每个进程退出的时候，内核释放该进程所有的资源，包括打开的文件、占用的内存等，但是仍然为其保留一定的信息（包括进程号、退出状态、运行时间等），如果父进程一直不调用<code>wait</code> / <code>waitpid</code>，那么保留的这些信息就不会释放，其进程号就会一直被占用，但是系统所能使用的进程号是有限的，如果产生大量的僵尸进程，将因为没有可用的进程号而导致系统不能产生新的进程。</p>
+<h2 id="孤儿进程"><a href="#孤儿进程" class="headerlink" title="孤儿进程"></a>孤儿进程</h2><p>一个父进程退出，而它的一个或多个子进程仍然在运行，那么这些子进程就会变成孤儿进程。孤儿进程将被init进程（进程号为1）所收养，init进程将在这些孤儿进程结束时第一时间回收它们的信息，保证它们不会成为僵尸进程。</p>
+<h2 id="僵尸进程的避免"><a href="#僵尸进程的避免" class="headerlink" title="僵尸进程的避免"></a>僵尸进程的避免</h2><ul>
+<li>父进程通过<code>wait</code> / <code>waitpid</code>等待子进程，子进程工作完父进程再执行工作。</li>
+<li>父进程<code>fork</code>一个子进程，然后继续工作，子进程<code>fork</code>一个孙进程后退出，那么孙进程将变为孤儿进程从而被<code>init</code>接管，并且由孙进程接受本应子进程接受的任务。当孙进程结束后，<code>init</code>会回收它的信息，不过子进程的回收还是需要自己做。</li>
+</ul>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>僵尸状态是每个子进程必经的状态，而之所以在进程结束后要进入僵尸状态是因为父进程可能要取得子进程的退出状态等信息。</p>
 
-AbstractStringBui
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							10
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-		</div>
-	</div>
+                </div>
+            </section>
+        </article>
+    </div>
 
-	
-	
-	<nav class="pagination">
-		
-	</nav>
-	
-	
+    
+    <div style="height: 4vw;width: 100%"></div>
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">•</span>
+        
+        <a class="next-post" title="汇编程序设计练习" href="/2019/07/04/汇编程序设计练习/">
+            汇编程序设计练习 →
+        </a>
+        
+    </nav>
+
+    
 </main>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#僵尸进程"><span class="toc-text">僵尸进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#孤儿进程"><span class="toc-text">孤儿进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#僵尸进程的避免"><span class="toc-text">僵尸进程的避免</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充"><span class="toc-text">补充</span></a></li></ol>
+    </div>
+</div>
+
 
 
 	</div>
@@ -277,9 +271,45 @@ AbstractStringBui
 
 
 
-<script src="/js/mix/home-lazy-local.min.js"></script>
+
+
+<div class="floating-header">
+	<div class="floating-header-logo">
+        <a href="/" title="水木今山的博客">
+			
+                <img src="/images/avator2.png" alt="水木今山的博客 icon">
+			
+            <span>水木今山的博客</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">僵尸进程与孤儿进程</div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+
+
+
+<script src="/js/mix/post-lazy-local.min.js"></script>
 
 <script>;(function() {var bLazy = new Blazy()})();</script>
+
+
+
+
+<script src="/js/lightgallery.min.js"></script>
+<link rel="stylesheet" href="/css/lightgallery.min.css">
+<script>
+    lightGallery(document.getElementById('lightgallery'), {
+        selector: '.post-img'
+    });
+</script>
+
 
 
 
