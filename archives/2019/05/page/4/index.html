@@ -364,7 +364,8 @@ AbstractStringBui
 								
 								
 								
-								前言Condition是一个与Object中的wait() / nofity() / notifyAll()功能相似的接口，AQS的内部类ConditionObject实现了该接口。它与Object提供的这些方法一样用来协调线程间的同步关系，而不同之处在于Object中的这些方法需要配合Synchronized关键字使用（否则会抛出异常），而Condition中的方法则要配合锁（独占锁）来使用（否则也会抛出异常），并且Condition中的方法功能更为丰富一些，比如说可以设置
+								前言Condition是一个与Object中的wait() / nofity() / notifyAll()功能相似的接口，AQS的内部类ConditionObject实现了该接口。它与Object提供的这些方法一样用来协调线程间的同步关系，而不同之处在于Object中的这些方法需要配合Synchronized关键字使用（否则会抛出异常），而Condition中的方法则要配合锁（独占锁）来使用（否则也会抛出异常）。
+ConditionObject内部维护了一个条件队列，当线程
 								...
 							</p>
 						</section>
