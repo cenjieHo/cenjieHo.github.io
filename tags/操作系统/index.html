@@ -26,7 +26,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-	<title>Tag: 操作系统  | 水木今山的博客</title>
+	<title>Tag: 操作系统 | 水木今山的博客</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -54,7 +54,7 @@
 
 	<meta property="og:site_name" content="水木今山的博客">
 	<meta property="og:type" content="blog">
-	<meta property="og:title" content="Tag: 操作系统  | 水木今山的博客">
+	<meta property="og:title" content="Tag: 操作系统 | 水木今山的博客">
 	<meta property="og:description" content="Coding the World">
 	<meta property="og:url" content="http://yoursite.com/tags/操作系统/index.html">
 
@@ -126,7 +126,7 @@
         <div class="site-header-content">
             
             <h1 class="site-title">
-                Tag: 操作系统 
+                Tag: 操作系统
             </h1>
             <h2 class="site-description">Tags</h2>
         </div>
@@ -143,7 +143,7 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
-					<a class="post-card-content-link" title="操作系统原理-进程线程模型" href="/2019/01/28/操作系统原理-进程线程模型/">
+					<a class="post-card-content-link" title="操作系统原理-死锁" href="/2019/01/28/操作系统原理-死锁/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
 								
@@ -151,11 +151,11 @@
 								操作系统
 								| 
 								
-								<time datetime="2019-01-28T10:43:00.000Z" itemprop="datePublished">
+								<time datetime="2019-01-28T10:48:00.000Z" itemprop="datePublished">
 									2019-01-28
 								</time>
 							</span>
-							<h2 class="post-card-title">操作系统原理-进程线程模型</h2>
+							<h2 class="post-card-title">操作系统原理-死锁</h2>
 						</header>
 						<section class="post-card-excerpt">
 							<p>
@@ -164,19 +164,14 @@
 								
 								
 								
-								进程的定义进程是具有独立功能的程序关于某个数据集合上的一次运行活动，是系统进行资源分配和调度的独立单位。
+								死锁的定义一组进程中，每个进程都无限等待被该组进程中另一进程所占有的资源，因而永远无法得到的资源，这种现象称为进程死锁，这一组进程就称为死锁进程。
 
-进程控制块PCBPCB：Process Control Block，又称进程描述符、进程属性，是操作系统用于管理控制进程的一个专门数据结构，是系统感知进程存在的唯一标志。
-PCB的内容包括：
+死锁与活锁的区别活锁指的是一组进程既无进展也没有阻塞 ，由于某些条件没有满足，导致一直重复尝试并失败。例如错误地使用Pertonson算法：
 
-进程描述信息
-进程控制信息
-所拥有的资源和使用情况
-CPU现场信息
-
-进程状态及状态转换进程的三种基本状态
-运行态（Running）：占有CPU，并在CPU上运行
-就绪态（Rea
+产生死锁的必要条件
+互斥使用（资源独占）：一个资源每次只能给一个进程使用。
+占有且等待（请求和保持）：进程在申请新的资源的同时保持对原有资源的占有。
+不可抢占：资源申请者不能强行的从资源
 								...
 							</p>
 						</section>
@@ -193,7 +188,240 @@ CPU现场信息
 							</div>
 						</div>
 						<span class="reading-time">
-							4
+							5
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="操作系统原理-文件系统" href="/2019/01/28/操作系统原理-文件系统/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								操作系统
+								| 
+								
+								<time datetime="2019-01-28T10:47:00.000Z" itemprop="datePublished">
+									2019-01-28
+								</time>
+							</span>
+							<h2 class="post-card-title">操作系统原理-文件系统</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								文件的分类
+普通文件：包含了用户的信息，一般为ASCII或二进制文件
+目录文件：管理文件系统的系统文件
+特殊文件（设备文件）
+
+
+文件的逻辑结构逻辑结构是从用户观点出发看到的文件的组织形式。分为以下两类：
+
+流式文件：无结构，对文件内信息不再划分单位，它是依次的一串字符流构成的文件。
+记录式文件：有结构，文件由若干个记录组成，可以按记 录进行读、写、查找等操作。
+
+存储介质与物理块典型的存储介质磁盘(包括固态盘SSD)、磁带、光盘、U盘等等，以下为典型的磁盘结构：
+物理块
+信
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							5
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="操作系统原理-存储模型" href="/2019/01/28/操作系统原理-存储模型/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								操作系统
+								| 
+								
+								<time datetime="2019-01-28T10:46:00.000Z" itemprop="datePublished">
+									2019-01-28
+								</time>
+							</span>
+							<h2 class="post-card-title">操作系统原理-存储模型</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								地址重定位为了保证CPU执行指令时可正确访问内存单元，需要将用户程序中的逻辑地址转换为运行时可由机器直接寻址的物理地址，这一过程称为地址重定位（又称地址转换、地址变换、地址翻译、地址映射）。
+
+
+逻辑地址（相对地址，虚拟地址）：目标代码通常采用相对地址的形式，其首地址为0， 其余地址都相对于首地址而编址。不能用逻辑地址在内存中读取信息。
+物理地址（绝对地址，实地址）：内存中存储单元的地址，可直接寻址。
+
+地址重定位分为静态重定位和动态重定位：
+
+静态重定位：当用户程序加载到内
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							10
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="操作系统原理-同步机制" href="/2019/01/28/操作系统原理-同步机制/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								操作系统
+								| 
+								
+								<time datetime="2019-01-28T10:45:00.000Z" itemprop="datePublished">
+									2019-01-28
+								</time>
+							</span>
+							<h2 class="post-card-title">操作系统原理-同步机制</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								进程互斥由于各进程要求使用共享资源（变量、文件等），而这些资源需要排他性使用，各进程之间竞争使用这些资源，这一关系称为进程互斥。
+
+临界资源与临界区系统中某些资源一次只允许一个进程使用，称这样的资源为临界资源或互斥资源或共享变量。
+而各个进程中对某个临界资源（共享变量）实施操作的程序片段称为临界区或互斥区。
+临界区的使用原则
+没有进程在临界区时，想进入临界区的进程可进入
+不允许两个进程同时处于其临界区中 
+临界区外运行的进程不得阻塞其他进程进入临界区 
+不得使进程无限期等待进
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							15
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="操作系统原理-处理器调度" href="/2019/01/28/操作系统原理—/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								操作系统
+								| 
+								
+								<time datetime="2019-01-28T10:09:00.000Z" itemprop="datePublished">
+									2019-01-28
+								</time>
+							</span>
+							<h2 class="post-card-title">操作系统原理-处理器调度</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								CPU调度即按一定的调度算法从就绪队列中选择一个进程， 把CPU的使用权交给被选中的进程，其任务是控制、协调进程对CPU的竞争。
+调度算法衡量指标吞吐量：每单位时间完成的进程数目
+周转时间：每个进程从提出请求到运行完成的时间
+响应时间：从提出请求到第一次回应的时间
+
+进程调度算法批处理系统目标：吞吐量，周转时间，cpu利用率，包含以下四种调度算法：
+
+先来先服务（FCFS）
+短作业优先（SJF）
+最短剩余时间优先（SRTN）
+最高响应比优先（HRRN）
+
+先来先服务（FCFS
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							5
 							min read
 						</span>
 					</footer>
