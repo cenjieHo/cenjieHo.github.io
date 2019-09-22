@@ -145,56 +145,6 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
-					<a class="post-card-content-link" title="JDK与CGLIB动态代理" href="/2019/04/30/JDK与CGLIB动态代理/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								Java
-								| 
-								
-								<time datetime="2019-04-30T09:19:00.000Z" itemprop="datePublished">
-									2019-04-30
-								</time>
-							</span>
-							<h2 class="post-card-title">JDK与CGLIB动态代理</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								前言前段时间看了Spring AOP的源码，其底层就是通过JDK与CGLIB动态代理实现的，因此在这里对两种代理方式进行实践和总结。
-准备工作首先创建一个代理创建器ProxyCreator接口，我们将分别实现JdkProxyCreator与CglibProxyCreator，通过实现getProxy()方法返回一个代理对象：123public interface ProxyCreator &#123;    Object getProxy();&#125;
-创建一个UserS
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							12
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
 					<a class="post-card-content-link" title="Spring AOP源码笔记" href="/2019/04/30/Spring-AOP源码笔记/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
@@ -655,6 +605,58 @@ NX：当key不存在时
 						</div>
 						<span class="reading-time">
 							8
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="Zookeeper集群节点为什么推荐为奇数" href="/2019/03/31/Zookeeper集群节点为什么推荐为奇数/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Zookeeper
+								| 
+								
+								<time datetime="2019-03-31T03:36:00.000Z" itemprop="datePublished">
+									2019-03-31
+								</time>
+							</span>
+							<h2 class="post-card-title">Zookeeper集群节点为什么推荐为奇数</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								不止包括Zookeeper集群，其它大多数集群都推荐节点数最好为奇数个，因此本文将详细说明其中的缘由。首先我们需要明白一个概念“脑裂”：
+
+集群的脑裂通常是发生在节点之间通信不可达的情况下，集群会分裂成不同的小集群，每个小集群都认为其它小集群的节点是不可用的，小集群各自选出自己的master节点，导致原有的集群出现多个master节点的情况，这就是脑裂。
+
+在zookeeper的选举过程中，有个规则是要求可用节点数量&gt;总节点数量/2。之所以会有这样的要求，就是为了防止集
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							2
 							min read
 						</span>
 					</footer>

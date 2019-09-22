@@ -145,58 +145,6 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
-					<a class="post-card-content-link" title="Zookeeper集群节点为什么推荐为奇数" href="/2019/03/31/Zookeeper集群节点为什么推荐为奇数/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								Zookeeper
-								| 
-								
-								<time datetime="2019-03-31T03:36:00.000Z" itemprop="datePublished">
-									2019-03-31
-								</time>
-							</span>
-							<h2 class="post-card-title">Zookeeper集群节点为什么推荐为奇数</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								不止包括Zookeeper集群，其它大多数集群都推荐节点数最好为奇数个，因此本文将详细说明其中的缘由。首先我们需要明白一个概念“脑裂”：
-
-集群的脑裂通常是发生在节点之间通信不可达的情况下，集群会分裂成不同的小集群，每个小集群都认为其它小集群的节点是不可用的，小集群各自选出自己的master节点，导致原有的集群出现多个master节点的情况，这就是脑裂。
-
-在zookeeper的选举过程中，有个规则是要求可用节点数量&gt;总节点数量/2。之所以会有这样的要求，就是为了防止集
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							2
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
 					<a class="post-card-content-link" title="Redis Sentinel" href="/2019/03/30/Redis-Sentinel/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
@@ -676,6 +624,64 @@ InnoDB不保存表的具体行数，执行select count(*) from table时需要全
 						</div>
 						<span class="reading-time">
 							21
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="Java线程池与Executor框架" href="/2019/02/10/Executor框架/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								并发
+								| 
+								
+								<time datetime="2019-02-10T10:27:00.000Z" itemprop="datePublished">
+									2019-02-10
+								</time>
+							</span>
+							<h2 class="post-card-title">Java线程池与Executor框架</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								为什么要使用线程池
+降低资源消耗：通过重复利用已创建的线程降低线程创建和销毁造成的消耗。
+提高响应速度：当任务到达时，任务可以不需要等到线程创建就能立即执行。
+提高线程的可管理性：线程是稀缺资源，使用线程池可以进行统一分配、调优和监控。
+
+
+线程池的实现原理
+
+如果当前运行的线程少于corePoolSize，则创建新线程来执行任务（这一步需获取全局锁）。
+如果运行的线程等于或多于corePoolSize，则将任务加入BlockingQueue。
+如果队列已满，则创建新的线程来
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							4
 							min read
 						</span>
 					</footer>

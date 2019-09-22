@@ -128,7 +128,7 @@
             <h1 class="site-title">
                 Archives
             </h1>
-            <h2 class="site-description">Total: 105</h2>
+            <h2 class="site-description">Total: 104</h2>
         </div>
         
         
@@ -139,62 +139,6 @@
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="Spring AOP源码笔记" href="/2019/04/30/Spring-AOP源码笔记/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								Spring
-								| 
-								
-								<time datetime="2019-04-30T03:52:00.000Z" itemprop="datePublished">
-									2019-04-30
-								</time>
-							</span>
-							<h2 class="post-card-title">Spring AOP源码笔记</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								前言本文是看了田小波博主的Spring AOP源码分析系列后自己总结整理的笔记，内容会更偏向于流程上的总结，具体源码细节并未深入研究，并且关于AOP的相关术语这里也不会再说明。
-大致流程本文将会从AOP的入口开始分析，主要涉及以下四个流程：
-
-入口分析
-筛选合适的通知器
-创建代理对象
-拦截器链的执行过程
-
-入口分析Spring是通过后置处理器BeanPostProcessor接口在init-method的前后通过切点对bean类中的方法进行匹配后织入的，这个接口是Spring
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							17
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
 			
 			<article class="post-card post  no-image ">
 				
@@ -655,6 +599,62 @@ NX：当key不存在时
 						</div>
 						<span class="reading-time">
 							2
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="Redis Sentinel" href="/2019/03/30/Redis-Sentinel/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								Redis
+								| 
+								
+								<time datetime="2019-03-30T13:45:00.000Z" itemprop="datePublished">
+									2019-03-30
+								</time>
+							</span>
+							<h2 class="post-card-title">Redis Sentinel</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								Redis Sentinel架构复制是高可用Redis的基础，哨兵和集群都是在复制基础上实现高可用的，但它故障恢复无法自动化，因此Redis提供了哨兵（Sentinel）这么一个高可用方案。Redis Sentinel由两部分组成，哨兵节点和数据节点：
+
+哨兵节点：哨兵系统由一个或多个哨兵节点组成，哨兵节点是特殊的redis节点，不存储数据。
+数据节点：主节点和从节点都是数据节点。
+
+
+Redis Sentinel具有以下功能：
+
+监控：哨兵通过心跳检测会不断地检查主节点和从
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							6
 							min read
 						</span>
 					</footer>

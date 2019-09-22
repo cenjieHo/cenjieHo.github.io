@@ -145,64 +145,6 @@
 			<article class="post-card post  no-image ">
 				
 				<div class="post-card-content">
-					<a class="post-card-content-link" title="Java线程池与Executor框架" href="/2019/02/10/Executor框架/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								并发
-								| 
-								
-								<time datetime="2019-02-10T10:27:00.000Z" itemprop="datePublished">
-									2019-02-10
-								</time>
-							</span>
-							<h2 class="post-card-title">Java线程池与Executor框架</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								为什么要使用线程池
-降低资源消耗：通过重复利用已创建的线程降低线程创建和销毁造成的消耗。
-提高响应速度：当任务到达时，任务可以不需要等到线程创建就能立即执行。
-提高线程的可管理性：线程是稀缺资源，使用线程池可以进行统一分配、调优和监控。
-
-
-线程池的实现原理
-
-如果当前运行的线程少于corePoolSize，则创建新线程来执行任务（这一步需获取全局锁）。
-如果运行的线程等于或多于corePoolSize，则将任务加入BlockingQueue。
-如果队列已满，则创建新的线程来
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							4
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
 					<a class="post-card-content-link" title="Java中的并发工具类" href="/2019/02/10/Java中的并发工具类/">
 						<header class="post-card-header">
 							<span class="post-card-tags">
@@ -691,6 +633,79 @@ Spring框架至今已集成了20多个模块。这些模块主要被分如下图
 						</div>
 						<span class="reading-time">
 							10
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="Java阻塞队列实现生产者-消费者模型" href="/2019/02/03/Java实现生产者-消费者模型/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								并发
+								| 
+								
+								<time datetime="2019-02-03T03:57:00.000Z" itemprop="datePublished">
+									2019-02-03
+								</time>
+							</span>
+							<h2 class="post-card-title">Java阻塞队列实现生产者-消费者模型</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								简介阻塞队列（BlockingQueue）是一个支持阻塞的插入和移除的队列。阻塞插入即当队列满时，队列会阻塞插入元素的线程，直到队列不满；阻塞移除即当队列为空时，获取元素的线程会等待队列变为非空。
+阻塞队列提供了四种处理方法：
+
+
+
+方法\处理方式
+抛出异常
+返回特殊值
+一直阻塞
+超时退出
+
+
+
+
+插入方法
+add(e)
+offer(e)
+put(e)
+offer(e,time,unit)
+
+
+移除方法
+remove()
+poll()
+take()
+poll(time,uni
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							7
 							min read
 						</span>
 					</footer>

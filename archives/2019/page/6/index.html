@@ -128,7 +128,7 @@
             <h1 class="site-title">
                 Archives
             </h1>
-            <h2 class="site-description">Total: 105</h2>
+            <h2 class="site-description">Total: 104</h2>
         </div>
         
         
@@ -139,62 +139,6 @@
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="Redis Sentinel" href="/2019/03/30/Redis-Sentinel/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								Redis
-								| 
-								
-								<time datetime="2019-03-30T13:45:00.000Z" itemprop="datePublished">
-									2019-03-30
-								</time>
-							</span>
-							<h2 class="post-card-title">Redis Sentinel</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								Redis Sentinel架构复制是高可用Redis的基础，哨兵和集群都是在复制基础上实现高可用的，但它故障恢复无法自动化，因此Redis提供了哨兵（Sentinel）这么一个高可用方案。Redis Sentinel由两部分组成，哨兵节点和数据节点：
-
-哨兵节点：哨兵系统由一个或多个哨兵节点组成，哨兵节点是特殊的redis节点，不存储数据。
-数据节点：主节点和从节点都是数据节点。
-
-
-Redis Sentinel具有以下功能：
-
-监控：哨兵通过心跳检测会不断地检查主节点和从
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							6
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
 			
 			<article class="post-card post  no-image ">
 				
@@ -663,6 +607,57 @@ InnoDB不保存表的具体行数，执行select count(*) from table时需要全
 如果当前运行的线程少于corePoolSize，则创建新线程来执行任务（这一步需获取全局锁）。
 如果运行的线程等于或多于corePoolSize，则将任务加入BlockingQueue。
 如果队列已满，则创建新的线程来
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							4
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="Java中的并发工具类" href="/2019/02/10/Java中的并发工具类/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								并发
+								| 
+								
+								<time datetime="2019-02-10T06:27:00.000Z" itemprop="datePublished">
+									2019-02-10
+								</time>
+							</span>
+							<h2 class="post-card-title">Java中的并发工具类</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								CountdownLatchCountDownLatch是一个同步工具类，它允许一个或多个线程一直等待，直到其他线程的操作执行完后再执行。例如，应用程序的主线程希望在负责启动框架服务的线程已经启动所有的框架服务之后再执行。
+
+CountDownLatch是通过一个计数器来实现的，计数器的初始值为线程的数量。每当一个线程完成了自己的任务后，计数器的值就会减1。当计数器值到达0时，它表示所有的线程已经完成了任务，然后在闭锁上等待的线程就可以恢复执行任务。例如：
+123456789
 								...
 							</p>
 						</section>

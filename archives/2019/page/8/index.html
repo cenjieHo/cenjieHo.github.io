@@ -128,7 +128,7 @@
             <h1 class="site-title">
                 Archives
             </h1>
-            <h2 class="site-description">Total: 105</h2>
+            <h2 class="site-description">Total: 104</h2>
         </div>
         
         
@@ -139,56 +139,6 @@
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="Fork/join框架分析与实战" href="/2019/02/02/Fork-join框架分析与实战/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								并发
-								| 
-								
-								<time datetime="2019-02-02T09:36:00.000Z" itemprop="datePublished">
-									2019-02-02
-								</time>
-							</span>
-							<h2 class="post-card-title">Fork/join框架分析与实战</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								简介Fork/Join框架是Java7提供了的一个用于并行执行任务的框架，是一个把大任务分割成若干个小任务，最终汇总每个小任务结果后得到大任务结果的框架。Fork就是把一个大任务切分为若干子任务并行的执行，Join就是合并这些子任务的执行结果，最后得到这个大任务的结果。
-
-工作窃取算法工作窃取算法（work-stealing）是指当一个队列所对应的线程先执行完队列中的所有任务后，从其他线程的队列里窃取一个任务来执行。为了减少竞争，通常会使用双端队列，被窃取任务线程永远从双端队
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							6
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
 			
 			<article class="post-card post  no-image ">
 				
@@ -655,6 +605,61 @@ Dijkstra算法Dijkstra算法往往和dfs结合在一起考，因此这里给出�
 均匀性：均匀的散列所有的键。
 
 对于一致性，在Java中意味着每一种数据类型的hashCode()方法都必须和equals()方法一致
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							7
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="树的前中后层序遍历（递归与非递归方式）" href="/2019/01/28/树的前中后层序遍历（递归与非递归方式）/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								算法
+								| 
+								
+								<time datetime="2019-01-28T14:26:00.000Z" itemprop="datePublished">
+									2019-01-28
+								</time>
+							</span>
+							<h2 class="post-card-title">树的前中后层序遍历（递归与非递归方式）</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								DescriptionLeetCode的第590题与429、589题型类似，都为树（不一定是二叉树）的各种形式的遍历，因此放在一起总结。
+
+对于上图，要求求出前序遍历、后序遍历和层级遍历的结果。
+
+Example12345678前序遍历结果：[1,3,5,6,2,4]后序遍历结果：[5,6,3,2,4,1]层级遍历结果：[     [1],     [3,2,4],     [5,6]]
+Analysis对于树我们一般有两种策略：
+
+广度优先搜索（BFS）：从上到下一层一层的
 								...
 							</p>
 						</section>

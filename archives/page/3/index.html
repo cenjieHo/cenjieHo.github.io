@@ -128,7 +128,7 @@
             <h1 class="site-title">
                 Archives
             </h1>
-            <h2 class="site-description">Total: 105</h2>
+            <h2 class="site-description">Total: 104</h2>
         </div>
         
         
@@ -139,61 +139,6 @@
 <main id="site-main" class="site-main outer" role="main">
 	<div class="inner">
 		<div class="post-feed">
-			
-			<article class="post-card post  no-image ">
-				
-				<div class="post-card-content">
-					<a class="post-card-content-link" title="MyBatis插件机制" href="/2019/05/17/MyBatis插件机制/">
-						<header class="post-card-header">
-							<span class="post-card-tags">
-								
-								
-								MyBatis
-								| 
-								
-								<time datetime="2019-05-17T14:31:00.000Z" itemprop="datePublished">
-									2019-05-17
-								</time>
-							</span>
-							<h2 class="post-card-title">MyBatis插件机制</h2>
-						</header>
-						<section class="post-card-excerpt">
-							<p>
-								
-								
-								
-								
-								
-								前言插件增加了框架的灵活性，使得我们可以根据需要自行对功能进行拓展。在MyBatis中，插件就类似于拦截器，通过拦截相应的方法从而执行插件逻辑。MyBatis所允许拦截的接口与方法如下：
-
-Executor 
-ParameterHandler 
-ResultSetHandler 
-StatementHandler 
-
-插件配置如果我们要实现一个插件，比如我们想要拦截Executor的query方法，那么可以这样定义插件：123456789101112@Intercepts(&
-								...
-							</p>
-						</section>
-					</a>
-					<footer class="post-card-meta">
-						<div class="author-list">
-							<div class="author-list-item">
-								<div class="author-name-tooltip">水木今山</div>
-								
-								<a href="/about" class="static-avatar">
-									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
-								</a>
-								
-							</div>
-						</div>
-						<span class="reading-time">
-							10
-							min read
-						</span>
-					</footer>
-				</div>
-			</article>
 			
 			<article class="post-card post  no-image ">
 				
@@ -623,6 +568,56 @@ Lambda表达式Lambda表达式能够让我们把函数作为方法参数，或�
 								
 								前言自动装箱和拆箱从Java 1.5开始引入，目的是让原始类型值与对应的包装对象之间可以自动的相互转换，比如将int类型值转换成Integer对象称为装箱，反之将Integer对象转换成int类型值称为拆箱。因为这里的装箱和拆箱是自动进行的而非人为转换，所以就称为自动装箱和拆箱。
 在Java中，原始类型byte、short、char、int、long、float、double、boolean分别对应的包装类为Byte、Short、Character、Integer、Long、
+								...
+							</p>
+						</section>
+					</a>
+					<footer class="post-card-meta">
+						<div class="author-list">
+							<div class="author-list-item">
+								<div class="author-name-tooltip">水木今山</div>
+								
+								<a href="/about" class="static-avatar">
+									<img class="author-profile-image" src="/images/avatar.jpeg" alt="水木今山">
+								</a>
+								
+							</div>
+						</div>
+						<span class="reading-time">
+							6
+							min read
+						</span>
+					</footer>
+				</div>
+			</article>
+			
+			<article class="post-card post  no-image ">
+				
+				<div class="post-card-content">
+					<a class="post-card-content-link" title="InnoDB的MVCC实现原理" href="/2019/05/05/InnoDB的MVCC实现原理/">
+						<header class="post-card-header">
+							<span class="post-card-tags">
+								
+								
+								MySQL
+								| 
+								
+								<time datetime="2019-05-05T13:45:00.000Z" itemprop="datePublished">
+									2019-05-05
+								</time>
+							</span>
+							<h2 class="post-card-title">InnoDB的MVCC实现原理</h2>
+						</header>
+						<section class="post-card-excerpt">
+							<p>
+								
+								
+								
+								
+								
+								锁的种类在数据库中经常能听到各种各样的锁，比如说悲观锁、乐观锁、行锁、表锁等等，但实际上前两者是从思想上进行划分的，而后两者是从锁粒度上进行划分的，真正的锁有共享锁和排他锁，也就是常说的读锁（S锁）和写锁（X锁）。
+封锁协议在运用X锁和S锁对数据对象进行加锁时，还需要约定一些规则，例如何时申请X锁或S锁、持锁时间、何时释放等，这些规则称为封锁协议，对封锁方式规定不同的规则，就形成了各种不同的封锁协议。
+一级封锁协议一级封锁协议即事务在修改某行数据时必须先对其加X锁，直到事务结
 								...
 							</p>
 						</section>
