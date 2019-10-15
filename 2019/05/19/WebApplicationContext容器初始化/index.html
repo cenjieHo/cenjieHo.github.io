@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -68,15 +68,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -93,7 +89,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/19/WebApplicationContext容器初始化/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -118,7 +114,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -128,7 +124,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -169,7 +165,7 @@
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- [1] Spring配置 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 指定Spring Bean的配置文件所在目录。默认配置在WEB-INF目录下 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:config/applicationContext.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>如上，<code>ContextLoaderListener</code>可通过<code>ServletContext</code>获取到<code>contextConfigLocation</code>配置。这样，业务容器就可以加载<code>application.xml</code>配置文件了。</p>
 <h3 id="ContextLoaderListener"><a href="#ContextLoaderListener" class="headerlink" title="ContextLoaderListener"></a>ContextLoaderListener</h3><p><code>org.springframework.web.context.ContextLoaderListener</code>，实现<code>ServletContextListener</code>接口，继承<code>ContextLoader</code>类，上面说过，它实现了Servlet容器启动和关闭时，分别初始化和销毁<code>WebApplicationContext</code>容器。</p>
-<p><img src="http://blog.default.nanwulife.com/01.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/01.png" alt></p>
 <p>对于<code>ContextLoaderListener</code>，它的初始化和销毁的真正逻辑其实是由父类<code>ContextLoader</code>实现的。</p>
 <ul>
 <li><p>初始化<code>WebApplicationContext</code>容器：</p>
@@ -180,7 +176,7 @@
 </li>
 </ul>
 <h2 id="Servlet-WebApplicationContext"><a href="#Servlet-WebApplicationContext" class="headerlink" title="Servlet WebApplicationContext"></a>Servlet WebApplicationContext</h2><p>Servlet WebApplicationContext也就是Web容器，它的初始化是在<code>DispatcherServlet</code>初始化的过程中执行，并且会将业务容器作为父容器，之所以这样是因为Web容器中的一些Bean会依赖于业务容器中的Bean，比如我们的controller层接口通常会依赖service层的业务逻辑类。</p>
-<p><img src="http://blog.default.nanwulife.com/01%20%281%29.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/01%20%281%29.png" alt></p>
 <p>以下是这个继承体系中各个类负责的任务，结构还是比较清晰的：</p>
 <ul>
 <li><p><code>HttpServletBean</code>：覆写了父类<code>HttpServlet</code>中的<code>init()</code>方法，是创建Web容器的入口，负责将<code>ServletConfig</code>设置到<code>HttpServletBean</code>的子类对象中（比如<code>DispatcherServlet</code>）。类上的简单注释如下：</p>
@@ -217,11 +213,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -271,11 +263,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

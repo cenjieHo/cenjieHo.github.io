@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -67,15 +67,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -92,7 +88,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/11/ThreadLocal源码分析/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -117,7 +113,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -127,7 +123,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -199,7 +195,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(ThreadLocal&lt;?&gt; key)</span> </span>&#123;</span><br><span class="line">    Entry[] tab = table;</span><br><span class="line">    <span class="keyword">int</span> len = tab.length;</span><br><span class="line">    <span class="keyword">int</span> i = key.threadLocalHashCode &amp; (len-<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (Entry e = tab[i]; e != <span class="keyword">null</span>; e = tab[i = nextIndex(i, len)]) &#123;</span><br><span class="line">        <span class="keyword">if</span> (e.get() == key) &#123;</span><br><span class="line">            e.clear();                      <span class="comment">// 显式断开弱引用</span></span><br><span class="line">            expungeStaleEntry(i);     <span class="comment">// 进行段清理</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里光做<code>e.clear();</code>其实是不够的，因为<code>value</code>此时还被强引用着，所以才需要进行段清理，将<code>table[i] = null;</code>彻底断开强引用。</p>
 <h2 id="内存泄露"><a href="#内存泄露" class="headerlink" title="内存泄露"></a>内存泄露</h2><p>经过上面的分析我们已经清楚在每个<code>Thread</code>中有一个<code>ThreadLocalMap</code>，每个线程在对某个<code>ThreadLocal</code>对象操作时都会先获取当前线程的<code>ThreadLocalMap</code>，然后对<code>ThreadLocalMap</code>进行操作，并且，<code>ThreadLocal</code>不是简单的作为key的，而是将key和value包装成继承自弱引用<code>WeakReference</code>的<code>Entry</code>类。但这里要注意的是，弱引用只是针对key（<code>Entry</code>中的<code>ThreadLocal</code>），当没有任何强引用指向<code>ThreadLocal</code>的时候，它就只剩下弱引用了，GC时将会被回收，但是value却不会被回收，因为它存在一条<code>当前Thread-&gt;ThreadLocalMap-&gt;Entry数组-&gt;Entry-&gt;value</code>的强引用，所以除非线程销毁，否则它将与线程的生命周期绑定，尤其是在有线程复用比如线程池的场景中，一个线程的寿命很长，大对象长期不被回收会影响系统运行效率与安全，也就造成了人们常说的内存泄露。</p>
-<p><img src="http://blog.default.nanwulife.com/1660f7ebfeecebf2.jpg" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/1660f7ebfeecebf2.jpg" alt></p>
 <p>但是在源码中我们也会发现，<code>ThreadLocalMap</code>实现中是有一套自我清理的机制的，当我们调用<code>get()</code>或者<code>set()</code>方法时会有很高的概率顺便清理掉失效的<code>Entry</code>，防止出现内存泄露。当然，显示地进行<code>remove()</code>是个良好的编程习惯，它可以确保不会发生内存泄露。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a href="https://www.cnblogs.com/micrari/p/6790229.html" target="_blank" rel="noopener">ThreadLocal源码解读</a></li>
@@ -225,11 +221,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -279,11 +271,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

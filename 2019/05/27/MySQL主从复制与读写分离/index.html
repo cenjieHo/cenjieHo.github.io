@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="主从复制主要涉及三个线程：binlog 线程、I/O 线程和 SQL 线程。  binlog线程：负责将主服务器上的数据更改写入二进制日志（Binary log）中。 I/O线程：负责从主服务器上读取二进制日志，并写入从服务器的中继日志（Relay log）。 SQL线程：负责读取中继日志，解析出主服务器已经执行的数据更改并在从服务器中重放（Replay）。   读写分离主服务器处理写操作以及实时">
-<meta name="keywords" content="blog,cenjie">
+<meta name="keywords" content="blog,hecenjie">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL主从复制与分库分表">
 <meta property="og:url" content="http://yoursite.com/2019/05/27/MySQL主从复制与读写分离/index.html">
@@ -68,15 +68,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -93,7 +89,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/27/MySQL主从复制与读写分离/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -118,7 +114,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -128,7 +124,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -155,7 +151,7 @@
 <li>I/O线程：负责从主服务器上读取二进制日志，并写入从服务器的中继日志（Relay log）。</li>
 <li>SQL线程：负责读取中继日志，解析出主服务器已经执行的数据更改并在从服务器中重放（Replay）。</li>
 </ul>
-<p><img src="http://blog.default.nanwulife.com/master-slave.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/master-slave.png" alt></p>
 <h2 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h2><p>主服务器处理写操作以及实时性要求比较高的读操作，而从服务器处理读操作。</p>
 <p>读写分离能提高性能的原因在于</p>
 <ul>
@@ -163,7 +159,7 @@
 <li>从服务器可以使用MyISAM，提升查询性能以及节约系统开销；</li>
 <li>增加冗余，提高可用性。</li>
 </ul>
-<p><img src="http://blog.default.nanwulife.com/master-slave-proxy.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/master-slave-proxy.png" alt></p>
 <h2 id="分库分表"><a href="#分库分表" class="headerlink" title="分库分表"></a>分库分表</h2><p>当在主从复制、索引优化并且升级硬件后，数据库性能依然无法达到要求，此时就可以考虑数据库的切分，根据其切分类型，可以分为两种切分方式：垂直切分和水平切分。</p>
 <h3 id="垂直切分"><a href="#垂直切分" class="headerlink" title="垂直切分"></a>垂直切分</h3><p>垂直切分又分为垂直分库和垂直分表。</p>
 <p>垂直分库就是根据业务耦合性，将关联度低的不同表存储在不同的数据库。做法与大系统拆分为多个小系统类似，按业务分类进行独立划分。与”微服务治理”的做法相似，每个微服务使用单独的一个数据库。（例如用户User一个库，商品Producet一个库，订单Order一个库）</p>
@@ -197,11 +193,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -251,11 +243,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

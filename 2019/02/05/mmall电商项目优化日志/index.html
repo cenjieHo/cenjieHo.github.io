@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -71,15 +71,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -96,7 +92,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/02/05/mmall电商项目优化日志/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -121,7 +117,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -131,7 +127,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -174,22 +170,22 @@
 <p>这里的商品名、子标题等都使用的随机字符串，没有太多考究。此时就可以根据商品名<code>name</code>按价格<code>price</code>排序后进行查询了：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> mmall_product <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">'ab'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> price <span class="keyword">LIMIT</span> <span class="number">100</span>, <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> mmall_product <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">'ab'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> price <span class="keyword">LIMIT</span> <span class="number">1000</span>, <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> mmall_product <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">'ab'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> price <span class="keyword">LIMIT</span> <span class="number">10000</span>, <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
 <p>执行时间如下：</p>
-<p><img src="http://blog.default.nanwulife.com/3%29G5S7ZTBRINMZQEQ_%29ZLZH.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/3%29G5S7ZTBRINMZQEQ_%29ZLZH.png" alt></p>
 <p>可以看出，在不断增大<code>LIMIT</code>的偏移量后，查询时间着实吓人，通过<code>EXPLAIN</code>分析执行计划发现<code>type</code>那列显示<code>ALL</code>，说明要全表扫描一百多万行，并且还有<code>Using filesort</code>。我们先根据<code>WHERE</code>语句和<code>ORDER BY</code>语句建立如下组合索引：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> mmall_product <span class="keyword">ADD</span> <span class="keyword">INDEX</span> index_name_price (<span class="keyword">name</span>, price);</span><br></pre></td></tr></table></figure>
 <p>执行<code>SHOW INDEX FROM mmall_product;</code>查看索引是否添加如下：</p>
-<p><img src="http://blog.default.nanwulife.com/%288R%5D%29J%5BT2B16EP87J6%60%7D%289V.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/%288R%5D%29J%5BT2B16EP87J6%60%7D%289V.png" alt></p>
 <p>这时在初步优化后分析执行计划可以看到查询不再是全表扫描，而是使用到了上面的索引，效率有所提升，但此时增大偏移量后查询依然会变得十分缓慢，还需要进一步优化。这里就可以用到“延迟关联”的技巧，由于LIMIT每扫描一行时都要去主索引拿到许多不必要的数据再丢弃，那么可以让其先在二级索引覆盖扫描得到满足条件的id，然后再与原表关联得到最终结果，代码如下：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> mmall_product </span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> (<span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> mmall_product <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">'ab'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> price <span class="keyword">LIMIT</span> <span class="number">100000</span>, <span class="number">10</span>) <span class="keyword">AS</span> mmall_product_id <span class="keyword">USING</span>(<span class="keyword">id</span>);</span><br></pre></td></tr></table></figure>
 <p>此时，就算偏移量为一百万时，查询也可以很轻松的在0.5S内完成，效果还是令人满意的。</p>
-<p><img src="http://blog.default.nanwulife.com/%7D6%7BS@%25E2MGMXK_%29%29~JPZ6BT.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/%7D6%7BS@%25E2MGMXK_%29%29~JPZ6BT.png" alt></p>
 <blockquote>
 <p>PageHelper原理：PageHelper实现了MyBatis提供的<code>Interceptor</code>接口得到分页拦截器<code>PageInterceptor</code>，使用分页查询的时候，先调用<code>PageHelper.startPage</code>在当前线程上下文中设置一个<code>ThreadLocal</code>变量，分页拦截器拦截到SQL后会从<code>ThreadLocal</code>中拿到分页的信息，拼接分页语句并进行分页查询，最后再把<code>ThreadLocal</code>中的东西清除掉。</p>
 </blockquote>
 <h2 id="GC调优"><a href="#GC调优" class="headerlink" title="GC调优"></a>GC调优</h2><p>看了《深入理解Java虚拟机》也有一段时间了，书本的知识虽然都能理解，但实际的优化却从来没试过，这方面可以说是毫无经验。都说读万卷书不如行万里路，在网上看了一些GC优化的实际案例后，决定亲自动手在这个项目中尝试一下。</p>
 <p>这次实践使用的垃圾收集器为ParNew+CMS（CMS失败时Serial Old替补）。首先通过以下参数设置垃圾收集器并打开GC日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseConcMarkSweepGC</span><br><span class="line">-XX:+UseParNewGC</span><br><span class="line">-XX:+PrintGC</span><br><span class="line">-Xloggc:C:\Users\canjie\Desktop\gc.log</span><br><span class="line">-XX:+PrintHeapAtGC</span><br><span class="line">-XX:+PrintGCDateStamps</span><br></pre></td></tr></table></figure></p>
 <p>然后使用jmeter工具模拟多用户持续请求接口的场景，这里设置的一分钟的用户数5000人。jemeter的聚合报告显示如下，主要关注TP99这一指标：</p>
-<p><img src="http://blog.default.nanwulife.com/GB44HLUCJSFK~%28HS%290%60M%7B9E.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/GB44HLUCJSFK~%28HS%290%60M%7B9E.png" alt></p>
 <p>请求结束后分析GC日志发现Minor GC执行的十分频繁，而Major GC仅仅五分钟内就执行了好几次，每次耗时约0.2s，频繁且耗时的STW对接口响应时间造成了很大的影响，对于追求低延时的服务来说肯定是不可取的。要想优化就必须得先知其原因，首先JVM的默认内存为64M，这肯定是不够的，其次频繁的Major GC主要是因为老年代的空间不够，那接下来就是通过调整总堆大小以及年轻代和老年代的比例来减少GC的频率和STW的时间。当然，这里的内存不是调的越大越好，调的过小会导致GC频率过高，而调的过大虽然GC频率降低了，但每次GC的耗时也会变长。</p>
 <p>先通过GC日志得到活跃数据的大小（活跃数据的大小是指Full GC后堆中老年代占用空间的大小），然后通过以下策略设置基本参数：</p>
 <table>
@@ -221,7 +217,7 @@
 <p>我在这个例子中经过计算后设置的参数如下：</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-Xmx640m</span><br><span class="line">-Xms640m</span><br><span class="line">-XX:NewSize=240m</span><br><span class="line">-XX:MaxNewSize=240m</span><br></pre></td></tr></table></figure>
 <p>此时再启动项目并用jmeter模拟真实环境进行测试，可以发现调大总堆大小并设置合适的年轻代与老年代的比例后，Minor GC每分钟的频率已经降到了70-80次，而Major GC十分钟才会出现一次，每次的耗时在100ms以下，TP95下降了约10ms，TP99下降了约100ms。</p>
-<p><img src="http://blog.default.nanwulife.com/0Y%5D$ZI%60U6X6J052%25CSB2VTU.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/0Y%5D$ZI%60U6X6J052%25CSB2VTU.png" alt></p>
 
   </div>
 </article>
@@ -241,11 +237,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -295,11 +287,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

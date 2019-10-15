@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -67,15 +67,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -92,7 +88,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/03/30/dis主从复制/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -117,7 +113,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -127,7 +123,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -162,7 +158,7 @@
 <h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2><p>主从复制过程大体可以分为3个阶段：连接建立阶段、数据同步阶段、命令传播阶段。</p>
 <h3 id="连接建立阶段"><a href="#连接建立阶段" class="headerlink" title="连接建立阶段"></a>连接建立阶段</h3><p>主从复制的开启，完全是在从节点发起的（通过<code>slaveof</code>命令），不需要我们在主节点做任何事情。需要注意的是，<code>slaveof</code>是异步命令，从节点完成主节点ip和port的保存后，向发送<code>slaveof</code>命令的客户端直接返回OK，实际的复制操作在这之后才开始进行。</p>
 <h3 id="数据同步阶段"><a href="#数据同步阶段" class="headerlink" title="数据同步阶段"></a>数据同步阶段</h3><p>主从节点之间的连接建立以后，便可以开始进行数据同步。数据同步阶段是主从复制最核心的阶段，由从节点向主节点发送<code>psync</code>命令开始同步，并且根据主从节点当前状态的不同，可以分为全量复制和部分复制。</p>
-<p><img src="http://blog.default.nanwulife.com/psync.jpg" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/psync.jpg" alt></p>
 <h4 id="全量复制"><a href="#全量复制" class="headerlink" title="全量复制"></a>全量复制</h4><p>全量复制用于初次复制或其他无法进行部分复制的情况，将主节点中的所有数据都发送给从节点，是一个非常重型的操作。执行过程如下：</p>
 <ul>
 <li>主节点收到全量复制的命令后，执行<code>bgsave</code>，在后台生成RDB文件，并使用一个缓冲区（称为复制缓冲区）记录从现在开始执行的所有写命令。</li>
@@ -202,11 +198,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -256,11 +248,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

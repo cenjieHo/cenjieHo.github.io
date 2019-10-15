@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -68,15 +68,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -93,7 +89,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/02/10/Executor框架/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -122,7 +118,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -132,7 +128,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -169,7 +165,7 @@
 <li>提高线程的可管理性：线程是稀缺资源，使用线程池可以进行统一分配、调优和监控。</li>
 </ul>
 <a id="more"></a>
-<h2 id="线程池的实现原理"><a href="#线程池的实现原理" class="headerlink" title="线程池的实现原理"></a>线程池的实现原理</h2><p><img src="http://blog.default.nanwulife.com/1787733-248f411a83669fff.webp" alt=""></p>
+<h2 id="线程池的实现原理"><a href="#线程池的实现原理" class="headerlink" title="线程池的实现原理"></a>线程池的实现原理</h2><p><img src="http://blog.default.nanwulife.com/1787733-248f411a83669fff.webp" alt></p>
 <ol>
 <li>如果当前运行的线程少于<code>corePoolSize</code>，则创建新线程来执行任务（这一步需获取全局锁）。</li>
 <li>如果运行的线程等于或多于<code>corePoolSize</code>，则将任务加入<code>BlockingQueue</code>。</li>
@@ -178,7 +174,7 @@
 </ol>
 <p>之所以采用这个步骤，是因为在执行<code>execute()</code>方法时，尽可能地避免获取全局锁。在线程池完成预热之后（当前运行的线程数大于等于<code>corePoolSize</code>），几乎所有的<code>execute()</code>方法调用都是执行步骤2，而步骤2不需要获取全局锁。</p>
 <h2 id="Executor框架"><a href="#Executor框架" class="headerlink" title="Executor框架"></a>Executor框架</h2><p>Executor框架内部使用了线程池机制，它在<code>java.util.cocurrent</code>包下，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。因此，通过<code>Executor</code>来启动线程比使用<code>Thread</code>的<code>start()</code>方法更易管理且效率更好。</p>
-<h2 id="Executor框架的结构与成员"><a href="#Executor框架的结构与成员" class="headerlink" title="Executor框架的结构与成员"></a>Executor框架的结构与成员</h2><p><img src="http://blog.default.nanwulife.com/6021163-4e29a753826e7d23.webp" alt=""></p>
+<h2 id="Executor框架的结构与成员"><a href="#Executor框架的结构与成员" class="headerlink" title="Executor框架的结构与成员"></a>Executor框架的结构与成员</h2><p><img src="http://blog.default.nanwulife.com/6021163-4e29a753826e7d23.webp" alt></p>
 <h3 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h3><p><code>ThreadPoolExecutor</code>是Executor框架的最核心的类，是线程池的实现类，用来执行被提交的任务，通常使用工厂类<code>Executors</code>来创建，有以下三种类型：</p>
 <ul>
 <li><code>FixedThreadPool</code>：线程数固定。适用于为了满足资源管理而需要限制线程数的场景，适用于负载比较重的服务器。</li>
@@ -220,11 +216,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -278,11 +270,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

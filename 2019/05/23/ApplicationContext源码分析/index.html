@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="前言ApplicationContext实现了除基本容器外的多个接口，提供了比BeanFactory更为丰富的功能，比如说自动识别BeanPostProcessor以及其它特殊类型Bean、容器启动时自动加载Bean、国际化支持、容器内事件发布等。因此，我们在实际应用中一般会使用ApplicationContext而不是BeanFactory。 继承体系 从上图可以看出，ApplicationCo">
-<meta name="keywords" content="blog,cenjie">
+<meta name="keywords" content="blog,hecenjie">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ApplicationContext体系分析">
 <meta property="og:url" content="http://yoursite.com/2019/05/23/ApplicationContext源码分析/index.html">
@@ -67,15 +67,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -92,7 +88,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/23/ApplicationContext源码分析/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -117,7 +113,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -127,7 +123,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -149,7 +145,7 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>ApplicationContext</code>实现了除基本容器外的多个接口，提供了比<code>BeanFactory</code>更为丰富的功能，比如说自动识别<code>BeanPostProcessor</code>以及其它特殊类型Bean、容器启动时自动加载Bean、国际化支持、容器内事件发布等。因此，我们在实际应用中一般会使用<code>ApplicationContext</code>而不是<code>BeanFactory</code>。</p>
-<h2 id="继承体系"><a href="#继承体系" class="headerlink" title="继承体系"></a>继承体系</h2><p><img src="http://blog.default.nanwulife.com/72307-b0c809e1cc035cdb.jpg" alt=""></p>
+<h2 id="继承体系"><a href="#继承体系" class="headerlink" title="继承体系"></a>继承体系</h2><p><img src="http://blog.default.nanwulife.com/72307-b0c809e1cc035cdb.jpg" alt></p>
 <p>从上图可以看出，<code>ApplicationContext</code>继承了<code>BeanFactory</code>，因此拥有<code>BeanFactory</code>的全部功能，实际上，它是将容器的功能委派给<code>DefaultListableBeanFactory</code>来实现。除此之外，<code>ApplicationContext</code>还继承了<code>ResourceLoader</code>、<code>EnvironmentCable</code>、<code>ApplicationEventPublisher</code>、<code>MessageSource</code>等接口，提供了十分丰富的功能。</p>
 <h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>创建一个常用的<code>ApplicationContext</code>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClassPathXmlApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"classpath:application.xml"</span>);</span><br></pre></td></tr></table></figure></p>
 <p><code>ClassPathXmlApplicationContext</code>的构造函数在设置完配置文件的位置后，紧接着调用<code>refresh()</code>方法，这个方法是整个<code>ApplicationContext</code>体系的核心，是在<code>AbstractApplicationContext</code>中实现的，并且是个典型的模板方法，也就是说其中的一些步骤是交由具体子类来实现的。以下是这个方法的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refresh</span><span class="params">()</span> <span class="keyword">throws</span> BeansException, IllegalStateException </span>&#123;</span><br><span class="line">	<span class="keyword">synchronized</span> (<span class="keyword">this</span>.startupShutdownMonitor) &#123;</span><br><span class="line">		<span class="comment">// 1. 准备刷新时的上下文环境</span></span><br><span class="line">		prepareRefresh();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 2. 刷新并初始化 BeanFactory</span></span><br><span class="line">		ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 3. 配置 BeanFactory 中的一些其它信息</span></span><br><span class="line">		prepareBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">// 4. 提供子类覆盖的额外处理，即子类处理自定义的 BeanFactoryPostProcess</span></span><br><span class="line">			postProcessBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 5. 调用各种 BeanFactoryPostProcessor</span></span><br><span class="line">			invokeBeanFactoryPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 6. 注册 BeanPostProcessor 到 BeanFactory 中去</span></span><br><span class="line">			registerBeanPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 7. 初始化上下文中的资源文件，如国际化文件的处理等</span></span><br><span class="line">			initMessageSource();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 8. 初始化上下文事件广播器</span></span><br><span class="line">			initApplicationEventMulticaster();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 9. 初始化其它特殊 Bean</span></span><br><span class="line">			onRefresh();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 10. 检查 listener 类型的 Bean 并注册</span></span><br><span class="line">			registerListeners();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 11. 实例化所有非懒加载的单例 Bean</span></span><br><span class="line">			finishBeanFactoryInitialization(beanFactory);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 12. 发布相应的事件</span></span><br><span class="line">			finishRefresh();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">catch</span> (BeansException ex) &#123;</span><br><span class="line">			<span class="comment">// ...</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="comment">// Reset common introspection caches in Spring's core, since we</span></span><br><span class="line">			<span class="comment">// might not ever need metadata for singleton beans anymore...</span></span><br><span class="line">			resetCommonCaches();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -169,7 +165,7 @@
 <h2 id="ApplicationContext使用"><a href="#ApplicationContext使用" class="headerlink" title="ApplicationContext使用"></a>ApplicationContext使用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// beanFactory</span></span><br><span class="line">UserService userService = context.getBean(<span class="string">"userService"</span>, UserService.class);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 事件</span></span><br><span class="line">context.addApplicationListener(<span class="keyword">new</span> WalkListener());</span><br><span class="line">context.publishEvent(<span class="keyword">new</span> WalkEvent(<span class="keyword">new</span> User(<span class="string">"Jerry"</span>)));</span><br><span class="line">context.publishEvent(<span class="keyword">new</span> WalkEvent(<span class="keyword">new</span> User(<span class="string">"Peter"</span>)));</span><br><span class="line"></span><br><span class="line"><span class="comment">// locale</span></span><br><span class="line">context.getMessage(<span class="string">"menu.edit"</span>, <span class="keyword">null</span>, <span class="string">"Edit"</span>, Locale.US);</span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a href="https://www.jianshu.com/p/d75faa3ddce3" target="_blank" rel="noopener">Spring IOC ApplicationContext 源码分析</a></li>
-<li><a href="">Spring ApplicationContext源码分析</a></li>
+<li><a href>Spring ApplicationContext源码分析</a></li>
 </ul>
 
   </div>
@@ -190,11 +186,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -244,11 +236,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

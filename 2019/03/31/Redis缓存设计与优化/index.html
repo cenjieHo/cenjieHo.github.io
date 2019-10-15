@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,15 +70,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -95,7 +91,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/03/31/Redis缓存设计与优化/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -120,7 +116,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -130,7 +126,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -175,7 +171,7 @@
 <h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><p>一般的缓存系统，都是根据key去缓存查询，如果不存在对应的value，就应该去数据库查找。如果key对应的value是一定不存在的，并且对该key并发请求量很大，就会对数据库造成很大的压力，这就叫做缓存穿透。</p>
 <p>第一个解决办法是对查询结果为空的键也进行缓存，由于这种方式需要更多的键，所以可以设置一个短一点的过期时间。</p>
 <p>第二个解决方案则是使用布隆过滤器拦截。布隆过滤器的原理是，当一个元素被加入集合时，通过K个Hash函数将这个元素映射成一个位数组中的K个点，并把它们置为1。检索时，我们只要看看这些点是不是都是1就（大约）知道集合中有没有它了：如果这些点有任何一个0，则被检元素一定不在；如果都是1，则被检元素有可能在。</p>
-<p><img src="http://blog.default.nanwulife.com/booleanfilter.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/booleanfilter.png" alt></p>
 <p>通过布隆过滤器，一个一定不存在的数据会被它拦截掉，从而避免了对数据库的查询压力。</p>
 <h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>当缓存服务器重启或者大量缓存集中在某一个时间段失效，这样在失效的时候，所有请求都会查询数据库，也会给数据库带来很大压力，这就叫做缓存雪崩。对于缓存雪崩有以下几种解决方案：</p>
 <ul>
@@ -185,13 +181,13 @@
 <li>提前演练。</li>
 </ul>
 <h2 id="热点key重建"><a href="#热点key重建" class="headerlink" title="热点key重建"></a>热点key重建</h2><p>当前key是一个热点key（比如说某个热门的娱乐新闻），如果在缓存失效时有大量线程并发请求，那么这些线程会同时去访问数据库并重建key，导致后端系统负载过大，甚至因此崩溃。</p>
-<p><img src="http://blog.default.nanwulife.com/1115933-20180629202036949-8223995.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/1115933-20180629202036949-8223995.png" alt></p>
 <p>为此有以下几种解决方案：</p>
 <h3 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h3><p>可以使用互斥锁的方式实现，直接利用redis的<code>set</code>命令即可（如<code>SET mutexKey &quot;1&quot; EX 10086 NX</code>），为了防止该锁未被正确释放，还应给该锁设置一个过期时间。</p>
-<p><img src="http://blog.default.nanwulife.com/1115933-20180703003410961-1677269917.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/1115933-20180703003410961-1677269917.png" alt></p>
 <p>这种方式的缺点在于重建的过程中别的线程都会处于等待状态，整体性能不高。</p>
 <h3 id="永远不过期"><a href="#永远不过期" class="headerlink" title="永远不过期"></a>永远不过期</h3><p>我们不为每个key设置一个过期时间，但会添加一个逻辑过期时间属性，每次去读的时候都判断一下当前时间是否已经大于逻辑过期时间，如果是的话就使用单独的线程去构建缓存。</p>
-<p><img src="http://blog.default.nanwulife.com/1115933-20180703004145474-1329843618.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/1115933-20180703004145474-1329843618.png" alt></p>
 <p>这种方式的缺点在于缓存的构建是异步的，因此别的线程在这个过程中依然会取到老值，不保证数据的一致性。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li>《Redis开发与运维》</li>
@@ -217,11 +213,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -271,11 +263,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

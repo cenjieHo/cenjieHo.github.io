@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -67,15 +67,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -92,7 +88,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/28/MySQL索引类型与优化/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -121,7 +117,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -131,7 +127,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -199,7 +195,7 @@
 <p>如果没有定义主键，InnoDB会选择一个唯一的非空索引代替。如果没有这样的索引，InnoDB会隐式定义一个主键来作为聚簇索引。采用聚簇索引，索引和其他列值存储在一起，因此数据访问比采用非聚簇索引（如MyISAM引擎）更快，节省了磁盘I/O资源。</p>
 <p>二级索引叶子节点保存的不是指向行的物理位置的指针，而是行的主键值。通过二级索引查找行，存储引擎需要找到二级索引的叶子节点获得对应的主键值，然后根据这个值去聚簇索引中查找到对应的行。这样虽然会让二级索引占用更多的空间，但换来的好处是InnoDB在移动行时减少了二级索引的维护工作。</p>
 <p>MyISAM没有聚簇索引的特性，主键索引和其它索引在结构上没有什么不同。</p>
-<p><img src="http://blog.default.nanwulife.com/cluster.jpg" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/cluster.jpg" alt></p>
 <p>使用InnoDB存储引擎时应该尽可能地按主键顺序插入数据（可以使用<code>AUTO_INCREMENT</code>自增），最好避免随机的插入（例如使用UUID作为主键）。因为当主键的值是顺序的时，InnoDB会把每一条记录都存储在上一条记录的后面，当达到页的最大填充因子时（默认为15/16），下一条记录就会写入新的页中。而每次插入主键的值近似于随机时，新纪录根据值的大小要被插入到现有索引页的中间某个合适位置，此时页分裂会导致大量的数据移动并产生碎片，甚至目标页面可能已经被回写到磁盘上而从缓存中清掉，此时又要从磁盘上读回来，这增加了很多开销。</p>
 <h2 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h2><p>如果一个索引包含（或者说覆盖）所有需要查询的字段的值，我们就称之为“覆盖索引”，此时不需要回表操作。其具有以下优点：</p>
 <ul>
@@ -234,11 +230,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -292,11 +284,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -67,15 +67,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -92,7 +88,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/24/破坏双亲委派模型/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -117,7 +113,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -127,7 +123,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -164,7 +160,7 @@
 <p>有了线程上下文加载器，JNDI服务使用这个线程上下文加载器去加载所需要的SPI代码，也就是父类加载器请求子类加载器去完成类加载的动作，这种行为实际上就是打通了双亲委派模型的层次结构来逆向使用类加载器，实际上已经违背了双亲委派模型的一般性原则。</p>
 <h2 id="JDBC如果破坏双亲委派模型"><a href="#JDBC如果破坏双亲委派模型" class="headerlink" title="JDBC如果破坏双亲委派模型"></a>JDBC如果破坏双亲委派模型</h2><p>JDBC之所以要破坏双亲委派模型，是因为原生的JDBC中Driver驱动本身只是一个接口，并没有具体的实现，具体的实现是由不同的数据库去实现的，例如，可以由MySQL的<code>mysql-connector-.jar</code>中的<code>Driver</code>类具体实现。由于原生的JDBC中的类是放在<code>rt.jar</code>包的，是由启动类加载器进行类加载的，且需要动态去加载不同数据库类型的<code>Driver</code>类，而<code>mysql-connector-.jar</code>中的<code>Driver</code>类是用户自己写的代码，所以启动类加载器是不能进行加载的，需要由应用程序类加载器进行加载。此时，通过线程上下文类加载器获得应用程序类加载器，通过应用程序类加载器去加载这个<code>Driver</code>类，从而避开了双亲委派模型的局限性。</p>
 <h2 id="Tomcat的类加载器是怎么设计的？"><a href="#Tomcat的类加载器是怎么设计的？" class="headerlink" title="Tomcat的类加载器是怎么设计的？"></a>Tomcat的类加载器是怎么设计的？</h2><p>前面3个类加载器和默认的一致，CommonClassLoader、CatalinaClassLoader、SharedClassLoader和WebappClassLoader则是Tomcat自己定义的类加载器，它们分别加载<code>/common/*</code>、<code>/server/*</code>、<code>/shared/*</code>（在tomcat 6之后已经合并到根目录下的lib目录下）和<code>/WebApp/WEB-INF/*</code>中的Java类库。其中WebApp类加载器和Jsp类加载器通常会存在多个实例，每一个Web应用程序对应一个WebApp类加载器，每一个JSP文件对应一个Jsp类加载器。</p>
-<p><img src="http://blog.default.nanwulife.com/4236553-89bacc3467d513f0.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/4236553-89bacc3467d513f0.png" alt></p>
 <ul>
 <li><code>commonLoader</code>：Tomcat最基本的类加载器，加载路径中的class可以被Tomcat容器本身以及各个Webapp访问。</li>
 <li><code>catalinaLoader</code>：Tomcat容器私有的类加载器，加载路径中的class对于Webapp不可见。</li>
@@ -195,11 +191,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -249,11 +241,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

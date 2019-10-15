@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -68,15 +68,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -93,7 +89,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/02/07/支付宝对接流程/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -118,7 +114,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -128,7 +124,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -167,7 +163,7 @@
 <li>配置密钥</li>
 </ol>
 <p>其中配置密钥需要交换双方的公钥，在交易过程中会对交易数据进行双方校验。我们知道公钥加密过的内容只有私钥才可以解密，同样，私钥加签过的内容也只有公钥才能验签。商户系统在发起支付时会使用自己的私钥进行加签，由于私钥只有自己持有（因此要妥善保管），支付宝就可以确认支付是由商户系统发起的而非他人；同样支付宝也会使用自己的私钥对支付结果进行加签，这样商户系统使用支付宝的公钥验签后也就能确定该结果是支付宝返回的了。</p>
-<p><img src="http://blog.default.nanwulife.com/LB1VVMbOFXXXXbKXXXXXXXXXXXX.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/LB1VVMbOFXXXXbKXXXXXXXXXXXX.png" alt></p>
 <h2 id="支付流程"><a href="#支付流程" class="headerlink" title="支付流程"></a>支付流程</h2><ol>
 <li>用户选中购物车的商品，创建一个待支付订单，商户系统生成唯一订单号。</li>
 <li>用户点击支付，商户系统调用支付宝的预下单接口发送订单信息，接口返回一个二维码串。</li>
@@ -176,7 +172,7 @@
 <li>支付成功后，支付宝根据预先配置的回调接口将支付结果异步通知给商户系统。</li>
 <li>商户系统收到支付结果，验签确保是支付宝发出后，告知用户支付完成并更新相关数据库表。</li>
 </ol>
-<p><img src="http://blog.default.nanwulife.com/LB1QKdBLXXXXXcvXXXXXXXXXXXX.jpg" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/LB1QKdBLXXXXXcvXXXXXXXXXXXX.jpg" alt></p>
 
   </div>
 </article>
@@ -196,11 +192,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -250,11 +242,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

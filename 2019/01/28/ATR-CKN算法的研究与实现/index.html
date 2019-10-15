@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -74,15 +74,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -99,7 +95,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/28/ATR-CKN算法的研究与实现/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -116,7 +112,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CKN与EC-CKN算法"><span class="toc-number">2.</span> <span class="toc-text">CKN与EC-CKN算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#存在的问题"><span class="toc-number">3.</span> <span class="toc-text">存在的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#死亡加速"><span class="toc-number">3.0.1.</span> <span class="toc-text">死亡加速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络隔离"><span class="toc-number">3.0.2.</span> <span class="toc-text">网络隔离</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#ATR-CKN算法"><span class="toc-number">4.</span> <span class="toc-text">ATR-CKN算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#核心实现"><span class="toc-number">4.0.1.</span> <span class="toc-text">核心实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行结果"><span class="toc-number">4.0.2.</span> <span class="toc-text">运行结果</span></a></li></ol></li>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CKN与EC-CKN算法"><span class="toc-number">2.</span> <span class="toc-text">CKN与EC-CKN算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#存在的问题"><span class="toc-number">3.</span> <span class="toc-text">存在的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#死亡加速"><span class="toc-number">3.0.1.</span> <span class="toc-text">死亡加速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络隔离"><span class="toc-number">3.0.2.</span> <span class="toc-text">网络隔离</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ATR-CKN算法"><span class="toc-number">4.</span> <span class="toc-text">ATR-CKN算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#核心实现"><span class="toc-number">4.0.1.</span> <span class="toc-text">核心实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行结果"><span class="toc-number">4.0.2.</span> <span class="toc-text">运行结果</span></a></li></ol></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -124,7 +120,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -134,7 +130,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -168,23 +164,23 @@
     <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在学校做了无线传感器网络（WSN）睡眠调度算法方面的一些研究，本篇文章主要对其中的CKN、EC-CKN算法的学习做个总结，并给出基于这两种算法而改进后的ATR-CKN算法的核心实现以及在Nettopo上的运行结果。</p>
 <a id="more"></a>
 <h1 id="CKN与EC-CKN算法"><a href="#CKN与EC-CKN算法" class="headerlink" title="CKN与EC-CKN算法"></a>CKN与EC-CKN算法</h1><p>K-邻居节点连通算法（CKN）是一个有效的分布式睡眠/工作时序安排算法。该算法可以在有效的减少网络中处于工作状态的节点个数的同时保证整个网络处于连通状态和需求的路径延迟。执行CKN算法时对WSN中的每个节点u主要进行以下几步：</p>
-<p><img src="http://blog.default.nanwulife.com/O4%2909EVPSRXAY6%292S%60KRG$6.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/O4%2909EVPSRXAY6%292S%60KRG$6.png" alt></p>
 <p>针对CKN算法在能量消耗方面存在的问题，基于能量消耗的睡眠/工作时序安排算法（EC-CKN）可以延长网络的寿命。EC-CKN算法利用节点当前的剩余能量信息作为参数来决定节点是否进入睡眠状态。EC-CKN算法不仅可以保证整个网络处于K邻居节点连通状态，同时还可以保证每个节点处于工作状态的K个邻居节点当前的剩余能量在所有邻居节点当前剩余能量排序中为最大的K个。</p>
 <h1 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h1><p>EC-CKN对CKN有了一定的改进，但在某些场景下仍然会存在一些问题，例如下文将介绍的死亡加速与网络隔离。</p>
 <h3 id="死亡加速"><a href="#死亡加速" class="headerlink" title="死亡加速"></a>死亡加速</h3><p>在下图的场景中，节点B有很多个邻居节点，按理是可以进入睡眠状态的，但是由于它的其中一个邻居节点A只有它一个邻居节点，因此节点A和B永远得不到睡眠机会，这导致的后果就是：节点B的能量很快就被消耗完了，而节点B周围原本刚好满足睡眠条件的节点由于少了一个醒着的邻居节点，睡眠的几率也因此下降，从而加速了整个网络的死亡。</p>
-<p><img src="http://blog.default.nanwulife.com/RD$XNFLW@%29JC%28IHG1MGZC5A.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/RD$XNFLW@%29JC%28IHG1MGZC5A.png" alt></p>
 <h3 id="网络隔离"><a href="#网络隔离" class="headerlink" title="网络隔离"></a>网络隔离</h3><p>类似于死亡加速，在下面的场景中节点A和B永远也得不到睡眠机会，因此会更快的消耗完能量，导致相连的两个网络被隔离开了。</p>
-<p><img src="http://blog.default.nanwulife.com/OR%5BQ%258%7D%28NFA%7B6AC2H%60UWGI8.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/OR%5BQ%258%7D%28NFA%7B6AC2H%60UWGI8.png" alt></p>
 <h1 id="ATR-CKN算法"><a href="#ATR-CKN算法" class="headerlink" title="ATR-CKN算法"></a>ATR-CKN算法</h1><p>ATR-CKN算法优于原始的基于CKN的睡眠调度算法，它的优势在于可以在物理上调整传感器节点的传输半径，从而执行CKN使部分节点进入睡眠状态。ATR-CKN算法在继承了EC-CKN算法的所有主要属性的同时，通过提高节点的睡眠率为延长网络生命周期做出了重要贡献。</p>
 <p>相较于EC-CKN，ATR-CKN只用在之前加入一个判断逻辑即可：</p>
-<p><img src="http://blog.default.nanwulife.com/NPPLT2L4@3%60S%29XLEQJDGU3H.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/NPPLT2L4@3%60S%29XLEQJDGU3H.png" alt></p>
 <h3 id="核心实现"><a href="#核心实现" class="headerlink" title="核心实现"></a>核心实现</h3><p>下面给出在Nettopo上对于ATR-CKN算法的实现，其关键在于执行EC-CKN之前加入下面一段判断逻辑：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ATRCKN_Function</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">		<span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</span><br><span class="line">		Integer[] neighbors1 = neighbors.get(currentID);</span><br><span class="line">		<span class="keyword">if</span>(neighbors1.length &lt; k) &#123;</span><br><span class="line">			<span class="keyword">while</span>(!isUsingMaxTR(currentID)) &#123;</span><br><span class="line">				increaseTR(currentID);</span><br><span class="line">				neighbors1 = neighbors.get(currentID);</span><br><span class="line">				<span class="keyword">if</span>(neighbors1.length &gt;= k) &#123;</span><br><span class="line">					<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; neighbors1.length; j++) &#123;</span><br><span class="line">						<span class="keyword">int</span> tr = ((SensorNode)wsn.getNodeByID(currentID)).getMaxTR();</span><br><span class="line">						((SensorNode)wsn.getNodeByID(neighbors1[j])).setMaxTR(tr);</span><br><span class="line">					&#125;</span><br><span class="line">					flag = <span class="keyword">true</span>;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(!flag) setDefaultTR(currentID);</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h3><p>下面将在Nettopo上简单的演示一遍ATR-CKN算法对于死亡加速问题的解决。</p>
-<p>k = 2，round = 1的时候：<br><img src="http://blog.algorithms.nanwulife.com/WF8I%7DDDLHR%5B~GZ2FN1G@%7B4X.png" alt=""></p>
-<p>k = 2，round = 10的时候：<br><img src="http://blog.algorithms.nanwulife.com/%5DJN~%25%5BM%7B%60PKGKFT%25E4C%5B6~3.png" alt=""></p>
-<p>k = 2，round = 30的时候<br><img src="http://blog.algorithms.nanwulife.com/6%5DJL%5D4DFM0KGSFZJQ0~L%7DGV.png" alt=""></p>
-<p>k = 2，round = 43的时候：<br><img src="http://blog.algorithms.nanwulife.com/J%29%5DD7AQY%28%28%7B55YTRV%5DZE4MQ.png" alt=""></p>
+<p>k = 2，round = 1的时候：<br><img src="http://blog.algorithms.nanwulife.com/WF8I%7DDDLHR%5B~GZ2FN1G@%7B4X.png" alt></p>
+<p>k = 2，round = 10的时候：<br><img src="http://blog.algorithms.nanwulife.com/%5DJN~%25%5BM%7B%60PKGKFT%25E4C%5B6~3.png" alt></p>
+<p>k = 2，round = 30的时候<br><img src="http://blog.algorithms.nanwulife.com/6%5DJL%5D4DFM0KGSFZJQ0~L%7DGV.png" alt></p>
+<p>k = 2，round = 43的时候：<br><img src="http://blog.algorithms.nanwulife.com/J%29%5DD7AQY%28%28%7B55YTRV%5DZE4MQ.png" alt></p>
 <p>由于增大了传感器节点的物理传输半径，可以看到两个关键节点都可以进入睡眠状态，以此延长了网络的整体寿命。虽然增大传输半径的同时也增加了能量消耗，但在进行了大量实验并对统计数据进行详细分析后，我们可以发现ATR-CKN的生命周期相比EC-CKN平均增加了19％，最大增加了41%，因此可以得出其更优于EC-CKN的结论。</p>
 
   </div>
@@ -205,17 +201,13 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CKN与EC-CKN算法"><span class="toc-number">2.</span> <span class="toc-text">CKN与EC-CKN算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#存在的问题"><span class="toc-number">3.</span> <span class="toc-text">存在的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#死亡加速"><span class="toc-number">3.0.1.</span> <span class="toc-text">死亡加速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络隔离"><span class="toc-number">3.0.2.</span> <span class="toc-text">网络隔离</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#ATR-CKN算法"><span class="toc-number">4.</span> <span class="toc-text">ATR-CKN算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#核心实现"><span class="toc-number">4.0.1.</span> <span class="toc-text">核心实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行结果"><span class="toc-number">4.0.2.</span> <span class="toc-text">运行结果</span></a></li></ol></li>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CKN与EC-CKN算法"><span class="toc-number">2.</span> <span class="toc-text">CKN与EC-CKN算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#存在的问题"><span class="toc-number">3.</span> <span class="toc-text">存在的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#死亡加速"><span class="toc-number">3.0.1.</span> <span class="toc-text">死亡加速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络隔离"><span class="toc-number">3.0.2.</span> <span class="toc-text">网络隔离</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ATR-CKN算法"><span class="toc-number">4.</span> <span class="toc-text">ATR-CKN算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#核心实现"><span class="toc-number">4.0.1.</span> <span class="toc-text">核心实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行结果"><span class="toc-number">4.0.2.</span> <span class="toc-text">运行结果</span></a></li></ol></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
@@ -259,11 +251,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

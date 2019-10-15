@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -76,15 +76,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -101,7 +97,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/28/深入理解JVM-垃圾收集与内存分配/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -126,7 +122,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -136,7 +132,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -190,22 +186,22 @@
 </ul>
 <h2 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h2><p>最基础的垃圾收集算法有三种：标记-清除算法、复制算法、标记-整理算法，我们常用的垃圾回收器一般都采用分代收集算法。</p>
 <h3 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h3><p>首先标记出所有需要回收的对象，在标记完成后统一回收所有被标记的对象。</p>
-<p><img src="http://blog.default.nanwulife.com/Inked132702691_LI.jpg" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/Inked132702691_LI.jpg" alt></p>
 <p>不足：标记和清除的两个过程的效率都不高；会产生大量不连续的内存碎片，导致无法给大对象分配内存。</p>
 <h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>将内存划分为大小相等的两块，每次只使用其中一块，当这一块内存用完了就将还存活的对象复制到另一块上面，然后再把使用过的内存空间进行一次清理。</p>
-<p><img src="http://blog.default.nanwulife.com/Inked132817416_LI.jpg" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/Inked132817416_LI.jpg" alt></p>
 <p>现在的商业虚拟机都采用这种收集算法来回收新生代，但并不需要按照1：1的比例来划分内存空间，而是将内存分为一块较大的Eden空间和两块较小的Survivor空间，每次使用Eden和其中一块Survivor。当回收时，将Eden和Survivor中还活着的对象一次性地复制到另外一块Survivor空间上，最后清理掉Eden和刚才用过的Survivor空间。</p>
 <p>如果每次回收有多于 10% 的对象存活，那么一块 Survivor 空间就不够用了，此时需要依赖于老年代进行分配担保，也就是借用老年代的空间存储放不下的对象。</p>
 <h3 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h3><p>复制算法在对象存活率较高时要进行较多的复制操作，也有可能需要额外的空间进行分配担保，所以在老年代一般不能直接选用这种算法。</p>
 <p>标记-整理算法的标记过程仍与标记-清除算法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。</p>
-<p><img src="http://blog.default.nanwulife.com/Inked132911511_LI.jpg" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/Inked132911511_LI.jpg" alt></p>
 <h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p>现在的商业虚拟机采用分代收集算法，它根据对象存活周期将内存划分为新生代和老年代，新生代使用复制算法，老年代使用标记-清除或者标记-整理算法。</p>
 <h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p>如果说收集算法是内存回收的方法论，垃圾收集器就是内存回收的具体实现。</p>
-<p><img src="http://blog.default.nanwulife.com/5959fbae-ad05-40e3-b615-9a89d0e56ed9.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/5959fbae-ad05-40e3-b615-9a89d0e56ed9.png" alt></p>
 <h3 id="Serial收集器"><a href="#Serial收集器" class="headerlink" title="Serial收集器"></a>Serial收集器</h3><p>串行收集器是最古老，最稳定以及效率高的收集器，可能会产生较长的停顿，只使用一个线程去回收。</p>
-<p><img src="http://blog.default.nanwulife.com/20180805154818087679.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/20180805154818087679.png" alt></p>
 <h3 id="ParNew收集器"><a href="#ParNew收集器" class="headerlink" title="ParNew收集器"></a>ParNew收集器</h3><p>ParNew收集器其实就是Serial收集器的多线程版本。</p>
-<p><img src="http://blog.default.nanwulife.com/ParNew%E5%92%8CSerialOld%E6%94%B6%E9%9B%86%E5%99%A8%E8%BF%90%E8%A1%8C%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/ParNew%E5%92%8CSerialOld%E6%94%B6%E9%9B%86%E5%99%A8%E8%BF%90%E8%A1%8C%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg" alt></p>
 <h3 id="Parallel-Scavenge收集器"><a href="#Parallel-Scavenge收集器" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h3><p>Parallel是一个多线程收集器。其它收集器关注点是尽可能缩短垃圾收集时用户线程的停顿时间，而Parallel Scavenge收集器的目标是达到一个可控制的吞吐量，它被称为“吞吐量优先”收集器。这里的吞吐量指 CPU 用于运行用户代码的时间占总时间的比值。</p>
 <p>停顿时间越短就越适合需要与用户交互的程序，良好的响应速度能提升用户体验。而高吞吐量则可以高效率地利用 CPU 时间，尽快完成程序的运算任务，适合在后台运算而不需要太多交互的任务。缩短停顿时间是以牺牲吞吐量和新生代空间来换取的：新生代空间变小，收集时间缩短，但同时垃圾回收也变得频繁，导致吞吐量下降。</p>
 <p>可以通过一个开关参数打开GC自适应的调节策略（GC Ergonomics），就不需要手工指定新生代的大小、Eden和Survivor区的比例、晋升老年代对象年龄等细节参数了。虚拟机会根据当前系统的运行情况收集性能监控信息，动态调整这些参数以提供最合适的停顿时间或者最大的吞吐量。</p>
@@ -222,7 +218,7 @@
 <li><strong>Concurrent Sweep</strong>：这个阶段清除那些不再使用的对象，回收它们的占用空间为将来使用。</li>
 <li><strong>Concurrent Reset</strong>：这个阶段会重设CMS内部的数据结构，为下次的GC做准备。</li>
 </ol>
-<p><img src="http://blog.default.nanwulife.com/201707260004.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/201707260004.png" alt></p>
 <p>由于整个过程中耗时最长的并发标记和并发清除过程中，收集器线程都可以与用户线程一起工作，所以总体上来说，CMS收集器的内存回收过程是与用户线程一起并发地执行。</p>
 <p>CMS收集器具有以下几个缺点：</p>
 <ul>
@@ -242,7 +238,7 @@
 <li>可预测的停顿：能让使用者明确指定在一个长度为M毫秒的时间片段内，消耗在GC上的时间不得超过N毫秒。</li>
 </ul>
 <p>在G1算法中，采用了一种完全不同的方式组织堆内存，它将整个Java堆划分为多个大小相等的独立区域Region，每个Region是逻辑连续的一段内存，虽然还保留有新生代和老年代的概念，但新生代和老年代不再是物理隔离的了。</p>
-<p><img src="http://blog.default.nanwulife.com/9bbddeeb-e939-41f0-8e8e-2b1a0aa7e0a7.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/9bbddeeb-e939-41f0-8e8e-2b1a0aa7e0a7.png" alt></p>
 <p>G1跟踪各个Region里面的垃圾堆积的价值大小（回收所获得的空间大小以及回收所需时间的经验值），在后台维护一个优先列表，每次根据允许的收集时间，优先回收价值最大的Region，这保证了G1收集器在有限的时间内可以获取尽可能高的收集效率。</p>
 <p>由于难免存在一个Region中的对象引用另一个Region中对象的情况，为了达到可以以Region为单位进行垃圾回收的目的，G1收集器使用了RememberedSet这种技术。G1中每个Region都有一个与之对应的RememberedSet ，在各个Region上记录自家的对象被外面对象引用的情况。当进行内存回收时，在GC根节点的枚举范围中加入RememberedSet即可保证不对全堆扫描也不会有遗漏。</p>
 <p>G1收集器的运作大致可划分为以下几个步骤：</p>
@@ -252,7 +248,7 @@
 <li>最终标记</li>
 <li>筛选回收</li>
 </ul>
-<p><img src="http://blog.default.nanwulife.com/g1.jpg" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/g1.jpg" alt></p>
 <p>前三个步骤与CMS收集器相似，最后的筛选回收阶段对各个Region的回收价值和成本进行排序，根据用户所期望的GC停顿时间来制定回收计划。</p>
 <h2 id="内存分配策略"><a href="#内存分配策略" class="headerlink" title="内存分配策略"></a>内存分配策略</h2><ul>
 <li>对象优先分配在Eden区：如果Eden区没有足够的空间时，虚拟机执行一次Minor GC。</li>
@@ -292,11 +288,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -346,11 +338,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

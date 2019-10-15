@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="Java错误和异常在Java中，所有的异常都有一个共同的祖先Throwable，它有两个重要的子类：Exception（异常）和Error（错误），二者都是Java异常处理的重要子类，各自都包含大量子类: ErrorError是程序无法处理的错误，表示代码运行时Java虚拟机出现的问题。例如，当Java虚拟机不再有继续执行操作所需的内存资源时，将出现OutOfMemoryError，而另外还有一个">
-<meta name="keywords" content="blog,cenjie">
+<meta name="keywords" content="blog,hecenjie">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java异常机制总结">
 <meta property="og:url" content="http://yoursite.com/2019/04/30/Java异常机制/index.html">
@@ -67,15 +67,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -92,7 +88,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/04/30/Java异常机制/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -117,7 +113,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -127,7 +123,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -148,7 +144,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="Java错误和异常"><a href="#Java错误和异常" class="headerlink" title="Java错误和异常"></a>Java错误和异常</h2><p>在Java中，所有的异常都有一个共同的祖先<code>Throwable</code>，它有两个重要的子类：<code>Exception</code>（异常）和<code>Error</code>（错误），二者都是Java异常处理的重要子类，各自都包含大量子类:<br><img src="http://blog.default.nanwulife.com/Exception.png" alt=""></p>
+    <h2 id="Java错误和异常"><a href="#Java错误和异常" class="headerlink" title="Java错误和异常"></a>Java错误和异常</h2><p>在Java中，所有的异常都有一个共同的祖先<code>Throwable</code>，它有两个重要的子类：<code>Exception</code>（异常）和<code>Error</code>（错误），二者都是Java异常处理的重要子类，各自都包含大量子类:<br><img src="http://blog.default.nanwulife.com/Exception.png" alt></p>
 <h3 id="Error"><a href="#Error" class="headerlink" title="Error"></a>Error</h3><p><code>Error</code>是程序无法处理的错误，表示代码运行时Java虚拟机出现的问题。例如，当Java虚拟机不再有继续执行操作所需的内存资源时，将出现<code>OutOfMemoryError</code>，而另外还有一个常见的错误是<code>StackOverflowError</code>。这些错误是不可查的，也不应试图去捕获它，当这些错误发生时，Java虚拟机一般会选择终止。</p>
 <h3 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h3><p><code>Exception</code>异常是程序本身可以处理的异常，它有一个重要的子类<code>RuntimeException</code>，表示JVM常用操作引发的异常。例如，若试图使用空值对象引用、除数为零或数组越界，则分别引发运行时异常<code>NullPointerException</code>、<code>ArithmeticException</code>和<code>ArrayIndexOutOfBoundException</code>。</p>
 <h3 id="运行时异常"><a href="#运行时异常" class="headerlink" title="运行时异常"></a>运行时异常</h3><p><code>Exception</code>这种异常分为运行时异常和非运行时异常（编译异常）两大类：</p>
@@ -184,11 +180,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -238,11 +230,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

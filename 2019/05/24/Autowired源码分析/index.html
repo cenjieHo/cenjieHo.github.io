@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="AutowiredAnnotationBeanPostProcessor@Autowired注解的逻辑是由AutowiredAnnotationBeanPostProcessor实现的，AutowiredAnnotationBeanPostProcessor不是一个简单的BeanPostProcessor，而是一个实现了多重接口的BeanPostProcessor，它主要实现了以下两个接口：  I">
-<meta name="keywords" content="blog,cenjie">
+<meta name="keywords" content="blog,hecenjie">
 <meta property="og:type" content="article">
 <meta property="og:title" content="@Autowired源码分析">
 <meta property="og:url" content="http://yoursite.com/2019/05/24/Autowired源码分析/index.html">
@@ -67,15 +67,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -92,7 +88,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/24/Autowired源码分析/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -117,7 +113,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -127,7 +123,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -154,7 +150,7 @@
 <li><code>MergedBeanDefinitionPostProcessor</code>：对应<code>findAutowiringMetadata</code>方法</li>
 </ul>
 <p>下面我们分别来看看这两个接口的实现是如何完成<code>@Autowired</code>的逻辑的。</p>
-<h2 id="作为MergedBeanDefinitionPostProcessor的行为"><a href="#作为MergedBeanDefinitionPostProcessor的行为" class="headerlink" title="作为MergedBeanDefinitionPostProcessor的行为"></a>作为MergedBeanDefinitionPostProcessor的行为</h2><p>首先，我们从<code>ApplicationContext</code>体系最核心的<code>refresh()</code>方法说起：<br><img src="http://blog.default.nanwulife.com/162cc16e4b0eee57.jpg" alt=""></p>
+<h2 id="作为MergedBeanDefinitionPostProcessor的行为"><a href="#作为MergedBeanDefinitionPostProcessor的行为" class="headerlink" title="作为MergedBeanDefinitionPostProcessor的行为"></a>作为MergedBeanDefinitionPostProcessor的行为</h2><p>首先，我们从<code>ApplicationContext</code>体系最核心的<code>refresh()</code>方法说起：<br><img src="http://blog.default.nanwulife.com/162cc16e4b0eee57.jpg" alt></p>
 <p><code>refresh()</code>方法中<code>registerBeanPostProcessors(beanFactory)</code>这一行代码完成了对<code>AutowiredAnnotationBeanPostProcessor</code>的注册，当执行<code>finishBeanFactoryInitialization(beanFactory)</code>方法时，会实例化所有非懒加载的单例Bean，这个过程中会调用<code>AbstractAutowireCapableBeanFactory</code>类的<code>doCreateBean()</code>方法，其中在使用合适的实例化策略实例化完Bean之后，会有下面这么一段代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> Object <span class="title">doCreateBean</span><span class="params">(<span class="keyword">final</span> String beanName, <span class="keyword">final</span> RootBeanDefinition mbd, <span class="keyword">final</span> Object[] args)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> BeanCreationException </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">synchronized</span> (mbd.postProcessingLock) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!mbd.postProcessed) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                applyMergedBeanDefinitionPostProcessors(mbd, beanType, beanName); <span class="comment">// 重点关注这一行</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> BeanCreationException(mbd.getResourceDescription(), beanName,</span><br><span class="line">                        <span class="string">"Post-processing of merged bean definition failed"</span>, ex);</span><br><span class="line">            &#125;</span><br><span class="line">            mbd.postProcessed = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">applyMergedBeanDefinitionPostProcessors</span><span class="params">(RootBeanDefinition mbd, Class&lt;?&gt; beanType, String beanName)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (BeanPostProcessor bp : getBeanPostProcessors()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (bp <span class="keyword">instanceof</span> MergedBeanDefinitionPostProcessor) &#123;</span><br><span class="line">            MergedBeanDefinitionPostProcessor bdp = (MergedBeanDefinitionPostProcessor) bp;</span><br><span class="line">            bdp.postProcessMergedBeanDefinition(mbd, beanType, beanName);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>在<code>applyMergedBeanDefinitionPostProcessors()</code>方法中，会判断当前的<code>BeanPostProcessor</code>是否是<code>MergedBeanDefinitionPostProcessor</code>类型的，如果是的话则调用它的<code>postProcessMergedBeanDefinition()</code>方法（显然，这里会判断为真，因为<code>AutowiredAnnotationBeanPostProcessor</code>实现了<code>MergedBeanDefinitionPostProcessor</code>）。我们再来看看<code>AutowiredAnnotationBeanPostProcessor</code>对该方法的实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postProcessMergedBeanDefinition</span><span class="params">(RootBeanDefinition beanDefinition, Class&lt;?&gt; beanType, String beanName)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (beanType != <span class="keyword">null</span>) &#123;</span><br><span class="line">        InjectionMetadata metadata = findAutowiringMetadata(beanName, beanType, <span class="keyword">null</span>);</span><br><span class="line">        metadata.checkConfigMembers(beanDefinition);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> InjectionMetadata <span class="title">findAutowiringMetadata</span><span class="params">(String beanName, Class&lt;?&gt; clazz, PropertyValues pvs)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String cacheKey = (StringUtils.hasLength(beanName) ? beanName : clazz.getName());</span><br><span class="line">    InjectionMetadata metadata = <span class="keyword">this</span>.injectionMetadataCache.get(cacheKey); <span class="comment">// 先从缓存中找 InjectionMetadata，诸如 @Autowire，@Inject 等</span></span><br><span class="line">    <span class="keyword">if</span> (InjectionMetadata.needsRefresh(metadata, clazz)) &#123;                  <span class="comment">// 如果找不到，则从这里开始，通过分析 bean，去找到它的 InjectionMetadata</span></span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>.injectionMetadataCache) &#123;</span><br><span class="line">            metadata = <span class="keyword">this</span>.injectionMetadataCache.get(cacheKey);</span><br><span class="line">            <span class="keyword">if</span> (InjectionMetadata.needsRefresh(metadata, clazz)) &#123;</span><br><span class="line">                <span class="keyword">if</span> (metadata != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    metadata.clear(pvs);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    metadata = buildAutowiringMetadata(clazz);              <span class="comment">// 重点关注：去找，并构建其 InjectionMetadata 对象</span></span><br><span class="line">                    <span class="keyword">this</span>.injectionMetadataCache.put(cacheKey, metadata);    <span class="comment">// 如果找到了，将其放入 injectionMetadataCache 中返回；</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">catch</span> (NoClassDefFoundError err) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Failed to introspect bean class ["</span> + clazz.getName() +</span><br><span class="line">                            <span class="string">"] for autowiring metadata: could not find class that it depends on"</span>, err);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> metadata;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p><code>findAutowiringMetadata()</code>方法先从缓存中判断否已经存在该<code>InjectionMetadata</code>了，如果存在，且无需进行刷新，则返回；如果缓存中不存在（或者存在但需要刷新），那么就需要去构建一个<code>InjectionMetadata</code>。</p>
@@ -195,11 +191,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -249,11 +241,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

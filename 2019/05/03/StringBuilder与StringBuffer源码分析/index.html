@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -67,15 +67,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -92,7 +88,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/03/StringBuilder与StringBuffer源码分析/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -117,7 +113,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -127,7 +123,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -159,7 +155,7 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>StringBuilder</code>与<code>StringBuffer</code>是两个常用的字符串操作类，与<code>String</code>的不同之处在于他们是可变的，不像<code>String</code>的<code>value</code>数组被<code>final</code>修饰的严严实实的，而<code>StringBuilder</code>和<code>StringBuffer</code>的<code>value</code>数组没有被<code>final</code>修饰过，并且这两个类的实现几乎一样，主要的区别在于<code>StringBuffer</code>的方法由<code>synchronized</code>关键字修饰过，所以是线程安全的。这里先贴出整个体系的UML类图：</p>
-<p><img src="http://blog.default.nanwulife.com/AbstractStringBuilder.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/AbstractStringBuilder.png" alt></p>
 <h2 id="AbstractStringBuilder"><a href="#AbstractStringBuilder" class="headerlink" title="AbstractStringBuilder"></a>AbstractStringBuilder</h2><p>从上面的类图也能看到，<code>StringBuilder</code>和<code>StringBuffer</code>均继承自抽象类<code>AbstractStringBuilder</code>，<code>AbstractStringBuilder</code>为子类提供了大部分的实现，因此，我们有必要先分析一下<code>AbstractStringBuilder</code>的源码。</p>
 <h3 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h3><p><code>AbstractStringBuilder</code>主要有以下两个成员变量，值得注意的是<code>value</code>并没有被<code>final</code>修饰，意味着它是可变的。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 与 String 一样维护一个字符数组</span></span><br><span class="line"><span class="keyword">char</span>[] value;</span><br><span class="line"><span class="comment">// 字符的个数	</span></span><br><span class="line"><span class="keyword">int</span> count;</span><br></pre></td></tr></table></figure>
@@ -207,11 +203,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -261,11 +253,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

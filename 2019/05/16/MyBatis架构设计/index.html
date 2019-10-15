@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,15 +70,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -95,7 +91,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/16/MyBatis架构设计/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -120,7 +116,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -130,7 +126,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -161,11 +157,11 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h2><p><img src="http://blog.default.nanwulife.com/20180314192452838.jpg" alt=""></p>
+    <h2 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h2><p><img src="http://blog.default.nanwulife.com/20180314192452838.jpg" alt></p>
 <p>MyBatis和数据库交互有两种方式：</p>
 <ol>
-<li>使用传统的MyBatis提供的API：传递Statement Id和查询参数给<code>SqlSession</code>对象，使用<code>SqlSession</code>对象完成和数据库的交互：<br><img src="http://blog.default.nanwulife.com/20141103155203576.jpg" alt=""></li>
-<li>使用Mapper接口：MyBatis将配置文件中的每一个<code>&lt;mapper&gt;</code>节点抽象为一个<code>Mapper</code>接口，而这个接口中声明的方法和<code>&lt;mapper&gt;</code>节点中的<code>&lt;select | update | delete | insert&gt;</code>节点项对应，即<code>select | update | delete | insert</code>节点的id值为<code>Mapper</code>接口中的方法名称，<code>parameterType</code>值表示<code>Mapper</code>对应方法的入参类型，而<code>resultMap</code>值则对应了<code>Mapper</code>接口表示的返回值类型：<br><img src="http://blog.default.nanwulife.com/20141103163301421.jpg" alt=""></li>
+<li>使用传统的MyBatis提供的API：传递Statement Id和查询参数给<code>SqlSession</code>对象，使用<code>SqlSession</code>对象完成和数据库的交互：<br><img src="http://blog.default.nanwulife.com/20141103155203576.jpg" alt></li>
+<li>使用Mapper接口：MyBatis将配置文件中的每一个<code>&lt;mapper&gt;</code>节点抽象为一个<code>Mapper</code>接口，而这个接口中声明的方法和<code>&lt;mapper&gt;</code>节点中的<code>&lt;select | update | delete | insert&gt;</code>节点项对应，即<code>select | update | delete | insert</code>节点的id值为<code>Mapper</code>接口中的方法名称，<code>parameterType</code>值表示<code>Mapper</code>对应方法的入参类型，而<code>resultMap</code>值则对应了<code>Mapper</code>接口表示的返回值类型：<br><img src="http://blog.default.nanwulife.com/20141103163301421.jpg" alt></li>
 </ol>
 <p>使用<code>Mapper</code>接口的方式并配置好相关信息后，通过<code>SqlSession.getMapper(XXXMapper.class)</code>方法，MyBatis会根据相应的接口声明的方法信息，通过动态代理机制生成一个<code>Mapper</code>实例，我们使用<code>Mapper</code>接口的某一个方法时，MyBatis会根据这个方法的方法名，确定<code>Statement Id</code>，底层还是通过<code>SqlSession.select(&quot;statementId&quot;,parameterObject);</code>或者<code>SqlSession.update(&quot;statementId&quot;,parameterObject);</code>等等来实现对数据库的操作。</p>
 <h2 id="主要构件"><a href="#主要构件" class="headerlink" title="主要构件"></a>主要构件</h2><p>从MyBatis代码实现的角度来看，MyBatis的主要的核心部件有以下几个：</p>
@@ -182,7 +178,7 @@
 <li><code>Configuration</code>：MyBatis所有的配置信息都维持在<code>Configuration</code>对象之中。</li>
 </ul>
 <p>它们的关系如下图所示：</p>
-<p><img src="http://blog.default.nanwulife.com/20141028140852531.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/20141028140852531.png" alt></p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a href="https://blog.csdn.net/luanlouis/article/details/40422941" target="_blank" rel="noopener">《深入理解mybatis原理》 MyBatis的架构设计以及实例分析</a></li>
 </ul>
@@ -205,11 +201,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -259,11 +251,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

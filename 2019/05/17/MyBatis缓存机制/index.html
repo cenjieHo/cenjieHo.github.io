@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,15 +70,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -95,7 +91,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/17/MyBatis缓存机制/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -120,7 +116,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -130,7 +126,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -163,7 +159,7 @@
   <div class="content" itemprop="articleBody">
     <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>缓存机制是MyBatis的一大特性，它分为一级和二级缓存，其中一级缓存是<code>SqlSession</code>级别的缓存，其实现较为简单，而二级缓存是mapper级别的缓存，并且多个<code>SqlSession</code>之间可以共享。</p>
 <h2 id="一级缓存"><a href="#一级缓存" class="headerlink" title="一级缓存"></a>一级缓存</h2><p>每当我们使用MyBatis开启一次和数据库的会话，MyBatis会创建出一个<code>SqlSession</code>对象表示一次数据库会话，对于这种会话级别的数据缓存，我们就称之为一级缓存。通过一级缓存，每次查询时都将结果缓存起来，当下次查询的时候，如果判断先前有个完全一样的查询，会从缓存中直接将结果取出，返回给用户，不需要再进行一次数据库查询了。</p>
-<p><img src="http://blog.default.nanwulife.com/20141121213425390.jpg" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/20141121213425390.jpg" alt></p>
 <p>我们知道，<code>SqlSession</code>只是一个MyBatis对外的接口，<code>SqlSession</code>将它的工作交给了<code>Executor</code>执行器这个角色来完成，负责完成对数据库的各种操作。当创建了一个<code>SqlSession</code>对象时，MyBatis会为这个<code>SqlSession</code>对象创建一个新的<code>Executor</code>执行器，而缓存信息就被维护在这个<code>Executor</code>执行器中，MyBatis将缓存和对缓存相关的操作封装到了<code>Cache</code>接口中。</p>
 <h3 id="PerpetualCache"><a href="#PerpetualCache" class="headerlink" title="PerpetualCache"></a>PerpetualCache</h3><p><code>Executor</code>接口的实现类<code>BaseExecutor</code>中拥有一个<code>Cache</code>接口的实现类<code>PerpetualCache</code>，则对于<code>BaseExecutor</code>对象而言，它将使用<code>PerpetualCache</code>对象维护缓存，下面看一下它的源码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PerpetualCache</span> <span class="keyword">implements</span> <span class="title">Cache</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">private</span> String id;</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">private</span> Map&lt;Object, Object&gt; cache = <span class="keyword">new</span> HashMap&lt;Object, Object&gt;();</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">PerpetualCache</span><span class="params">(String id)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.id = id;</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> id;</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> cache.size();</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">putObject</span><span class="params">(Object key, Object value)</span> </span>&#123;</span><br><span class="line">    cache.put(key, value);</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">public</span> Object <span class="title">getObject</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> cache.get(key);</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">public</span> Object <span class="title">removeObject</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> cache.remove(key);</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    cache.clear();</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">public</span> ReadWriteLock <span class="title">getReadWriteLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (getId() == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> CacheException(<span class="string">"Cache instances require an ID."</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> == o) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (!(o <span class="keyword">instanceof</span> Cache)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line"> </span><br><span class="line">    Cache otherCache = (Cache) o;</span><br><span class="line">    <span class="keyword">return</span> getId().equals(otherCache.getId());</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (getId() == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> CacheException(<span class="string">"Cache instances require an ID."</span>);</span><br><span class="line">    <span class="keyword">return</span> getId().hashCode();</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>可以看出，<code>PerpetualCache</code>实现原理其实很简单，其内部就是通过一个简单的<code>HashMap</code>来实现的，没有其他的任何限制。</p>
@@ -181,7 +177,7 @@
 <li>如果没命中：<br> 4.1  去数据库中查询数据，得到查询结果<br> 4.2  将key和查询到的结果分别作为key-value对存储到<code>Cache</code>中<br> 4.3. 将查询结果返回</li>
 <li>结束</li>
 </ol>
-<p><img src="http://blog.default.nanwulife.com/20141120133247125.jpg" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/20141120133247125.jpg" alt></p>
 <h3 id="CacheKey"><a href="#CacheKey" class="headerlink" title="CacheKey"></a>CacheKey</h3><p>在上面的工作流程中已经看到，<code>Cache</code>中的<code>Map</code>是根据一个key来查询缓存的，这个key的决定因素具体如下：</p>
 <ol>
 <li>传入的<code>statementId</code> （比如为<code>com.xxx.mapper.selectUserName</code>）</li>
@@ -192,13 +188,13 @@
 <p>因此，CacheKey其实就是由<code>statementId + rowBounds + 传递给JDBC的SQL + 传递给JDBC的参数值</code>这四个条件并生成哈希构建而成的。MyBatis认为，对于两次查询，只要构建出的CacheKey一样，就认为它们是完全相同的查询，也就可以根据这个CacheKey去缓存中查找已有的缓存结果。</p>
 <h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>MyBatis的一级缓存就是简单的使用了<code>HashMap</code>，MyBatis只负责将查询数据库的结果存储到缓存中去，不会去判断缓存存放的时间是否过长、是否过期，并且也没有对缓存的大小进行限制，因此对于准确性要求比较高的数据来说，要控制好<code>SqlSession</code>的生存时间，其生存时间越长，它缓存的数据有可能就越旧，从而造成与真实数据库的误差较大。</p>
 <h2 id="二级缓存"><a href="#二级缓存" class="headerlink" title="二级缓存"></a>二级缓存</h2><p>当开一个会话时，一个<code>SqlSession</code>对象会使用一个<code>Executor</code>对象来完成会话操作，MyBatis的二级缓存机制的关键就是对这个<code>Executor</code>对象做文章。如果用户配置了<code>cacheEnabled=true</code>，那么MyBatis在为<code>SqlSession</code>对象创建<code>Executor</code>对象时，会对<code>Executor</code>对象加上一个装饰者：<code>CachingExecutor</code>，这时<code>SqlSession</code>使用<code>CachingExecutor</code>对象来完成操作请求。<code>CachingExecutor</code>对于查询请求，会先判断该查询请求在二级缓存中是否有缓存结果，如果有缓存结果，则直接返回该结果；如果缓存中没有，再交给真正的<code>Executor</code>对象来完成查询操作，之后<code>CachingExecutor</code>会将真正<code>Executor</code>返回的查询结果放置到缓存中，然后在返回给用户。</p>
-<p><img src="http://blog.default.nanwulife.com/20141123125640998.jpg" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/20141123125640998.jpg" alt></p>
 <h3 id="缓存粒度"><a href="#缓存粒度" class="headerlink" title="缓存粒度"></a>缓存粒度</h3><p>MyBatis并不是简单地对整个Application就只有一个<code>Cache</code>缓存对象，它将缓存划分的更细，即是Mapper级别的，每一个Mapper都可以拥有一个<code>Cache</code>对象，具体如下：</p>
 <ul>
 <li>为每一个Mapper分配一个<code>Cache</code>缓存对象（使用<code>&lt;cache&gt;</code>节点配置）</li>
 <li>多个Mapper共用一个<code>Cache</code>缓存对象（使用<code>&lt;cache-ref&gt;</code>节点配置）</li>
 </ul>
-<p><img src="http://blog.default.nanwulife.com/20141123125741812.jpg" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/20141123125741812.jpg" alt></p>
 <h3 id="使用条件"><a href="#使用条件" class="headerlink" title="使用条件"></a>使用条件</h3><p>虽然在Mapper中配置了<code>&lt;cache&gt;</code>，并且为此Mapper分配了<code>Cache</code>对象，这并不表示我们使用Mapper中定义的查询语句查到的结果都会放置到<code>Cache</code>对象之中，我们必须指定Mapper中的某条选择语句是否支持缓存，即在<code>&lt;select&gt;</code>节点中配置<code>useCache=&quot;true&quot;</code>，如 <code>&lt;select id=&quot;selectByMinSalary&quot; resultMap=&quot;BaseResultMap&quot; parameterType=&quot;java.util.Map&quot; useCache=&quot;true&quot;&gt;</code> ，Mapper才会对此Select的查询支持缓存特性。</p>
 <p>总结来说，要想使某条<code>select</code>查询支持二级缓存，需要保证：</p>
 <ol>
@@ -235,11 +231,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -289,11 +281,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="前言最近实习在做的一些项目都是用Python来写的，虽然在之前就有学习过Python的语法，但真正用到的机会很少，而这次通过项目刚好让我对Python有了更进一步的认识，并且在此总结一下Python与之前用的比较多的Java的一些区别。 动态类型Python与Java很大的一个区别在于Java必须在第一次声明变量时指定其类型，也就是所谓的静态类型，而Python则不一样，Python可以动态改变变">
-<meta name="keywords" content="blog,cenjie">
+<meta name="keywords" content="blog,hecenjie">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于Java和Python的一些思考">
 <meta property="og:url" content="http://yoursite.com/2019/05/30/关于Java和Python的一些思考/index.html">
@@ -65,15 +65,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -90,7 +86,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/30/关于Java和Python的一些思考/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -115,7 +111,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -125,7 +121,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -150,7 +146,7 @@
 <h2 id="动态类型"><a href="#动态类型" class="headerlink" title="动态类型"></a>动态类型</h2><p>Python与Java很大的一个区别在于Java必须在第一次声明变量时指定其类型，也就是所谓的静态类型，而Python则不一样，Python可以动态改变变量的类型。虽然Python的这个特性显得十分灵活，并且某些场景下可能开发效率更高一些，但稍不注意的话就有可能出错，在写代码时要更加注意。</p>
 <h2 id="缩进"><a href="#缩进" class="headerlink" title="缩进"></a>缩进</h2><p>Python不像很多语言使用花括号定义函数或类，而是使用的缩进将代码分割成块，使得代码可读性更高一些。</p>
 <h2 id="GIL"><a href="#GIL" class="headerlink" title="GIL"></a>GIL</h2><p>因为在项目中有许多要异步执行的任务，如果不了解Python的话，可能就会想到用多线程来解决问题，但实际上，Python中并不存在真正意义上的多线程，原因就是GIL的存在。GIL即全局解释器锁，Python的每个线程运行时首先要获得该锁，这也就意味着任何时刻仅有一个线程在执行，无法利用到多核的优势，使得多线程的效率甚至还不如单线程。但这也并非绝对的，在I/O操作或别的一些情况下，线程会主动释放GIL，这样别的线程就可以继续工作了，而如果是想完成一些CPU密集的任务的话，就只能通过进程或协程来解决了。</p>
-<h2 id="垃圾收集"><a href="#垃圾收集" class="headerlink" title="垃圾收集"></a>垃圾收集</h2><p>不像Java使用的可达性分析算法，Python中的垃圾收集是使用的引用计数法，这也就意味着会有循环引用的问题。比如说，在以下这个代码中：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f2</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        c1=ClassA()</span><br><span class="line">        c2=ClassA()</span><br><span class="line">        c1.t=c2</span><br><span class="line">        c2.t=c1</span><br><span class="line">        <span class="keyword">del</span> c1</span><br><span class="line">        <span class="keyword">del</span> c2</span><br></pre></td></tr></table></figure></p>
+<h2 id="垃圾收集"><a href="#垃圾收集" class="headerlink" title="垃圾收集"></a>垃圾收集</h2><p>不像Java使用的可达性分析算法，Python中的垃圾收集是使用的引用计数法，这也就意味着会有循环引用的问题。比如说，在以下这个代码中：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f2</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        c1=ClassA()</span><br><span class="line">        c2=ClassA()</span><br><span class="line">        c1.t=c2</span><br><span class="line">        c2.t=c1</span><br><span class="line">        <span class="keyword">del</span> c1</span><br><span class="line">        <span class="keyword">del</span> c2</span><br></pre></td></tr></table></figure></p>
 <p>在执行完上面的代码后，两个对象的引用计数都为1而非0，虽然它们都应该要被回收销毁的，但由于存在循环引用，所以不会被回收掉，也就导致了内存泄露。要解决这个问题，可以使用gc模块。</p>
 
   </div>
@@ -171,11 +167,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -225,11 +217,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

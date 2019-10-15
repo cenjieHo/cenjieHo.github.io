@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -72,15 +72,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -97,7 +93,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/03/27/Linux-五种IO模型/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -122,7 +118,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -132,7 +128,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -174,18 +170,18 @@
 <p>其中信号驱动式IO并不常用，所以重点关注另外四种IO模型。</p>
 <h2 id="阻塞式I-O"><a href="#阻塞式I-O" class="headerlink" title="阻塞式I/O"></a>阻塞式I/O</h2><p>在这个IO模型中，用户空间的应用程序执行一个系统调用（recvform），这会导致应用程序阻塞，什么也不干，直到数据准备好，并且将数据从内核复制到用户进程，最后进程再处理数据，在等待数据到处理数据的两个阶段，整个进程都被阻塞，不能处理别的IO。</p>
 <p>阻塞IO的特点就是能够及时的返回数据，但是在IO执行的两个阶段都被阻塞了，只有当数据从内核复制到了用户空间中，进程才能继续往下执行，因此对性能有所牺牲。</p>
-<p><img src="http://blog.default.nanwulife.com/1492928416812_4.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/1492928416812_4.png" alt></p>
 <h2 id="非阻塞式I-O"><a href="#非阻塞式I-O" class="headerlink" title="非阻塞式I/O"></a>非阻塞式I/O</h2><p>应用进程执行系统调用之后，内核会立即返回一个错误码，但IO操作还没完成。此时应用进程并没有被阻塞，可以继续执行，但是需要不断的执行系统调用来获知IO操作是否完成，这种方式称为轮询。</p>
 <p>这种模型的CPU利用率比较低，并且因为每过一段时间才去轮询一次，所以存在一个响应延迟。还需要注意的是，拷贝数据的整个过程，进程仍然是属于阻塞的状态。</p>
-<p><img src="http://blog.default.nanwulife.com/1492929000361_5.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/1492929000361_5.png" alt></p>
 <h2 id="I-O多路复用"><a href="#I-O多路复用" class="headerlink" title="I/O多路复用"></a>I/O多路复用</h2><p>使用<code>select</code>或者<code>poll</code>对多个IO端口进行监听，只要多个套接字中的任何一个数据准备好了，就能返回可读，之后应用进程再执行recvfrom系统调用把数据从内核复制到进程中。</p>
 <p>I/O复用模型让单个进程具有处理多个I/O事件的能力，因此相比多进程和多线程技术，它的系统开销小了许多。但是<code>select</code>，<code>poll</code>，<code>epoll</code>函数依然会阻塞应用进程，并且由于多路复用可以处理多个IO，那么多个IO之间的顺序就变得不确定了。</p>
-<p><img src="http://blog.default.nanwulife.com/1492929444818_6.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/1492929444818_6.png" alt></p>
 <h2 id="信号驱动I-O"><a href="#信号驱动I-O" class="headerlink" title="信号驱动I/O"></a>信号驱动I/O</h2><p>应用进程使用sigaction系统调用，内核立即返回，应用进程可以继续执行，也就是说等待数据阶段应用进程是非阻塞的。内核在数据到达时向应用进程发送SIGIO信号，应用进程收到之后在信号处理程序中调用recvfrom将数据从内核复制到应用进程中。</p>
 <p>相比于非阻塞式I/O的轮询方式，信号驱动I/O的CPU利用率更高。</p>
-<p><img src="http://blog.default.nanwulife.com/1492929553651_7.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/1492929553651_7.png" alt></p>
 <h2 id="异步非阻塞I-O"><a href="#异步非阻塞I-O" class="headerlink" title="异步非阻塞I/O"></a>异步非阻塞I/O</h2><p>用户进程进行aio_read系统调用之后，无论内核数据是否准备好，都会直接返回给用户进程，然后用户进程就可以去做别的事情。等到数据准备好了，内核直接复制数据给进程，然后从内核向进程发送通知。这个IO模式的两个阶段，进程都是非阻塞的。</p>
-<p><img src="http://blog.default.nanwulife.com/1492930243286_8.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/1492930243286_8.png" alt></p>
 <h2 id="五种I-O模型对比"><a href="#五种I-O模型对比" class="headerlink" title="五种I/O模型对比"></a>五种I/O模型对比</h2><ul>
 <li>阻塞式I/O：同步阻塞</li>
 <li>非阻塞式I/O：同步非阻塞（轮询）</li>
@@ -193,7 +189,7 @@
 <li>信号驱动I/O：同步非阻塞（收到SIGIO信号后才执行recvfrom并阻塞）</li>
 <li>异步I/O：异步非阻塞（两个阶段都不会阻塞）</li>
 </ul>
-<p><img src="http://blog.default.nanwulife.com/1492928105791_3.png" alt=""></p>
+<p><img src="http://blog.default.nanwulife.com/1492928105791_3.png" alt></p>
 <h2 id="I-O多路复用中的select、poll、epoll"><a href="#I-O多路复用中的select、poll、epoll" class="headerlink" title="I/O多路复用中的select、poll、epoll"></a>I/O多路复用中的select、poll、epoll</h2><p>select，poll，epoll都是IO多路复用的机制，select出现的最早，之后是poll，再是epoll。I/O多路复用就是通过一种机制，可以监视多个描述符，一旦某个描述符就绪（一般是读就绪或者写就绪），能够通知程序进行相应的读写操作。</p>
 <blockquote>
 <p>文件描述符在形式上是一个非负整数。实际上，它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。</p>
@@ -226,11 +222,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -280,11 +272,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>

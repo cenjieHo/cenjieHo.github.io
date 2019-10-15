@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -69,15 +69,11 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </span>
-    <br>
+    <br/>
     <span id="actions">
       <ul>
         
@@ -94,7 +90,7 @@
       <span id="i-top" class="info" style="display:none;">Back to top</span>
       <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
-    <br>
+    <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/28/工厂模式与模板方法的一次实践/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
@@ -119,7 +115,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -129,7 +125,7 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">水木今山</span>
       </span>
       
@@ -161,8 +157,8 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近做的一个项目是实现一个灰度发布的逻辑，具体来说就是当某个产品更新的时候，根据不同的用户决定是否对新版本可见。该功能本身是很容易实现的，但是考虑到可扩展性的问题，引入了Drools规则引擎，并且通过一些设计模式来进一步提高它的可扩展性，以应对之后可能不断发生变化的规则。</p>
-<h2 id="原始代码"><a href="#原始代码" class="headerlink" title="原始代码"></a>原始代码</h2><p>由于规则并不十分复杂，所以项目中将许多的校验与判断逻辑统一封装到了Fact对象中，而在.drl文件中仅仅是做一些初始化工作，例如这里的场景是给每个用户设置一个新版本可见的延迟天数，达到了这个天数才能获取新版本，那么在.drl中就是将用户与延迟天数的映射关系做初始化。因此，最开始只需要一个Fact就行了：<br><img src="http://blog.default.nanwulife.com/DelayDaysPatternReleaseFact.png" alt=""><br>在.drl文件中，初始化完成之后，仅仅需要调用这个Fact对象的<code>releaseCheck()</code>，然后就可以通过<code>isRelease()</code>方法决定是否发布新版本了。</p>
-<h2 id="可扩展性"><a href="#可扩展性" class="headerlink" title="可扩展性"></a>可扩展性</h2><p>由上面的简单分析可以看到，判断是否发布新版本的逻辑都封装在了<code>releaseCheck()</code>方法中，但这个方法中的许多步骤其实是冗余的，比如说参数校验、安全校验等等，如果每次增加新的Fact时都去写一模一样的重复代码，就显得十分不简洁且不利于维护了，因此，我们将该方法抽象出来，并且将其中最关键的判断逻辑<code>doReleaseCheck()</code>交由子类去实现，这样不同的Fact子类只需要实现各自的核心判断逻辑即可。此时的UML如下：<br><img src="http://blog.default.nanwulife.com/PatternReleaseFact.png" alt=""><br>除此之外，对于调用方来说，是不需要关心Fact对象的创建过程的，尤其是当参数比较复杂的情况下。这时候就可以通过工厂方法模式，将创建对象的具体过程交给工厂类来完成：<br><img src="http://blog.default.nanwulife.com/PatternReleaseFactFactory.png" alt=""><br>这样，对于调用方来说，只需要传入一个<code>UserInfo</code>对象即可，具体需要用到它的哪些属性以及属性的一些校验工作则交由工厂类来实现，调用方可以直接拿到想要的Fact对象。</p>
+<h2 id="原始代码"><a href="#原始代码" class="headerlink" title="原始代码"></a>原始代码</h2><p>由于规则并不十分复杂，所以项目中将许多的校验与判断逻辑统一封装到了Fact对象中，而在.drl文件中仅仅是做一些初始化工作，例如这里的场景是给每个用户设置一个新版本可见的延迟天数，达到了这个天数才能获取新版本，那么在.drl中就是将用户与延迟天数的映射关系做初始化。因此，最开始只需要一个Fact就行了：<br><img src="http://blog.default.nanwulife.com/DelayDaysPatternReleaseFact.png" alt><br>在.drl文件中，初始化完成之后，仅仅需要调用这个Fact对象的<code>releaseCheck()</code>，然后就可以通过<code>isRelease()</code>方法决定是否发布新版本了。</p>
+<h2 id="可扩展性"><a href="#可扩展性" class="headerlink" title="可扩展性"></a>可扩展性</h2><p>由上面的简单分析可以看到，判断是否发布新版本的逻辑都封装在了<code>releaseCheck()</code>方法中，但这个方法中的许多步骤其实是冗余的，比如说参数校验、安全校验等等，如果每次增加新的Fact时都去写一模一样的重复代码，就显得十分不简洁且不利于维护了，因此，我们将该方法抽象出来，并且将其中最关键的判断逻辑<code>doReleaseCheck()</code>交由子类去实现，这样不同的Fact子类只需要实现各自的核心判断逻辑即可。此时的UML如下：<br><img src="http://blog.default.nanwulife.com/PatternReleaseFact.png" alt><br>除此之外，对于调用方来说，是不需要关心Fact对象的创建过程的，尤其是当参数比较复杂的情况下。这时候就可以通过工厂方法模式，将创建对象的具体过程交给工厂类来完成：<br><img src="http://blog.default.nanwulife.com/PatternReleaseFactFactory.png" alt><br>这样，对于调用方来说，只需要传入一个<code>UserInfo</code>对象即可，具体需要用到它的哪些属性以及属性的一些校验工作则交由工厂类来实现，调用方可以直接拿到想要的Fact对象。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过模板方法，可以在抽象父类中先定义好整个方法的框架，并且让不同的子类去实现其中的某些核心步骤，这些核心步骤在父类中是抽象的；而通过工厂方法，使得调用者不再需要关心创建对象的具体过程，将许多繁琐的工作解耦了出去，由工厂类来负责实现。</p>
 
   </div>
@@ -183,11 +179,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </div>
@@ -237,11 +229,7 @@
          
           <li><a href="/column/">Stack</a></li>
          
-          <li><a href="/tags/">Tags</a></li>
-         
           <li><a href="/search/">Search</a></li>
-         
-          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
       </ul>
     </nav>
