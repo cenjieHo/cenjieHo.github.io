@@ -1,154 +1,177 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
-
-
-
-
-
-
-
-<head>
-	
-	
-	<link rel="stylesheet" href="/css/allinone.min.css">
-
-	
-	<!-- Global Site Tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXXX-1"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-		gtag('config', 'UA-XXXXXXXXXX-1');
-	</script>
-	
-
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-	<title>操作系统原理-文件系统 | 水木今山的博客</title>
-
-	<meta name="HandheldFriendly" content="True">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-	<meta name="generator" content="hexo">
-	<meta name="author" content="水木今山">
-	<meta name="description" content="">
-
-	
-	<meta name="keywords" content="">
-	
-
-	
-	<link rel="shortcut icon" href="/images/avator2.png">
-	<link rel="apple-touch-icon" href="/images/avator2.png">
-	
-
-	
-	<meta name="theme-color" content="#3c484e">
-	<meta name="msapplication-TileColor" content="#3c484e">
-	
-
-	
-
-	
-
-	<meta property="og:site_name" content="水木今山的博客">
-	<meta property="og:type" content="article">
-	<meta property="og:title" content="操作系统原理-文件系统 | 水木今山的博客">
-	<meta property="og:description" content="">
-	<meta property="og:url" content="http://yoursite.com/2019/01/28/操作系统原理-文件系统/">
-
-	
-	<meta property="article:published_time" content="2019-01-28T18:01:00+08:00"> 
-	<meta property="article:author" content="水木今山">
-	<meta property="article:published_first" content="水木今山的博客, /2019/01/28/操作系统原理-文件系统/">
-	
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="文件的分类 普通文件：包含了用户的信息，一般为ASCII或二进制文件 目录文件：管理文件系统的系统文件 特殊文件（设备文件）">
+<meta name="keywords" content="操作系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统原理-文件系统">
+<meta property="og:url" content="http://yoursite.com/2019/01/28/操作系统原理-文件系统/index.html">
+<meta property="og:site_name" content="水木今山的博客">
+<meta property="og:description" content="文件的分类 普通文件：包含了用户的信息，一般为ASCII或二进制文件 目录文件：管理文件系统的系统文件 特殊文件（设备文件）">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog.operatingsystem.nanwulife.com/J%256%28%29GY%289SA9IZM16$CXH@P.png">
+<meta property="og:image" content="http://blog.operatingsystem.nanwulife.com/FF~%5BI%293MB7VNBNBG29TVL%5B5.png">
+<meta property="og:image" content="http://blog.operatingsystem.nanwulife.com/HGQ679OP1%29H%7BDV4KQBFPN~C.png">
+<meta property="og:image" content="http://blog.operatingsystem.nanwulife.com/AS%7DDZ0~DVA%29ST%5B42GL_1J_X.png">
+<meta property="og:image" content="http://blog.nanwulife.com/LF%7DAA%5DF%60EYX$8D88AM@UZTF.png">
+<meta property="og:image" content="http://blog.operatingsystem.nanwulife.com/IM@B%29N356ONDW74_EW7D@M1.png">
+<meta property="og:image" content="http://blog.operatingsystem.nanwulife.com/%2998%5BS7GNZ@V8~ZL%7B$H%7DBW%5B1.png">
+<meta property="og:image" content="http://blog.operatingsystem.nanwulife.com/IQXXIMC5P%7D%28%259Q%25S92Y0D_7.png">
+<meta property="og:image" content="http://blog.operatingsystem.nanwulife.com/%605%7BWTIQ%5B%7DAJBLY%7BJICLY3Z5.png">
+<meta property="og:image" content="http://blog.operatingsystem.nanwulife.com/F%5BH%5D6J7%7DB0UL%284U4%25%29Z1Q91.png">
+<meta property="og:updated_time" content="2019-07-20T13:13:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="操作系统原理-文件系统">
+<meta name="twitter:description" content="文件的分类 普通文件：包含了用户的信息，一般为ASCII或二进制文件 目录文件：管理文件系统的系统文件 特殊文件（设备文件）">
+<meta name="twitter:image" content="http://blog.operatingsystem.nanwulife.com/J%256%28%29GY%289SA9IZM16$CXH@P.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>操作系统原理-文件系统</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
 </head>
-<body class="post-template">
-	<div class="site-wrapper">
-		
 
-
-
-
-<header class="site-header outer" style="z-index: 999">
-    <div class="inner">
-        
-<nav class="site-nav"> 
-    <div class="site-nav-left">
-        <ul class="nav">
-            <li>
-                
-                <a href="/" title="Home">HOME</a>
-                
-            </li>
-            
-            
-            <li>
-                <a href="/about" title="ABOUT">ABOUT</a>
-            </li>
-            
-            <li>
-                <a href="/column" title="STACK">STACK</a>
-            </li>
-            
-            <li>
-                <a href="https://portal.qiniu.com/bucket/default/resource" title="PICS">PICS</a>
-            </li>
-            
-            
-        </ul> 
-    </div>
+<body class="max-width mx-auto px3 ltr">
     
-    <div class="search-button">
-        <a href="#search" class="subscribe-button" style="margin: 0 10px;">Search ...</a>
-    </div>
-     
-    <div class="site-nav-right">
-        
-        <a href="#search" class="subscribe-button" style="margin: 0 10px;">Search ...</a>
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
          
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/column/">Stack</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
-<div class="social-links">
-    
-    
-    <a class="social-link" title="github" href="https://github.com/cenjieHo" target="_blank" rel="noopener">
-        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
-    </a>
-    
-    
-    
-    
-    
-    
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/01/28/操作系统原理-死锁/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/01/28/操作系统原理-存储模型/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/28/操作系统原理-文件系统/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&text=操作系统原理-文件系统"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&title=操作系统原理-文件系统"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&is_video=false&description=操作系统原理-文件系统"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=操作系统原理-文件系统&body=Check out this article: http://yoursite.com/2019/01/28/操作系统原理-文件系统/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&title=操作系统原理-文件系统"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&title=操作系统原理-文件系统"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&title=操作系统原理-文件系统"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&title=操作系统原理-文件系统"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&name=操作系统原理-文件系统&description=&lt;h2 id=&#34;文件的分类&#34;&gt;&lt;a href=&#34;#文件的分类&#34; class=&#34;headerlink&#34; title=&#34;文件的分类&#34;&gt;&lt;/a&gt;文件的分类&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;普通文件：包含了用户的信息，一般为ASCII或二进制文件&lt;/li&gt;
+&lt;li&gt;目录文件：管理文件系统的系统文件&lt;/li&gt;
+&lt;li&gt;特殊文件（设备文件）&lt;/li&gt;
+&lt;/ul&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的分类"><span class="toc-number">1.</span> <span class="toc-text">文件的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的逻辑结构"><span class="toc-number">2.</span> <span class="toc-text">文件的逻辑结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存储介质与物理块"><span class="toc-number">3.</span> <span class="toc-text">存储介质与物理块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#典型的存储介质"><span class="toc-number">3.1.</span> <span class="toc-text">典型的存储介质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#物理块"><span class="toc-number">3.2.</span> <span class="toc-text">物理块</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘访问"><span class="toc-number">4.</span> <span class="toc-text">磁盘访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件控制块（FCB）"><span class="toc-number">5.</span> <span class="toc-text">文件控制块（FCB）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件目录"><span class="toc-number">6.</span> <span class="toc-text">文件目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的物理结构"><span class="toc-number">7.</span> <span class="toc-text">文件的物理结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#连续结构"><span class="toc-number">7.1.</span> <span class="toc-text">连续结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接结构"><span class="toc-number">7.2.</span> <span class="toc-text">链接结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#索引结构"><span class="toc-number">7.3.</span> <span class="toc-text">索引结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#多级索引结构（综合模式）"><span class="toc-number">7.3.1.</span> <span class="toc-text">多级索引结构（综合模式）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件目录检索"><span class="toc-number">8.</span> <span class="toc-text">文件目录检索</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#目录项分解法"><span class="toc-number">8.1.</span> <span class="toc-text">目录项分解法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘调度算法"><span class="toc-number">9.</span> <span class="toc-text">磁盘调度算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#先来先服务（FCFS）"><span class="toc-number">9.1.</span> <span class="toc-text">先来先服务（FCFS）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最短寻道时间优先（Shortest-Seek-Time-First）"><span class="toc-number">9.2.</span> <span class="toc-text">最短寻道时间优先（Shortest Seek Time First）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扫描算法（SCAN）"><span class="toc-number">9.3.</span> <span class="toc-text">扫描算法（SCAN）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单向扫描算法（CSCAN）"><span class="toc-number">9.4.</span> <span class="toc-text">单向扫描算法（CSCAN）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#旋转调度算法"><span class="toc-number">9.5.</span> <span class="toc-text">旋转调度算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">10.</span> <span class="toc-text">参考资料</span></a></li></ol>
+    </div>
+  </span>
 </div>
-    </div>
-</nav>
-    </div>
-</header>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        操作系统原理-文件系统
+    </h1>
 
 
-<main id="site-main" class="site-main outer" role="main">
-    <div class="inner">
-        <header class="post-full-header">
-            <section class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-01-28T10:47:00.000Z" itemprop="datePublished">
-                    2019-01-28
-                </time>
-                
-                <span class="date-divider">/</span>
-                
-                <a href="/categories/操作系统/">操作系统</a>&nbsp;&nbsp;
-                
-                
-            </section>
-            <h1 class="post-full-title">操作系统原理-文件系统</h1>
-        </header>
-        <article class="post-full no-image">
-            
-            <section class="post-full-content">
-                <div id="lightgallery" class="markdown-body">
-                    <h2 id="文件的分类"><a href="#文件的分类" class="headerlink" title="文件的分类"></a>文件的分类</h2><ul>
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">水木今山</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-01-28T10:47:00.000Z" itemprop="datePublished">2019-01-28</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/操作系统/">操作系统</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/操作系统/">操作系统</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="文件的分类"><a href="#文件的分类" class="headerlink" title="文件的分类"></a>文件的分类</h2><ul>
 <li>普通文件：包含了用户的信息，一般为ASCII或二进制文件</li>
 <li>目录文件：管理文件系统的系统文件</li>
 <li>特殊文件（设备文件）</li>
@@ -187,33 +210,33 @@
 <li>目录文件：将文件目录以文件的形式存放在磁盘上。</li>
 <li>目录项：可以看成是FCB。</li>
 </ul>
-<p><img alt="文件目录" class="post-img b-lazy" href="http://blog.operatingsystem.nanwulife.com/J%256%28%29GY%289SA9IZM16$CXH@P.png" data-src="http://blog.operatingsystem.nanwulife.com/J%256%28%29GY%289SA9IZM16$CXH@P.png"></p>
+<p><img src="http://blog.operatingsystem.nanwulife.com/J%256%28%29GY%289SA9IZM16$CXH@P.png" alt="文件目录"></p>
 <h2 id="文件的物理结构"><a href="#文件的物理结构" class="headerlink" title="文件的物理结构"></a>文件的物理结构</h2><p>文件的物理结构指的是文件在存储介质上的存放方式。</p>
 <h3 id="连续结构"><a href="#连续结构" class="headerlink" title="连续结构"></a>连续结构</h3><p>文件的信息存放在若干连续的物理块中。</p>
-<p><img alt="连续结构" class="post-img b-lazy" href="http://blog.operatingsystem.nanwulife.com/FF~%5BI%293MB7VNBNBG29TVL%5B5.png" data-src="http://blog.operatingsystem.nanwulife.com/FF~%5BI%293MB7VNBNBG29TVL%5B5.png"></p>
+<p><img src="http://blog.operatingsystem.nanwulife.com/FF~%5BI%293MB7VNBNBG29TVL%5B5.png" alt="连续结构"></p>
 <p>连续结构实现简单，且所需的磁盘寻道次数和寻道时间最少，支持顺序存取和随机存取，但文件不能动态增长，且会产生许多外部碎片。</p>
 <h3 id="链接结构"><a href="#链接结构" class="headerlink" title="链接结构"></a>链接结构</h3><p>一个文件的信息存放在若干不连续的物理块中，各块之间通过指针连接，前一个物理块指向下一 个物理块。</p>
-<p><img alt="lianjie" class="post-img b-lazy" href="http://blog.operatingsystem.nanwulife.com/HGQ679OP1%29H%7BDV4KQBFPN~C.png" data-src="http://blog.operatingsystem.nanwulife.com/HGQ679OP1%29H%7BDV4KQBFPN~C.png"></p>
+<p><img src="http://blog.operatingsystem.nanwulife.com/HGQ679OP1%29H%7BDV4KQBFPN~C.png" alt="lianjie"></p>
 <p>使用链接结构不存在外部碎片的问题，提高了磁盘空间利用率，有利于文件的动态扩充，但是比起连续结构需要更多的寻道次数和寻道时间，且存取速度慢，不适于随机存取。</p>
 <h3 id="索引结构"><a href="#索引结构" class="headerlink" title="索引结构"></a>索引结构</h3><p>一个文件的信息存放在若干不连续物理块中，系统为每个文件建立一个专用数据结构索引表，并将这些物理块的块号存放在该索引表中。</p>
-<p><img alt="索引结构" class="post-img b-lazy" href="http://blog.operatingsystem.nanwulife.com/AS%7DDZ0~DVA%29ST%5B42GL_1J_X.png" data-src="http://blog.operatingsystem.nanwulife.com/AS%7DDZ0~DVA%29ST%5B42GL_1J_X.png"></p>
+<p><img src="http://blog.operatingsystem.nanwulife.com/AS%7DDZ0~DVA%29ST%5B42GL_1J_X.png" alt="索引结构"></p>
 <p>索引结构保持了链接结构的优点，也解决了其缺点：既能顺序存取又能随机存取，满足了文件动态增长的要求，能充分利用磁盘空间。但是索引结构依然有较多的寻道次数和寻道时间，而索引表本身也带来了额外系统开销。</p>
-<h4 id="多级索引结构（综合模式）"><a href="#多级索引结构（综合模式）" class="headerlink" title="多级索引结构（综合模式）"></a>多级索引结构（综合模式）</h4><p><img alt="多级索引" class="post-img b-lazy" href="http://blog.nanwulife.com/LF%7DAA%5DF%60EYX$8D88AM@UZTF.png" data-src="http://blog.nanwulife.com/LF%7DAA%5DF%60EYX$8D88AM@UZTF.png"></p>
+<h4 id="多级索引结构（综合模式）"><a href="#多级索引结构（综合模式）" class="headerlink" title="多级索引结构（综合模式）"></a>多级索引结构（综合模式）</h4><p><img src="http://blog.nanwulife.com/LF%7DAA%5DF%60EYX$8D88AM@UZTF.png" alt="多级索引"></p>
 <p>UNIX文件系统采用的便是这种多级索引结构（综合模式）：每个文件的索引表有15个索引项，每项2个字节，前12项直接存放文件的物理块号，如果文件大于12块，则利用第13项指向一个物理块作为一级索引表。假设扇区大小为512字节，物理块等于扇区块大小，那么一级索引表可以存放256个物理块号。对于更大的文件还可利用第14和第15项作为二级和三级索引表。</p>
-<p><img alt="unix多级索引" class="post-img b-lazy" href="http://blog.operatingsystem.nanwulife.com/IM@B%29N356ONDW74_EW7D@M1.png" data-src="http://blog.operatingsystem.nanwulife.com/IM@B%29N356ONDW74_EW7D@M1.png"></p>
+<p><img src="http://blog.operatingsystem.nanwulife.com/IM@B%29N356ONDW74_EW7D@M1.png" alt="unix多级索引"></p>
 <h2 id="文件目录检索"><a href="#文件目录检索" class="headerlink" title="文件目录检索"></a>文件目录检索</h2><p>用户给出文件名，按文件名查找到目录项/FCB，根据目录项/FCB中文件物理地址等信息，计算出文件中任意记录或字符在存储介质上的地址。</p>
-<p><img alt="文件目录检索" class="post-img b-lazy" href="http://blog.operatingsystem.nanwulife.com/%2998%5BS7GNZ@V8~ZL%7B$H%7DBW%5B1.png" data-src="http://blog.operatingsystem.nanwulife.com/%2998%5BS7GNZ@V8~ZL%7B$H%7DBW%5B1.png"></p>
+<p><img src="http://blog.operatingsystem.nanwulife.com/%2998%5BS7GNZ@V8~ZL%7B$H%7DBW%5B1.png" alt="文件目录检索"></p>
 <h3 id="目录项分解法"><a href="#目录项分解法" class="headerlink" title="目录项分解法"></a>目录项分解法</h3><p>通过目录项分解法可以加快文件目录的检索速度。</p>
 <p>目录项分解法即把FCB分解成两部分：符号目录项（文件名，文件号）、基本目录项（除文件名外的所有字段）。目录文件改进后减少了访盘次数，提高了文件检索速度。</p>
 <h2 id="磁盘调度算法"><a href="#磁盘调度算法" class="headerlink" title="磁盘调度算法"></a>磁盘调度算法</h2><p>当有多个访盘请求等待时，采用一定的策略，对这些请求的服务顺序调整安排，以降低平均磁盘服务时间，达到公平、高效。</p>
 <h3 id="先来先服务（FCFS）"><a href="#先来先服务（FCFS）" class="headerlink" title="先来先服务（FCFS）"></a>先来先服务（FCFS）</h3><p>按访问请求到达的先后次序服务。</p>
 <p>优点是简单公平，但效率不高，相临两次请求可能会造成最内到最外的柱面寻道，使磁头反复移动，增加了服务时间，对机械也不利。</p>
-<p><img alt="FCFS" class="post-img b-lazy" href="http://blog.operatingsystem.nanwulife.com/IQXXIMC5P%7D%28%259Q%25S92Y0D_7.png" data-src="http://blog.operatingsystem.nanwulife.com/IQXXIMC5P%7D%28%259Q%25S92Y0D_7.png"></p>
+<p><img src="http://blog.operatingsystem.nanwulife.com/IQXXIMC5P%7D%28%259Q%25S92Y0D_7.png" alt="FCFS"></p>
 <h3 id="最短寻道时间优先（Shortest-Seek-Time-First）"><a href="#最短寻道时间优先（Shortest-Seek-Time-First）" class="headerlink" title="最短寻道时间优先（Shortest Seek Time First）"></a>最短寻道时间优先（Shortest Seek Time First）</h3><p>优先选择距当前磁头最近的访问请求进行服务。</p>
 <p>虽然改善了磁盘平均服务时间，但是造成某些访问请求长期等待得不到服务，也就是饥饿现象。</p>
-<p><img alt="SSTF" class="post-img b-lazy" href="http://blog.operatingsystem.nanwulife.com/%605%7BWTIQ%5B%7DAJBLY%7BJICLY3Z5.png" data-src="http://blog.operatingsystem.nanwulife.com/%605%7BWTIQ%5B%7DAJBLY%7BJICLY3Z5.png"></p>
+<p><img src="http://blog.operatingsystem.nanwulife.com/%605%7BWTIQ%5B%7DAJBLY%7BJICLY3Z5.png" alt="SSTF"></p>
 <h3 id="扫描算法（SCAN）"><a href="#扫描算法（SCAN）" class="headerlink" title="扫描算法（SCAN）"></a>扫描算法（SCAN）</h3><p>扫描算法又称为电梯算法，当设备无访问请求时，磁头不动；当有访问请求时，磁头按一个方向移动，在移动过程中对遇到的访问请求进行服务，然后判断该方向上是否还有访问请求，如果有则继续扫描；否则改变移动方向，并为经过的访问请求服务，如此反复。</p>
-<p><img alt="scan" class="post-img b-lazy" href="http://blog.operatingsystem.nanwulife.com/F%5BH%5D6J7%7DB0UL%284U4%25%29Z1Q91.png" data-src="http://blog.operatingsystem.nanwulife.com/F%5BH%5D6J7%7DB0UL%284U4%25%29Z1Q91.png"></p>
+<p><img src="http://blog.operatingsystem.nanwulife.com/F%5BH%5D6J7%7DB0UL%284U4%25%29Z1Q91.png" alt="scan"></p>
 <h3 id="单向扫描算法（CSCAN）"><a href="#单向扫描算法（CSCAN）" class="headerlink" title="单向扫描算法（CSCAN）"></a>单向扫描算法（CSCAN）</h3><p>扫描调度算法（SCAN）存在这样的问题：当磁头刚从里向外移动过某一磁道时，恰有一进程请求访问此磁道，这时该进程必须等待，待磁头从里向外，然后再从外向里扫描完所有要访问的磁道后，才处理该进程的请求，致使该进程的请求被严重地推迟。</p>
 <p>为了减少这种延迟，CSCAN算法规定磁头只做单向移动。例如，磁头只自里向外移动，当磁头移到最外的被访问磁道时，磁头立即返回到最里的欲访磁道，即将最小磁道号紧接着最大磁道号构成循环，进行扫描。</p>
 <h3 id="旋转调度算法"><a href="#旋转调度算法" class="headerlink" title="旋转调度算法"></a>旋转调度算法</h3><p>旋转调度算法根据延迟时间来决定执行次序的调度，请求访问分为以下三种情况：</p>
@@ -229,192 +252,133 @@
 <li><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.md#%E4%B8%80%E6%A6%82%E8%BF%B0" target="_blank" rel="noopener">计算机操作系统</a></li>
 </ul>
 
-                </div>
-            </section>
-        </article>
-    </div>
-
-    
-    <div style="height: 4vw;width: 100%"></div>
-    <nav id="gobottom" class="pagination">
-        
-        <a class="prev-post" title="操作系统原理-死锁" href="/2019/01/28/操作系统原理-死锁/">
-            ← 操作系统原理-死锁
-        </a>
-        
-        <span class="prev-next-post">•</span>
-        
-        <a class="next-post" title="操作系统原理-存储模型" href="/2019/01/28/操作系统原理-存储模型/">
-            操作系统原理-存储模型 →
-        </a>
-        
-    </nav>
-
-    
-</main>
-
-<div class="toc-bar">
-    <div class="toc-btn-bar">
-        <a href="#site-main" class="toc-btn">
-            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
-        </a>
-        <div class="toc-btn toc-switch">
-            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
-            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
-        </div>
-        <a href="#gobottom" class="toc-btn">
-            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
-        </a>
-    </div>
-    <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的分类"><span class="toc-text">文件的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的逻辑结构"><span class="toc-text">文件的逻辑结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存储介质与物理块"><span class="toc-text">存储介质与物理块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#典型的存储介质"><span class="toc-text">典型的存储介质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#物理块"><span class="toc-text">物理块</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘访问"><span class="toc-text">磁盘访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件控制块（FCB）"><span class="toc-text">文件控制块（FCB）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件目录"><span class="toc-text">文件目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的物理结构"><span class="toc-text">文件的物理结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#连续结构"><span class="toc-text">连续结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接结构"><span class="toc-text">链接结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#索引结构"><span class="toc-text">索引结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#多级索引结构（综合模式）"><span class="toc-text">多级索引结构（综合模式）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件目录检索"><span class="toc-text">文件目录检索</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#目录项分解法"><span class="toc-text">目录项分解法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘调度算法"><span class="toc-text">磁盘调度算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#先来先服务（FCFS）"><span class="toc-text">先来先服务（FCFS）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最短寻道时间优先（Shortest-Seek-Time-First）"><span class="toc-text">最短寻道时间优先（Shortest Seek Time First）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扫描算法（SCAN）"><span class="toc-text">扫描算法（SCAN）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单向扫描算法（CSCAN）"><span class="toc-text">单向扫描算法（CSCAN）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#旋转调度算法"><span class="toc-text">旋转调度算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
-    </div>
-</div>
-
-
-
-	</div>
-	
-
-
-<aside class="read-next outer">
-    <div class="inner">
-        <div class="read-next-feed">
-            
-            
-            
-            
-
-<article class="read-next-card" style="background-image: url(/images/pexels-photo-325185.jpeg)">
-	<header class="read-next-card-header" style="padding-bottom: 20px">
-		<h3 class="read-next-card-header-title">Tag Cloud</h3>
-	</header>
-	<div class="read-next-card-content-ext">
-		<a href="/tags/AOP/" style="font-size: 15.11px;">AOP</a> <a href="/tags/AQS/" style="font-size: 15.11px;">AQS</a> <a href="/tags/ArrayList/" style="font-size: 14px;">ArrayList</a> <a href="/tags/BST/" style="font-size: 14px;">BST</a> <a href="/tags/B树/" style="font-size: 14px;">B树</a> <a href="/tags/CGLIB/" style="font-size: 14px;">CGLIB</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 14px;">ConcurrentHashMap</a> <a href="/tags/CountDownLatch/" style="font-size: 14px;">CountDownLatch</a> <a href="/tags/CyclicBarrier/" style="font-size: 14px;">CyclicBarrier</a> <a href="/tags/Dijkstra/" style="font-size: 14px;">Dijkstra</a> <a href="/tags/Drools/" style="font-size: 14px;">Drools</a> <a href="/tags/Executor/" style="font-size: 15.11px;">Executor</a> <a href="/tags/Fork-join/" style="font-size: 14px;">Fork/join</a> <a href="/tags/HTTPS/" style="font-size: 14px;">HTTPS</a> <a href="/tags/HashMap/" style="font-size: 15.11px;">HashMap</a> <a href="/tags/IO/" style="font-size: 14px;">IO</a> <a href="/tags/IOC/" style="font-size: 14px;">IOC</a> <a href="/tags/InnoDB/" style="font-size: 16.22px;">InnoDB</a> <a href="/tags/IoC/" style="font-size: 14px;">IoC</a> <a href="/tags/JDK/" style="font-size: 19.56px;">JDK</a> <a href="/tags/JUC/" style="font-size: 16.22px;">JUC</a> <a href="/tags/JVM/" style="font-size: 17.33px;">JVM</a> <a href="/tags/LinkedList/" style="font-size: 14px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 15.11px;">Linux</a> <a href="/tags/MVCC/" style="font-size: 14px;">MVCC</a> <a href="/tags/MyBatis/" style="font-size: 18.44px;">MyBatis</a> <a href="/tags/MyISAM/" style="font-size: 14px;">MyISAM</a> <a href="/tags/MySQL/" style="font-size: 19.56px;">MySQL</a> <a href="/tags/NIO/" style="font-size: 14px;">NIO</a> <a href="/tags/PreparedStatement/" style="font-size: 14px;">PreparedStatement</a> <a href="/tags/RabbitMQ/" style="font-size: 15.11px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 20.67px;">Redis</a> <a href="/tags/ReentrantLock/" style="font-size: 14px;">ReentrantLock</a> <a href="/tags/Spring/" style="font-size: 15.11px;">Spring</a> <a href="/tags/Spring-MVC/" style="font-size: 15.11px;">Spring MVC</a> <a href="/tags/String/" style="font-size: 14px;">String</a> <a href="/tags/StringBuffer/" style="font-size: 14px;">StringBuffer</a> <a href="/tags/StringBuilder/" style="font-size: 14px;">StringBuilder</a> <a href="/tags/TCP/" style="font-size: 14px;">TCP</a> <a href="/tags/ThreadLocal/" style="font-size: 14px;">ThreadLocal</a> <a href="/tags/WSN/" style="font-size: 14px;">WSN</a> <a href="/tags/Zookeeper/" style="font-size: 14px;">Zookeeper</a> <a href="/tags/final/" style="font-size: 14px;">final</a> <a href="/tags/happens-before/" style="font-size: 14px;">happens-before</a> <a href="/tags/hello/" style="font-size: 14px;">hello</a> <a href="/tags/synchronized/" style="font-size: 14px;">synchronized</a> <a href="/tags/volatile/" style="font-size: 14px;">volatile</a> <a href="/tags/事务/" style="font-size: 14px;">事务</a> <a href="/tags/内存模型/" style="font-size: 14px;">内存模型</a> <a href="/tags/分布式锁/" style="font-size: 14px;">分布式锁</a> <a href="/tags/动态代理/" style="font-size: 14px;">动态代理</a> <a href="/tags/双亲委派模型/" style="font-size: 14px;">双亲委派模型</a> <a href="/tags/同步/" style="font-size: 14px;">同步</a> <a href="/tags/垃圾收集/" style="font-size: 14px;">垃圾收集</a> <a href="/tags/多线程/" style="font-size: 14px;">多线程</a> <a href="/tags/封锁协议/" style="font-size: 14px;">封锁协议</a> <a href="/tags/工厂方法/" style="font-size: 14px;">工厂方法</a> <a href="/tags/并发/" style="font-size: 21.78px;">并发</a> <a href="/tags/排序/" style="font-size: 17.33px;">排序</a> <a href="/tags/操作系统/" style="font-size: 18.44px;">操作系统</a> <a href="/tags/操作系统/" style="font-size: 14px;">操作系统 </a> <a href="/tags/支付宝/" style="font-size: 14px;">支付宝</a> <a href="/tags/断点续传/" style="font-size: 14px;">断点续传</a> <a href="/tags/杂谈/" style="font-size: 14px;">杂谈</a> <a href="/tags/查找/" style="font-size: 18.44px;">查找</a> <a href="/tags/树的遍历/" style="font-size: 14px;">树的遍历</a> <a href="/tags/模板方法/" style="font-size: 14px;">模板方法</a> <a href="/tags/消息队列/" style="font-size: 15.11px;">消息队列</a> <a href="/tags/源码分析/" style="font-size: 24px;">源码分析</a> <a href="/tags/算法/" style="font-size: 22.89px;">算法</a> <a href="/tags/索引/" style="font-size: 15.11px;">索引</a> <a href="/tags/红黑树/" style="font-size: 14px;">红黑树</a> <a href="/tags/线程池/" style="font-size: 15.11px;">线程池</a> <a href="/tags/范式/" style="font-size: 14px;">范式</a> <a href="/tags/计算机网络/" style="font-size: 14px;">计算机网络</a> <a href="/tags/设计模式/" style="font-size: 14px;">设计模式</a> <a href="/tags/跳跃表/" style="font-size: 14px;">跳跃表</a> <a href="/tags/进程/" style="font-size: 14px;">进程</a> <a href="/tags/锁/" style="font-size: 16.22px;">锁</a> <a href="/tags/项目/" style="font-size: 16.22px;">项目</a>
-	</div>
+  </div>
 </article>
 
-            
-        </div>
-    </div>
-</aside>
-
-	
 
 
-
-
-<div id="search" class="search-overlay subscribe-overlay">
-    <div class="search-form">
         
-        <img class="search-overlay-logo" src="/images/avator2.png" alt="水木今山的博客">
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/column/">Stack</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
-        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
-        <a class="search-overlay-close" href="#"></a>
+      </ul>
     </div>
-    <div id="local-search-result"></div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的分类"><span class="toc-number">1.</span> <span class="toc-text">文件的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的逻辑结构"><span class="toc-number">2.</span> <span class="toc-text">文件的逻辑结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存储介质与物理块"><span class="toc-number">3.</span> <span class="toc-text">存储介质与物理块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#典型的存储介质"><span class="toc-number">3.1.</span> <span class="toc-text">典型的存储介质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#物理块"><span class="toc-number">3.2.</span> <span class="toc-text">物理块</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘访问"><span class="toc-number">4.</span> <span class="toc-text">磁盘访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件控制块（FCB）"><span class="toc-number">5.</span> <span class="toc-text">文件控制块（FCB）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件目录"><span class="toc-number">6.</span> <span class="toc-text">文件目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的物理结构"><span class="toc-number">7.</span> <span class="toc-text">文件的物理结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#连续结构"><span class="toc-number">7.1.</span> <span class="toc-text">连续结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接结构"><span class="toc-number">7.2.</span> <span class="toc-text">链接结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#索引结构"><span class="toc-number">7.3.</span> <span class="toc-text">索引结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#多级索引结构（综合模式）"><span class="toc-number">7.3.1.</span> <span class="toc-text">多级索引结构（综合模式）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件目录检索"><span class="toc-number">8.</span> <span class="toc-text">文件目录检索</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#目录项分解法"><span class="toc-number">8.1.</span> <span class="toc-text">目录项分解法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘调度算法"><span class="toc-number">9.</span> <span class="toc-text">磁盘调度算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#先来先服务（FCFS）"><span class="toc-number">9.1.</span> <span class="toc-text">先来先服务（FCFS）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最短寻道时间优先（Shortest-Seek-Time-First）"><span class="toc-number">9.2.</span> <span class="toc-text">最短寻道时间优先（Shortest Seek Time First）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扫描算法（SCAN）"><span class="toc-number">9.3.</span> <span class="toc-text">扫描算法（SCAN）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单向扫描算法（CSCAN）"><span class="toc-number">9.4.</span> <span class="toc-text">单向扫描算法（CSCAN）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#旋转调度算法"><span class="toc-number">9.5.</span> <span class="toc-text">旋转调度算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">10.</span> <span class="toc-text">参考资料</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/28/操作系统原理-文件系统/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&text=操作系统原理-文件系统"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&title=操作系统原理-文件系统"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&is_video=false&description=操作系统原理-文件系统"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=操作系统原理-文件系统&body=Check out this article: http://yoursite.com/2019/01/28/操作系统原理-文件系统/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&title=操作系统原理-文件系统"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&title=操作系统原理-文件系统"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&title=操作系统原理-文件系统"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&title=操作系统原理-文件系统"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/28/操作系统原理-文件系统/&name=操作系统原理-文件系统&description=&lt;h2 id=&#34;文件的分类&#34;&gt;&lt;a href=&#34;#文件的分类&#34; class=&#34;headerlink&#34; title=&#34;文件的分类&#34;&gt;&lt;/a&gt;文件的分类&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;普通文件：包含了用户的信息，一般为ASCII或二进制文件&lt;/li&gt;
+&lt;li&gt;目录文件：管理文件系统的系统文件&lt;/li&gt;
+&lt;li&gt;特殊文件（设备文件）&lt;/li&gt;
+&lt;/ul&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
 </div>
 
-
-<footer class="site-footer outer">
-	<div class="site-footer-content inner">
-		<section class="copyright">
-			<a href="/" title="水木今山的博客">水木今山的博客</a>
-			&copy; 2019
-		</section>
-		<nav class="site-footer-nav">
-			
-            <a href="https://hexo.io" title="Hexo" target="_blank" rel="noopener">Hexo</a>
-            <a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
-        </nav>
-    </div>
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 水木今山
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/column/">Stack</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
+        
+      </ul>
+    </nav>
+  </div>
 </footer>
-	
 
-
-<script>
-    if(window.navigator && navigator.serviceWorker) {
-        navigator.serviceWorker.getRegistrations()
-        .then(function(registrations) {
-            for(let registration of registrations) {
-                registration.unregister();
-            }
-        });
-    }
-</script>
-
-
-
-
-
-
-
-<div class="floating-header">
-	<div class="floating-header-logo">
-        <a href="/" title="水木今山的博客">
-			
-                <img src="/images/avator2.png" alt="水木今山的博客 icon">
-			
-            <span>水木今山的博客</span>
-        </a>
     </div>
-    <span class="floating-header-divider">&mdash;</span>
-    <div class="floating-header-title">操作系统原理-文件系统</div>
-    <progress class="progress" value="0">
-        <div class="progress-container">
-            <span class="progress-bar"></span>
-        </div>
-    </progress>
-</div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
 
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
 
-
-
-
-<script src="/js/mix/post-lazy-local.min.js"></script>
-
-<script>;(function() {var bLazy = new Blazy()})();</script>
-
-
-
-
-<script src="/js/lightgallery.min.js"></script>
-<link rel="stylesheet" href="/css/lightgallery.min.css">
-<script>
-    lightGallery(document.getElementById('lightgallery'), {
-        selector: '.post-img'
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
     });
-</script>
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
 
+<script src="/js/main.js"></script>
+<!-- search -->
 
+<!-- Google Analytics -->
 
+<!-- Baidu Analytics -->
 
+<!-- Disqus Comments -->
 
-
-
-
-
-<script>searchFunc("/")</script>
-
-
-
-
-
-<script>
-    (function(){
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        }
-        else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-    console.log("this theme is from https://github.com/xzhih/hexo-theme-casper")
-</script>
 
 </body>
 </html>

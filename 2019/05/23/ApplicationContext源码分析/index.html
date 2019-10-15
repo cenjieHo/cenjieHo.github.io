@@ -1,153 +1,155 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
-
-
-
-
-
-
-
-<head>
-	
-	
-	<link rel="stylesheet" href="/css/allinone.min.css">
-
-	
-	<!-- Global Site Tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXXX-1"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-		gtag('config', 'UA-XXXXXXXXXX-1');
-	</script>
-	
-
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-	<title>ApplicationContext体系分析 | 水木今山的博客</title>
-
-	<meta name="HandheldFriendly" content="True">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-	<meta name="generator" content="hexo">
-	<meta name="author" content="水木今山">
-	<meta name="description" content="">
-
-	
-	<meta name="keywords" content="">
-	
-
-	
-	<link rel="shortcut icon" href="/images/avator2.png">
-	<link rel="apple-touch-icon" href="/images/avator2.png">
-	
-
-	
-	<meta name="theme-color" content="#3c484e">
-	<meta name="msapplication-TileColor" content="#3c484e">
-	
-
-	
-
-	
-
-	<meta property="og:site_name" content="水木今山的博客">
-	<meta property="og:type" content="article">
-	<meta property="og:title" content="ApplicationContext体系分析 | 水木今山的博客">
-	<meta property="og:description" content="">
-	<meta property="og:url" content="http://yoursite.com/2019/05/23/ApplicationContext源码分析/">
-
-	
-	<meta property="article:published_time" content="2019-05-23T19:05:00+08:00"> 
-	<meta property="article:author" content="水木今山">
-	<meta property="article:published_first" content="水木今山的博客, /2019/05/23/ApplicationContext源码分析/">
-	
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="前言ApplicationContext实现了除基本容器外的多个接口，提供了比BeanFactory更为丰富的功能，比如说自动识别BeanPostProcessor以及其它特殊类型Bean、容器启动时自动加载Bean、国际化支持、容器内事件发布等。因此，我们在实际应用中一般会使用ApplicationContext而不是BeanFactory。 继承体系 从上图可以看出，ApplicationCo">
+<meta name="keywords" content="blog,cenjie">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ApplicationContext体系分析">
+<meta property="og:url" content="http://yoursite.com/2019/05/23/ApplicationContext源码分析/index.html">
+<meta property="og:site_name" content="水木今山的博客">
+<meta property="og:description" content="前言ApplicationContext实现了除基本容器外的多个接口，提供了比BeanFactory更为丰富的功能，比如说自动识别BeanPostProcessor以及其它特殊类型Bean、容器启动时自动加载Bean、国际化支持、容器内事件发布等。因此，我们在实际应用中一般会使用ApplicationContext而不是BeanFactory。 继承体系 从上图可以看出，ApplicationCo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog.default.nanwulife.com/72307-b0c809e1cc035cdb.jpg">
+<meta property="og:updated_time" content="2019-05-23T13:28:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ApplicationContext体系分析">
+<meta name="twitter:description" content="前言ApplicationContext实现了除基本容器外的多个接口，提供了比BeanFactory更为丰富的功能，比如说自动识别BeanPostProcessor以及其它特殊类型Bean、容器启动时自动加载Bean、国际化支持、容器内事件发布等。因此，我们在实际应用中一般会使用ApplicationContext而不是BeanFactory。 继承体系 从上图可以看出，ApplicationCo">
+<meta name="twitter:image" content="http://blog.default.nanwulife.com/72307-b0c809e1cc035cdb.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>ApplicationContext体系分析</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
 </head>
-<body class="post-template">
-	<div class="site-wrapper">
-		
 
-
-
-
-<header class="site-header outer" style="z-index: 999">
-    <div class="inner">
-        
-<nav class="site-nav"> 
-    <div class="site-nav-left">
-        <ul class="nav">
-            <li>
-                
-                <a href="/" title="Home">HOME</a>
-                
-            </li>
-            
-            
-            <li>
-                <a href="/about" title="ABOUT">ABOUT</a>
-            </li>
-            
-            <li>
-                <a href="/column" title="STACK">STACK</a>
-            </li>
-            
-            <li>
-                <a href="https://portal.qiniu.com/bucket/default/resource" title="PICS">PICS</a>
-            </li>
-            
-            
-        </ul> 
-    </div>
+<body class="max-width mx-auto px3 ltr">
     
-    <div class="search-button">
-        <a href="#search" class="subscribe-button" style="margin: 0 10px;">Search ...</a>
-    </div>
-     
-    <div class="site-nav-right">
-        
-        <a href="#search" class="subscribe-button" style="margin: 0 10px;">Search ...</a>
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
          
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/column/">Stack</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
-<div class="social-links">
-    
-    
-    <a class="social-link" title="github" href="https://github.com/cenjieHo" target="_blank" rel="noopener">
-        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
-    </a>
-    
-    
-    
-    
-    
-    
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/24/破坏双亲委派模型/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/21/Simple-IoC开发日志：getBean/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/23/ApplicationContext源码分析/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&text=ApplicationContext体系分析"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&title=ApplicationContext体系分析"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&is_video=false&description=ApplicationContext体系分析"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ApplicationContext体系分析&body=Check out this article: http://yoursite.com/2019/05/23/ApplicationContext源码分析/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&title=ApplicationContext体系分析"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&title=ApplicationContext体系分析"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&title=ApplicationContext体系分析"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&title=ApplicationContext体系分析"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&name=ApplicationContext体系分析&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继承体系"><span class="toc-number">2.</span> <span class="toc-text">继承体系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码分析"><span class="toc-number">3.</span> <span class="toc-text">源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#obtainFreshBeanFactory"><span class="toc-number">3.1.</span> <span class="toc-text">obtainFreshBeanFactory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prepareBeanFactory"><span class="toc-number">3.2.</span> <span class="toc-text">prepareBeanFactory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#postProcessBeanFactory"><span class="toc-number">3.3.</span> <span class="toc-text">postProcessBeanFactory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#invokeBeanFactoryPostProcessors"><span class="toc-number">3.4.</span> <span class="toc-text">invokeBeanFactoryPostProcessors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#registerBeanPostProcessors"><span class="toc-number">3.5.</span> <span class="toc-text">registerBeanPostProcessors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initMessageSource"><span class="toc-number">3.6.</span> <span class="toc-text">initMessageSource</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initApplicationEventMulticaster"><span class="toc-number">3.7.</span> <span class="toc-text">initApplicationEventMulticaster</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#onRefresh"><span class="toc-number">3.8.</span> <span class="toc-text">onRefresh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#registerListeners"><span class="toc-number">3.9.</span> <span class="toc-text">registerListeners</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#finishBeanFactoryInitialization"><span class="toc-number">3.10.</span> <span class="toc-text">finishBeanFactoryInitialization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#finishRefresh"><span class="toc-number">3.11.</span> <span class="toc-text">finishRefresh</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ApplicationContext使用"><span class="toc-number">4.</span> <span class="toc-text">ApplicationContext使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+    </div>
+  </span>
 </div>
-    </div>
-</nav>
-    </div>
-</header>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        ApplicationContext体系分析
+    </h1>
 
 
-<main id="site-main" class="site-main outer" role="main">
-    <div class="inner">
-        <header class="post-full-header">
-            <section class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-05-23T11:15:41.000Z" itemprop="datePublished">
-                    2019-05-23
-                </time>
-                
-                <span class="date-divider">/</span>
-                
-                
-            </section>
-            <h1 class="post-full-title">ApplicationContext体系分析</h1>
-        </header>
-        <article class="post-full no-image">
-            
-            <section class="post-full-content">
-                <div id="lightgallery" class="markdown-body">
-                    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>ApplicationContext</code>实现了除基本容器外的多个接口，提供了比<code>BeanFactory</code>更为丰富的功能，比如说自动识别<code>BeanPostProcessor</code>以及其它特殊类型Bean、容器启动时自动加载Bean、国际化支持、容器内事件发布等。因此，我们在实际应用中一般会使用<code>ApplicationContext</code>而不是<code>BeanFactory</code>。</p>
-<h2 id="继承体系"><a href="#继承体系" class="headerlink" title="继承体系"></a>继承体系</h2><p><img alt="" class="post-img b-lazy" href="http://blog.default.nanwulife.com/72307-b0c809e1cc035cdb.jpg" data-src="http://blog.default.nanwulife.com/72307-b0c809e1cc035cdb.jpg"></p>
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">水木今山</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-05-23T11:15:41.000Z" itemprop="datePublished">2019-05-23</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>ApplicationContext</code>实现了除基本容器外的多个接口，提供了比<code>BeanFactory</code>更为丰富的功能，比如说自动识别<code>BeanPostProcessor</code>以及其它特殊类型Bean、容器启动时自动加载Bean、国际化支持、容器内事件发布等。因此，我们在实际应用中一般会使用<code>ApplicationContext</code>而不是<code>BeanFactory</code>。</p>
+<h2 id="继承体系"><a href="#继承体系" class="headerlink" title="继承体系"></a>继承体系</h2><p><img src="http://blog.default.nanwulife.com/72307-b0c809e1cc035cdb.jpg" alt=""></p>
 <p>从上图可以看出，<code>ApplicationContext</code>继承了<code>BeanFactory</code>，因此拥有<code>BeanFactory</code>的全部功能，实际上，它是将容器的功能委派给<code>DefaultListableBeanFactory</code>来实现。除此之外，<code>ApplicationContext</code>还继承了<code>ResourceLoader</code>、<code>EnvironmentCable</code>、<code>ApplicationEventPublisher</code>、<code>MessageSource</code>等接口，提供了十分丰富的功能。</p>
 <h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>创建一个常用的<code>ApplicationContext</code>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClassPathXmlApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"classpath:application.xml"</span>);</span><br></pre></td></tr></table></figure></p>
 <p><code>ClassPathXmlApplicationContext</code>的构造函数在设置完配置文件的位置后，紧接着调用<code>refresh()</code>方法，这个方法是整个<code>ApplicationContext</code>体系的核心，是在<code>AbstractApplicationContext</code>中实现的，并且是个典型的模板方法，也就是说其中的一些步骤是交由具体子类来实现的。以下是这个方法的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refresh</span><span class="params">()</span> <span class="keyword">throws</span> BeansException, IllegalStateException </span>&#123;</span><br><span class="line">	<span class="keyword">synchronized</span> (<span class="keyword">this</span>.startupShutdownMonitor) &#123;</span><br><span class="line">		<span class="comment">// 1. 准备刷新时的上下文环境</span></span><br><span class="line">		prepareRefresh();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 2. 刷新并初始化 BeanFactory</span></span><br><span class="line">		ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 3. 配置 BeanFactory 中的一些其它信息</span></span><br><span class="line">		prepareBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">// 4. 提供子类覆盖的额外处理，即子类处理自定义的 BeanFactoryPostProcess</span></span><br><span class="line">			postProcessBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 5. 调用各种 BeanFactoryPostProcessor</span></span><br><span class="line">			invokeBeanFactoryPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 6. 注册 BeanPostProcessor 到 BeanFactory 中去</span></span><br><span class="line">			registerBeanPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 7. 初始化上下文中的资源文件，如国际化文件的处理等</span></span><br><span class="line">			initMessageSource();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 8. 初始化上下文事件广播器</span></span><br><span class="line">			initApplicationEventMulticaster();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 9. 初始化其它特殊 Bean</span></span><br><span class="line">			onRefresh();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 10. 检查 listener 类型的 Bean 并注册</span></span><br><span class="line">			registerListeners();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 11. 实例化所有非懒加载的单例 Bean</span></span><br><span class="line">			finishBeanFactoryInitialization(beanFactory);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 12. 发布相应的事件</span></span><br><span class="line">			finishRefresh();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">catch</span> (BeansException ex) &#123;</span><br><span class="line">			<span class="comment">// ...</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="comment">// Reset common introspection caches in Spring's core, since we</span></span><br><span class="line">			<span class="comment">// might not ever need metadata for singleton beans anymore...</span></span><br><span class="line">			resetCommonCaches();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -170,192 +172,129 @@
 <li><a href="">Spring ApplicationContext源码分析</a></li>
 </ul>
 
-                </div>
-            </section>
-        </article>
-    </div>
-
-    
-    <div style="height: 4vw;width: 100%"></div>
-    <nav id="gobottom" class="pagination">
-        
-        <a class="prev-post" title="破坏双亲委派模型" href="/2019/05/24/破坏双亲委派模型/">
-            ← 破坏双亲委派模型
-        </a>
-        
-        <span class="prev-next-post">•</span>
-        
-        <a class="next-post" title="Simple IoC开发日志：加载Bean" href="/2019/05/21/Simple-IoC开发日志：getBean/">
-            Simple IoC开发日志：加载Bean →
-        </a>
-        
-    </nav>
-
-    
-</main>
-
-<div class="toc-bar">
-    <div class="toc-btn-bar">
-        <a href="#site-main" class="toc-btn">
-            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
-        </a>
-        <div class="toc-btn toc-switch">
-            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
-            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
-        </div>
-        <a href="#gobottom" class="toc-btn">
-            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
-        </a>
-    </div>
-    <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继承体系"><span class="toc-text">继承体系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码分析"><span class="toc-text">源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#obtainFreshBeanFactory"><span class="toc-text">obtainFreshBeanFactory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prepareBeanFactory"><span class="toc-text">prepareBeanFactory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#postProcessBeanFactory"><span class="toc-text">postProcessBeanFactory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#invokeBeanFactoryPostProcessors"><span class="toc-text">invokeBeanFactoryPostProcessors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#registerBeanPostProcessors"><span class="toc-text">registerBeanPostProcessors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initMessageSource"><span class="toc-text">initMessageSource</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initApplicationEventMulticaster"><span class="toc-text">initApplicationEventMulticaster</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#onRefresh"><span class="toc-text">onRefresh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#registerListeners"><span class="toc-text">registerListeners</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#finishBeanFactoryInitialization"><span class="toc-text">finishBeanFactoryInitialization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#finishRefresh"><span class="toc-text">finishRefresh</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ApplicationContext使用"><span class="toc-text">ApplicationContext使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
-    </div>
-</div>
-
-
-
-	</div>
-	
-
-
-<aside class="read-next outer">
-    <div class="inner">
-        <div class="read-next-feed">
-            
-            
-            
-            
-
-<article class="read-next-card" style="background-image: url(/images/pexels-photo-325185.jpeg)">
-	<header class="read-next-card-header" style="padding-bottom: 20px">
-		<h3 class="read-next-card-header-title">Tag Cloud</h3>
-	</header>
-	<div class="read-next-card-content-ext">
-		<a href="/tags/AOP/" style="font-size: 15.11px;">AOP</a> <a href="/tags/AQS/" style="font-size: 15.11px;">AQS</a> <a href="/tags/ArrayList/" style="font-size: 14px;">ArrayList</a> <a href="/tags/BST/" style="font-size: 14px;">BST</a> <a href="/tags/B树/" style="font-size: 14px;">B树</a> <a href="/tags/CGLIB/" style="font-size: 14px;">CGLIB</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 14px;">ConcurrentHashMap</a> <a href="/tags/CountDownLatch/" style="font-size: 14px;">CountDownLatch</a> <a href="/tags/CyclicBarrier/" style="font-size: 14px;">CyclicBarrier</a> <a href="/tags/Dijkstra/" style="font-size: 14px;">Dijkstra</a> <a href="/tags/Drools/" style="font-size: 14px;">Drools</a> <a href="/tags/Executor/" style="font-size: 15.11px;">Executor</a> <a href="/tags/Fork-join/" style="font-size: 14px;">Fork/join</a> <a href="/tags/HTTPS/" style="font-size: 14px;">HTTPS</a> <a href="/tags/HashMap/" style="font-size: 15.11px;">HashMap</a> <a href="/tags/IO/" style="font-size: 14px;">IO</a> <a href="/tags/IOC/" style="font-size: 14px;">IOC</a> <a href="/tags/InnoDB/" style="font-size: 16.22px;">InnoDB</a> <a href="/tags/IoC/" style="font-size: 14px;">IoC</a> <a href="/tags/JDK/" style="font-size: 19.56px;">JDK</a> <a href="/tags/JUC/" style="font-size: 16.22px;">JUC</a> <a href="/tags/JVM/" style="font-size: 17.33px;">JVM</a> <a href="/tags/LinkedList/" style="font-size: 14px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 15.11px;">Linux</a> <a href="/tags/MVCC/" style="font-size: 14px;">MVCC</a> <a href="/tags/MyBatis/" style="font-size: 18.44px;">MyBatis</a> <a href="/tags/MyISAM/" style="font-size: 14px;">MyISAM</a> <a href="/tags/MySQL/" style="font-size: 19.56px;">MySQL</a> <a href="/tags/NIO/" style="font-size: 14px;">NIO</a> <a href="/tags/PreparedStatement/" style="font-size: 14px;">PreparedStatement</a> <a href="/tags/RabbitMQ/" style="font-size: 15.11px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 20.67px;">Redis</a> <a href="/tags/ReentrantLock/" style="font-size: 14px;">ReentrantLock</a> <a href="/tags/Spring/" style="font-size: 15.11px;">Spring</a> <a href="/tags/Spring-MVC/" style="font-size: 15.11px;">Spring MVC</a> <a href="/tags/String/" style="font-size: 14px;">String</a> <a href="/tags/StringBuffer/" style="font-size: 14px;">StringBuffer</a> <a href="/tags/StringBuilder/" style="font-size: 14px;">StringBuilder</a> <a href="/tags/TCP/" style="font-size: 14px;">TCP</a> <a href="/tags/ThreadLocal/" style="font-size: 14px;">ThreadLocal</a> <a href="/tags/WSN/" style="font-size: 14px;">WSN</a> <a href="/tags/Zookeeper/" style="font-size: 14px;">Zookeeper</a> <a href="/tags/final/" style="font-size: 14px;">final</a> <a href="/tags/happens-before/" style="font-size: 14px;">happens-before</a> <a href="/tags/hello/" style="font-size: 14px;">hello</a> <a href="/tags/synchronized/" style="font-size: 14px;">synchronized</a> <a href="/tags/volatile/" style="font-size: 14px;">volatile</a> <a href="/tags/事务/" style="font-size: 14px;">事务</a> <a href="/tags/内存模型/" style="font-size: 14px;">内存模型</a> <a href="/tags/分布式锁/" style="font-size: 14px;">分布式锁</a> <a href="/tags/动态代理/" style="font-size: 14px;">动态代理</a> <a href="/tags/双亲委派模型/" style="font-size: 14px;">双亲委派模型</a> <a href="/tags/同步/" style="font-size: 14px;">同步</a> <a href="/tags/垃圾收集/" style="font-size: 14px;">垃圾收集</a> <a href="/tags/多线程/" style="font-size: 14px;">多线程</a> <a href="/tags/封锁协议/" style="font-size: 14px;">封锁协议</a> <a href="/tags/工厂方法/" style="font-size: 14px;">工厂方法</a> <a href="/tags/并发/" style="font-size: 21.78px;">并发</a> <a href="/tags/排序/" style="font-size: 17.33px;">排序</a> <a href="/tags/操作系统/" style="font-size: 18.44px;">操作系统</a> <a href="/tags/操作系统/" style="font-size: 14px;">操作系统 </a> <a href="/tags/支付宝/" style="font-size: 14px;">支付宝</a> <a href="/tags/断点续传/" style="font-size: 14px;">断点续传</a> <a href="/tags/杂谈/" style="font-size: 14px;">杂谈</a> <a href="/tags/查找/" style="font-size: 18.44px;">查找</a> <a href="/tags/树的遍历/" style="font-size: 14px;">树的遍历</a> <a href="/tags/模板方法/" style="font-size: 14px;">模板方法</a> <a href="/tags/消息队列/" style="font-size: 15.11px;">消息队列</a> <a href="/tags/源码分析/" style="font-size: 24px;">源码分析</a> <a href="/tags/算法/" style="font-size: 22.89px;">算法</a> <a href="/tags/索引/" style="font-size: 15.11px;">索引</a> <a href="/tags/红黑树/" style="font-size: 14px;">红黑树</a> <a href="/tags/线程池/" style="font-size: 15.11px;">线程池</a> <a href="/tags/范式/" style="font-size: 14px;">范式</a> <a href="/tags/计算机网络/" style="font-size: 14px;">计算机网络</a> <a href="/tags/设计模式/" style="font-size: 14px;">设计模式</a> <a href="/tags/跳跃表/" style="font-size: 14px;">跳跃表</a> <a href="/tags/进程/" style="font-size: 14px;">进程</a> <a href="/tags/锁/" style="font-size: 16.22px;">锁</a> <a href="/tags/项目/" style="font-size: 16.22px;">项目</a>
-	</div>
+  </div>
 </article>
 
-            
-        </div>
-    </div>
-</aside>
-
-	
 
 
-
-
-<div id="search" class="search-overlay subscribe-overlay">
-    <div class="search-form">
         
-        <img class="search-overlay-logo" src="/images/avator2.png" alt="水木今山的博客">
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/column/">Stack</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
         
-        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
-        <a class="search-overlay-close" href="#"></a>
+      </ul>
     </div>
-    <div id="local-search-result"></div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继承体系"><span class="toc-number">2.</span> <span class="toc-text">继承体系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码分析"><span class="toc-number">3.</span> <span class="toc-text">源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#obtainFreshBeanFactory"><span class="toc-number">3.1.</span> <span class="toc-text">obtainFreshBeanFactory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prepareBeanFactory"><span class="toc-number">3.2.</span> <span class="toc-text">prepareBeanFactory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#postProcessBeanFactory"><span class="toc-number">3.3.</span> <span class="toc-text">postProcessBeanFactory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#invokeBeanFactoryPostProcessors"><span class="toc-number">3.4.</span> <span class="toc-text">invokeBeanFactoryPostProcessors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#registerBeanPostProcessors"><span class="toc-number">3.5.</span> <span class="toc-text">registerBeanPostProcessors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initMessageSource"><span class="toc-number">3.6.</span> <span class="toc-text">initMessageSource</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initApplicationEventMulticaster"><span class="toc-number">3.7.</span> <span class="toc-text">initApplicationEventMulticaster</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#onRefresh"><span class="toc-number">3.8.</span> <span class="toc-text">onRefresh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#registerListeners"><span class="toc-number">3.9.</span> <span class="toc-text">registerListeners</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#finishBeanFactoryInitialization"><span class="toc-number">3.10.</span> <span class="toc-text">finishBeanFactoryInitialization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#finishRefresh"><span class="toc-number">3.11.</span> <span class="toc-text">finishRefresh</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ApplicationContext使用"><span class="toc-number">4.</span> <span class="toc-text">ApplicationContext使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/23/ApplicationContext源码分析/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&text=ApplicationContext体系分析"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&title=ApplicationContext体系分析"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&is_video=false&description=ApplicationContext体系分析"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ApplicationContext体系分析&body=Check out this article: http://yoursite.com/2019/05/23/ApplicationContext源码分析/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&title=ApplicationContext体系分析"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&title=ApplicationContext体系分析"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&title=ApplicationContext体系分析"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&title=ApplicationContext体系分析"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/23/ApplicationContext源码分析/&name=ApplicationContext体系分析&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
 </div>
 
-
-<footer class="site-footer outer">
-	<div class="site-footer-content inner">
-		<section class="copyright">
-			<a href="/" title="水木今山的博客">水木今山的博客</a>
-			&copy; 2019
-		</section>
-		<nav class="site-footer-nav">
-			
-            <a href="https://hexo.io" title="Hexo" target="_blank" rel="noopener">Hexo</a>
-            <a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
-        </nav>
-    </div>
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 水木今山
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/column/">Stack</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="https://portal.qiniu.com/bucket/default/resource">Pics</a></li>
+        
+      </ul>
+    </nav>
+  </div>
 </footer>
-	
 
-
-<script>
-    if(window.navigator && navigator.serviceWorker) {
-        navigator.serviceWorker.getRegistrations()
-        .then(function(registrations) {
-            for(let registration of registrations) {
-                registration.unregister();
-            }
-        });
-    }
-</script>
-
-
-
-
-
-
-
-<div class="floating-header">
-	<div class="floating-header-logo">
-        <a href="/" title="水木今山的博客">
-			
-                <img src="/images/avator2.png" alt="水木今山的博客 icon">
-			
-            <span>水木今山的博客</span>
-        </a>
     </div>
-    <span class="floating-header-divider">&mdash;</span>
-    <div class="floating-header-title">ApplicationContext体系分析</div>
-    <progress class="progress" value="0">
-        <div class="progress-container">
-            <span class="progress-bar"></span>
-        </div>
-    </progress>
-</div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
 
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
 
-
-
-
-<script src="/js/mix/post-lazy-local.min.js"></script>
-
-<script>;(function() {var bLazy = new Blazy()})();</script>
-
-
-
-
-<script src="/js/lightgallery.min.js"></script>
-<link rel="stylesheet" href="/css/lightgallery.min.css">
-<script>
-    lightGallery(document.getElementById('lightgallery'), {
-        selector: '.post-img'
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
     });
-</script>
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
 
+<script src="/js/main.js"></script>
+<!-- search -->
 
+<!-- Google Analytics -->
 
+<!-- Baidu Analytics -->
 
+<!-- Disqus Comments -->
 
-
-
-
-
-<script>searchFunc("/")</script>
-
-
-
-
-
-<script>
-    (function(){
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        }
-        else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-    console.log("this theme is from https://github.com/xzhih/hexo-theme-casper")
-</script>
 
 </body>
 </html>
