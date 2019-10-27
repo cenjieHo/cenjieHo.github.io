@@ -1,12 +1,87 @@
 <!DOCTYPE html>
-<html lang=zh>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.9.0">
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="简介Java NIO是一个可以替代标准Java IO API的IO API，主要有以下三个核心组件：  Channels Buffers Selectors  NIO与IO的主要区别在于：  IO是面向流的，NIO是面向缓冲区的。 IO是阻塞的，NIO是非阻塞的。 NIO有选择器，允许一个单独的线程来管理多个输入通道。">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="NIO,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="水木今山的博客" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="简介Java NIO是一个可以替代标准Java IO API的IO API，主要有以下三个核心组件：  Channels Buffers Selectors  NIO与IO的主要区别在于：  IO是面向流的，NIO是面向缓冲区的。 IO是阻塞的，NIO是非阻塞的。 NIO有选择器，允许一个单独的线程来管理多个输入通道。">
 <meta name="keywords" content="NIO">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NIO知识点总结">
@@ -18,154 +93,300 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NIO知识点总结">
 <meta name="twitter:description" content="简介Java NIO是一个可以替代标准Java IO API的IO API，主要有以下三个核心组件：  Channels Buffers Selectors  NIO与IO的主要区别在于：  IO是面向流的，NIO是面向缓冲区的。 IO是阻塞的，NIO是非阻塞的。 NIO有选择器，允许一个单独的线程来管理多个输入通道。">
-    
-    
-        
-          
-              <link rel="shortcut icon" href="/images/favicon.ico">
-          
-        
-        
-          
-            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-          
-        
-    
-    <!-- title -->
-    <title>NIO知识点总结</title>
-    <!-- styles -->
-    <link rel="stylesheet" href="/css/style.css">
-    <!-- persian styles -->
-    
-      <link rel="stylesheet" href="/css/rtl.css">
-    
-    <!-- rss -->
-    
-    
-</head>
-
-<body class="max-width mx-auto px3 ltr">
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/column/">Stack</a></li>
-         
-          <li><a href="/tags/">Tags</a></li>
-         
-          <li><a href="/search/">Search</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2019/03/27/Linux-五种IO模型/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="/2019/02/17/HTTPS的过程与原理/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/03/10/NIO知识点总结/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/03/10/NIO知识点总结/&text=NIO知识点总结"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/03/10/NIO知识点总结/&title=NIO知识点总结"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/03/10/NIO知识点总结/&is_video=false&description=NIO知识点总结"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=NIO知识点总结&body=Check out this article: http://yoursite.com/2019/03/10/NIO知识点总结/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/03/10/NIO知识点总结/&title=NIO知识点总结"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/03/10/NIO知识点总结/&title=NIO知识点总结"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/03/10/NIO知识点总结/&title=NIO知识点总结"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/03/10/NIO知识点总结/&title=NIO知识点总结"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/03/10/NIO知识点总结/&name=NIO知识点总结&description=&lt;h1 id=&#34;简介&#34;&gt;&lt;a href=&#34;#简介&#34; class=&#34;headerlink&#34; title=&#34;简介&#34;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;p&gt;Java NIO是一个可以替代标准Java IO API的IO API，主要有以下三个核心组件：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Channels&lt;/li&gt;
-&lt;li&gt;Buffers&lt;/li&gt;
-&lt;li&gt;Selectors&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;NIO与IO的主要区别在于：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;IO是面向流的，NIO是面向缓冲区的。&lt;/li&gt;
-&lt;li&gt;IO是阻塞的，NIO是非阻塞的。&lt;/li&gt;
-&lt;li&gt;NIO有选择器，允许一个单独的线程来管理多个输入通道。&lt;/li&gt;
-&lt;/ul&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Channel"><span class="toc-number">2.</span> <span class="toc-text">Channel</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#FileChannel"><span class="toc-number">2.1.</span> <span class="toc-text">FileChannel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SocketChannel"><span class="toc-number">2.2.</span> <span class="toc-text">SocketChannel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ServerSocketChannel"><span class="toc-number">2.3.</span> <span class="toc-text">ServerSocketChannel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DatagramChannel"><span class="toc-number">2.4.</span> <span class="toc-text">DatagramChannel</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Buffer"><span class="toc-number">3.</span> <span class="toc-text">Buffer</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer的分配"><span class="toc-number">3.1.</span> <span class="toc-text">Buffer的分配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#向Buffer写数据"><span class="toc-number">3.2.</span> <span class="toc-text">向Buffer写数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从Buffer读数据"><span class="toc-number">3.3.</span> <span class="toc-text">从Buffer读数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rewind-方法"><span class="toc-number">3.4.</span> <span class="toc-text">rewind()方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Selector"><span class="toc-number">4.</span> <span class="toc-text">Selector</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建并注册"><span class="toc-number">4.1.</span> <span class="toc-text">创建并注册</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SelectionKey"><span class="toc-number">4.2.</span> <span class="toc-text">SelectionKey</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#interest集合"><span class="toc-number">4.2.1.</span> <span class="toc-text">interest集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ready集合"><span class="toc-number">4.2.2.</span> <span class="toc-text">ready集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Channel-Selector"><span class="toc-number">4.2.3.</span> <span class="toc-text">Channel Selector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#附加的对象"><span class="toc-number">4.2.4.</span> <span class="toc-text">附加的对象</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选择通道"><span class="toc-number">4.3.</span> <span class="toc-text">选择通道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关闭"><span class="toc-number">4.4.</span> <span class="toc-text">关闭</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Scatter-Gather"><span class="toc-number">5.</span> <span class="toc-text">Scatter/Gather</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#通道之间的数据传输"><span class="toc-number">6.</span> <span class="toc-text">通道之间的数据传输</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#transferFrom"><span class="toc-number">6.1.</span> <span class="toc-text">transferFrom()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#transferTo"><span class="toc-number">6.2.</span> <span class="toc-text">transferTo()</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Path"><span class="toc-number">7.</span> <span class="toc-text">Path</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建Path"><span class="toc-number">7.1.</span> <span class="toc-text">创建Path</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#normalize"><span class="toc-number">7.2.</span> <span class="toc-text">normalize()</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Files"><span class="toc-number">8.</span> <span class="toc-text">Files</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#exists"><span class="toc-number">8.1.</span> <span class="toc-text">exists()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#createDirctory"><span class="toc-number">8.2.</span> <span class="toc-text">createDirctory()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#copy"><span class="toc-number">8.3.</span> <span class="toc-text">copy()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#move"><span class="toc-number">8.4.</span> <span class="toc-text">move()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#delete"><span class="toc-number">8.5.</span> <span class="toc-text">delete()</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AsynchronousFileChannel"><span class="toc-number">9.</span> <span class="toc-text">AsynchronousFileChannel</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建"><span class="toc-number">9.1.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#读取数据"><span class="toc-number">9.2.</span> <span class="toc-text">读取数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用Futrue读取数据"><span class="toc-number">9.2.1.</span> <span class="toc-text">使用Futrue读取数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用CompletionHandler读取数据"><span class="toc-number">9.2.2.</span> <span class="toc-text">使用CompletionHandler读取数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#写入数据"><span class="toc-number">9.3.</span> <span class="toc-text">写入数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用Future读取数据"><span class="toc-number">9.3.1.</span> <span class="toc-text">使用Future读取数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用CompletionHandler写入数据"><span class="toc-number">9.3.2.</span> <span class="toc-text">使用CompletionHandler写入数据</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">10.</span> <span class="toc-text">参考资料</span></a></li></ol>
-    </div>
-  </span>
-</div>
-
-    
-    <div class="content index py4">
-        
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    
-    <h1 class="posttitle" itemprop="name headline">
-        NIO知识点总结
-    </h1>
 
 
 
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span itemprop="name">水木今山</span>
-      </span>
-      
-    <div class="postdate">
-      
-        <time datetime="2019-03-10T12:55:00.000Z" itemprop="datePublished">2019-03-10</time>
-        
-      
-    </div>
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
 
 
-      
-    <div class="article-category">
-        <i class="fas fa-archive"></i>
-        <a class="category-link" href="/categories/NIO/">NIO</a>
-    </div>
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/10/NIO知识点总结/">
 
 
-      
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/NIO/">NIO</a>
-    </div>
 
 
-    </div>
-  </header>
+
+  <title>NIO知识点总结 | 水木今山的博客</title>
   
 
-  <div class="content" itemprop="articleBody">
-    <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Java NIO是一个可以替代标准Java IO API的IO API，主要有以下三个核心组件：</p>
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">水木今山的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Coding the World</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-专栏">
+          <a href="/column/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            专栏
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/10/NIO知识点总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="水木今山">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="水木今山的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">NIO知识点总结</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-10T20:55:00+08:00">
+                2019-03-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NIO/" itemprop="url" rel="index">
+                    <span itemprop="name">NIO</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Java NIO是一个可以替代标准Java IO API的IO API，主要有以下三个核心组件：</p>
 <ul>
 <li>Channels</li>
 <li>Buffers</li>
@@ -310,136 +531,735 @@
 <li><a href="http://ifeve.com/java-nio-all/" target="_blank" rel="noopener">Java NIO 系列教程</a></li>
 </ul>
 
-  </div>
-</article>
+      
+    </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NIO/" rel="tag"># NIO</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/17/HTTPS的过程与原理/" rel="next" title="HTTPS的过程与原理">
+                <i class="fa fa-chevron-left"></i> HTTPS的过程与原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/27/Linux-五种IO模型/" rel="prev" title="Linux五种IO模型">
+                Linux五种IO模型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpeg" alt="水木今山">
+            
+              <p class="site-author-name" itemprop="name">水木今山</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">106</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hecenjie" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:cenjie.ho@outlook.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Channel"><span class="nav-number">2.</span> <span class="nav-text">Channel</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FileChannel"><span class="nav-number">2.1.</span> <span class="nav-text">FileChannel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SocketChannel"><span class="nav-number">2.2.</span> <span class="nav-text">SocketChannel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ServerSocketChannel"><span class="nav-number">2.3.</span> <span class="nav-text">ServerSocketChannel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DatagramChannel"><span class="nav-number">2.4.</span> <span class="nav-text">DatagramChannel</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Buffer"><span class="nav-number">3.</span> <span class="nav-text">Buffer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffer的分配"><span class="nav-number">3.1.</span> <span class="nav-text">Buffer的分配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#向Buffer写数据"><span class="nav-number">3.2.</span> <span class="nav-text">向Buffer写数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从Buffer读数据"><span class="nav-number">3.3.</span> <span class="nav-text">从Buffer读数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rewind-方法"><span class="nav-number">3.4.</span> <span class="nav-text">rewind()方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Selector"><span class="nav-number">4.</span> <span class="nav-text">Selector</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建并注册"><span class="nav-number">4.1.</span> <span class="nav-text">创建并注册</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SelectionKey"><span class="nav-number">4.2.</span> <span class="nav-text">SelectionKey</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#interest集合"><span class="nav-number">4.2.1.</span> <span class="nav-text">interest集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ready集合"><span class="nav-number">4.2.2.</span> <span class="nav-text">ready集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Channel-Selector"><span class="nav-number">4.2.3.</span> <span class="nav-text">Channel Selector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附加的对象"><span class="nav-number">4.2.4.</span> <span class="nav-text">附加的对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择通道"><span class="nav-number">4.3.</span> <span class="nav-text">选择通道</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关闭"><span class="nav-number">4.4.</span> <span class="nav-text">关闭</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Scatter-Gather"><span class="nav-number">5.</span> <span class="nav-text">Scatter/Gather</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通道之间的数据传输"><span class="nav-number">6.</span> <span class="nav-text">通道之间的数据传输</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#transferFrom"><span class="nav-number">6.1.</span> <span class="nav-text">transferFrom()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#transferTo"><span class="nav-number">6.2.</span> <span class="nav-text">transferTo()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Path"><span class="nav-number">7.</span> <span class="nav-text">Path</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建Path"><span class="nav-number">7.1.</span> <span class="nav-text">创建Path</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#normalize"><span class="nav-number">7.2.</span> <span class="nav-text">normalize()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Files"><span class="nav-number">8.</span> <span class="nav-text">Files</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#exists"><span class="nav-number">8.1.</span> <span class="nav-text">exists()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#createDirctory"><span class="nav-number">8.2.</span> <span class="nav-text">createDirctory()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#copy"><span class="nav-number">8.3.</span> <span class="nav-text">copy()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#move"><span class="nav-number">8.4.</span> <span class="nav-text">move()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#delete"><span class="nav-number">8.5.</span> <span class="nav-text">delete()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AsynchronousFileChannel"><span class="nav-number">9.</span> <span class="nav-text">AsynchronousFileChannel</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建"><span class="nav-number">9.1.</span> <span class="nav-text">创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读取数据"><span class="nav-number">9.2.</span> <span class="nav-text">读取数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Futrue读取数据"><span class="nav-number">9.2.1.</span> <span class="nav-text">使用Futrue读取数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用CompletionHandler读取数据"><span class="nav-number">9.2.2.</span> <span class="nav-text">使用CompletionHandler读取数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写入数据"><span class="nav-number">9.3.</span> <span class="nav-text">写入数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Future读取数据"><span class="nav-number">9.3.1.</span> <span class="nav-text">使用Future读取数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用CompletionHandler写入数据"><span class="nav-number">9.3.2.</span> <span class="nav-text">使用CompletionHandler写入数据</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">10.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
 
 
         
-          <div id="footer-post-container">
-  <div id="footer-post">
+      </div>
+    </main>
 
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/column/">Stack</a></li>
-         
-          <li><a href="/tags/">Tags</a></li>
-         
-          <li><a href="/search/">Search</a></li>
-        
-      </ul>
-    </div>
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">水木今山</span>
 
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Channel"><span class="toc-number">2.</span> <span class="toc-text">Channel</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#FileChannel"><span class="toc-number">2.1.</span> <span class="toc-text">FileChannel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SocketChannel"><span class="toc-number">2.2.</span> <span class="toc-text">SocketChannel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ServerSocketChannel"><span class="toc-number">2.3.</span> <span class="toc-text">ServerSocketChannel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DatagramChannel"><span class="toc-number">2.4.</span> <span class="toc-text">DatagramChannel</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Buffer"><span class="toc-number">3.</span> <span class="toc-text">Buffer</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer的分配"><span class="toc-number">3.1.</span> <span class="toc-text">Buffer的分配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#向Buffer写数据"><span class="toc-number">3.2.</span> <span class="toc-text">向Buffer写数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从Buffer读数据"><span class="toc-number">3.3.</span> <span class="toc-text">从Buffer读数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rewind-方法"><span class="toc-number">3.4.</span> <span class="toc-text">rewind()方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Selector"><span class="toc-number">4.</span> <span class="toc-text">Selector</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建并注册"><span class="toc-number">4.1.</span> <span class="toc-text">创建并注册</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SelectionKey"><span class="toc-number">4.2.</span> <span class="toc-text">SelectionKey</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#interest集合"><span class="toc-number">4.2.1.</span> <span class="toc-text">interest集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ready集合"><span class="toc-number">4.2.2.</span> <span class="toc-text">ready集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Channel-Selector"><span class="toc-number">4.2.3.</span> <span class="toc-text">Channel Selector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#附加的对象"><span class="toc-number">4.2.4.</span> <span class="toc-text">附加的对象</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选择通道"><span class="toc-number">4.3.</span> <span class="toc-text">选择通道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关闭"><span class="toc-number">4.4.</span> <span class="toc-text">关闭</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Scatter-Gather"><span class="toc-number">5.</span> <span class="toc-text">Scatter/Gather</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#通道之间的数据传输"><span class="toc-number">6.</span> <span class="toc-text">通道之间的数据传输</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#transferFrom"><span class="toc-number">6.1.</span> <span class="toc-text">transferFrom()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#transferTo"><span class="toc-number">6.2.</span> <span class="toc-text">transferTo()</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Path"><span class="toc-number">7.</span> <span class="toc-text">Path</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建Path"><span class="toc-number">7.1.</span> <span class="toc-text">创建Path</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#normalize"><span class="toc-number">7.2.</span> <span class="toc-text">normalize()</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Files"><span class="toc-number">8.</span> <span class="toc-text">Files</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#exists"><span class="toc-number">8.1.</span> <span class="toc-text">exists()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#createDirctory"><span class="toc-number">8.2.</span> <span class="toc-text">createDirctory()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#copy"><span class="toc-number">8.3.</span> <span class="toc-text">copy()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#move"><span class="toc-number">8.4.</span> <span class="toc-text">move()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#delete"><span class="toc-number">8.5.</span> <span class="toc-text">delete()</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AsynchronousFileChannel"><span class="toc-number">9.</span> <span class="toc-text">AsynchronousFileChannel</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建"><span class="toc-number">9.1.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#读取数据"><span class="toc-number">9.2.</span> <span class="toc-text">读取数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用Futrue读取数据"><span class="toc-number">9.2.1.</span> <span class="toc-text">使用Futrue读取数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用CompletionHandler读取数据"><span class="toc-number">9.2.2.</span> <span class="toc-text">使用CompletionHandler读取数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#写入数据"><span class="toc-number">9.3.</span> <span class="toc-text">写入数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用Future读取数据"><span class="toc-number">9.3.1.</span> <span class="toc-text">使用Future读取数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用CompletionHandler写入数据"><span class="toc-number">9.3.2.</span> <span class="toc-text">使用CompletionHandler写入数据</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">10.</span> <span class="toc-text">参考资料</span></a></li></ol>
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/03/10/NIO知识点总结/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/03/10/NIO知识点总结/&text=NIO知识点总结"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/03/10/NIO知识点总结/&title=NIO知识点总结"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/03/10/NIO知识点总结/&is_video=false&description=NIO知识点总结"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=NIO知识点总结&body=Check out this article: http://yoursite.com/2019/03/10/NIO知识点总结/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/03/10/NIO知识点总结/&title=NIO知识点总结"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/03/10/NIO知识点总结/&title=NIO知识点总结"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/03/10/NIO知识点总结/&title=NIO知识点总结"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/03/10/NIO知识点总结/&title=NIO知识点总结"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/03/10/NIO知识点总结/&name=NIO知识点总结&description=&lt;h1 id=&#34;简介&#34;&gt;&lt;a href=&#34;#简介&#34; class=&#34;headerlink&#34; title=&#34;简介&#34;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;p&gt;Java NIO是一个可以替代标准Java IO API的IO API，主要有以下三个核心组件：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Channels&lt;/li&gt;
-&lt;li&gt;Buffers&lt;/li&gt;
-&lt;li&gt;Selectors&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;NIO与IO的主要区别在于：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;IO是面向流的，NIO是面向缓冲区的。&lt;/li&gt;
-&lt;li&gt;IO是阻塞的，NIO是非阻塞的。&lt;/li&gt;
-&lt;li&gt;NIO有选择器，允许一个单独的线程来管理多个输入通道。&lt;/li&gt;
-&lt;/ul&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
+  
 </div>
 
+
+<span>
+    Coding the World
+</span><br>
+
+
+
+
         
-        <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2019 水木今山
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/column/">Stack</a></li>
-         
-          <li><a href="/tags/">Tags</a></li>
-         
-          <li><a href="/search/">Search</a></li>
+
+
+
+
+
+
+
         
-      </ul>
-    </nav>
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
   </div>
-</footer>
 
-    </div>
-    <!-- styles -->
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+  
 
-    <!-- jquery -->
-<script src="/lib/jquery/jquery.min.js"></script>
-<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
-<!-- clipboard -->
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
 
-  <script src="/lib/clipboard/clipboard.min.js"></script>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
   <script type="text/javascript">
-  $(function() {
-    // copy-btn HTML
-    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
-    btn += '<i class="far fa-clone"></i>';
-    btn += '</span>'; 
-    // mount it!
-    $(".highlight .code pre").before(btn);
-    var clip = new ClipboardJS('.btn-copy', {
-      target: function(trigger) {
-        return trigger.nextElementSibling;
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
       }
     });
-    clip.on('success', function(e) {
-      e.trigger.setAttribute('aria-label', "Copied!");
-      e.clearSelection();
-    })
-  })
   </script>
 
-<script src="/js/main.js"></script>
-<!-- search -->
 
-<!-- Google Analytics -->
 
-<!-- Baidu Analytics -->
 
-<!-- Disqus Comments -->
 
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
 
 </body>
 </html>
