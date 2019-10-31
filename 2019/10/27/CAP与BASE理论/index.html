@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="CAP,BASE,分布式系统,">
+  <meta name="keywords" content="分布式系统,CAP,BASE,">
 
 
 
@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="CAP定理一个分布式系统不可能同时满足一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance）这三个基本需求，最多只能满足其中的两项. 一般情况下，分区容错性是一个最基本的要求，其次才在可用性和一致性之间作出取舍。 BASE理论BASE是Basically Available（基本可用）、Soft state（软状态）、Eventu">
-<meta name="keywords" content="CAP,BASE,分布式系统">
+<meta name="description" content="CAP定理一个分布式系统不可能同时满足一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance）这三个基本需求，最多只能满足其中的两项. 一般情况下，分区容错性是一个最基本的要求，其次才在可用性和一致性之间作出取舍。  一致性模型：  弱一致性 最终一致性：DNS、Gossip协议   强一致性 同步 Paxos Raft ZAB">
+<meta name="keywords" content="分布式系统,CAP,BASE">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CAP与BASE理论">
 <meta property="og:url" content="http://yoursite.com/2019/10/27/CAP与BASE理论/index.html">
 <meta property="og:site_name" content="水木今山的博客">
-<meta property="og:description" content="CAP定理一个分布式系统不可能同时满足一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance）这三个基本需求，最多只能满足其中的两项. 一般情况下，分区容错性是一个最基本的要求，其次才在可用性和一致性之间作出取舍。 BASE理论BASE是Basically Available（基本可用）、Soft state（软状态）、Eventu">
+<meta property="og:description" content="CAP定理一个分布式系统不可能同时满足一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance）这三个基本需求，最多只能满足其中的两项. 一般情况下，分区容错性是一个最基本的要求，其次才在可用性和一致性之间作出取舍。  一致性模型：  弱一致性 最终一致性：DNS、Gossip协议   强一致性 同步 Paxos Raft ZAB">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-27T12:27:50.986Z">
+<meta property="og:updated_time" content="2019-10-28T01:34:27.418Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CAP与BASE理论">
-<meta name="twitter:description" content="CAP定理一个分布式系统不可能同时满足一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance）这三个基本需求，最多只能满足其中的两项. 一般情况下，分区容错性是一个最基本的要求，其次才在可用性和一致性之间作出取舍。 BASE理论BASE是Basically Available（基本可用）、Soft state（软状态）、Eventu">
+<meta name="twitter:description" content="CAP定理一个分布式系统不可能同时满足一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance）这三个基本需求，最多只能满足其中的两项. 一般情况下，分区容错性是一个最基本的要求，其次才在可用性和一致性之间作出取舍。  一致性模型：  弱一致性 最终一致性：DNS、Gossip协议   强一致性 同步 Paxos Raft ZAB">
 
 
 
@@ -388,6 +388,22 @@
       
         <h2 id="CAP定理"><a href="#CAP定理" class="headerlink" title="CAP定理"></a>CAP定理</h2><p>一个分布式系统不可能同时满足一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance）这三个基本需求，最多只能满足其中的两项.</p>
 <p>一般情况下，分区容错性是一个最基本的要求，其次才在可用性和一致性之间作出取舍。</p>
+<blockquote>
+<p>一致性模型：</p>
+<ul>
+<li>弱一致性<ul>
+<li>最终一致性：DNS、Gossip协议</li>
+</ul>
+</li>
+<li>强一致性<ul>
+<li>同步</li>
+<li>Paxos</li>
+<li>Raft</li>
+<li>ZAB</li>
+</ul>
+</li>
+</ul>
+</blockquote>
 <h2 id="BASE理论"><a href="#BASE理论" class="headerlink" title="BASE理论"></a>BASE理论</h2><p>BASE是Basically Available（基本可用）、Soft state（软状态）、Eventually Consistent（最终一致性）三个短语的简称，是对CAP中一致性和可用性权衡的结果，核心思想是即使无法做到强一致性，但每个应用都可以根据自身的业务特点，采用适当的方式来使系统达到最终一致性。</p>
 <blockquote>
 <p>基本可用：分布式系统在出现不可预知故障时，允许损失部分可用性。<br>弱状态：即软状态，允许系统中的数据存在中间状态，并认为该中间状态的存在不会影响系统的整体可用性。<br>最终一致性：系统保证数据最终能够达到一致，而不需要实时保证系统数据的强一致性。</p>
@@ -412,11 +428,11 @@
       
         <div class="post-tags">
           
+            <a href="/tags/分布式系统/" rel="tag"># 分布式系统</a>
+          
             <a href="/tags/CAP/" rel="tag"># CAP</a>
           
             <a href="/tags/BASE/" rel="tag"># BASE</a>
-          
-            <a href="/tags/分布式系统/" rel="tag"># 分布式系统</a>
           
         </div>
       
@@ -542,7 +558,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-count">85</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
