@@ -91,8 +91,8 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.default.nanwulife.com/截屏2020-02-01下午7.21.23.png">
 <meta property="og:image" content="http://blog.default.nanwulife.com/截屏2020-02-01下午8.44.39.png">
-<meta property="og:image" content="http://blog.default.nanwulife.com/截屏2020-02-01下午8.23.47.png">
-<meta property="og:updated_time" content="2020-02-01T13:38:07.900Z">
+<meta property="og:image" content="http://blog.default.nanwulife.com/截屏2020-02-02上午10.47.38.png">
+<meta property="og:updated_time" content="2020-02-02T02:48:45.911Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《MapReduce》论文笔记">
 <meta name="twitter:description" content="简介MapReduce是一个处理和生成超大数据集的编程模型和相关实现。基于MapReduce，用户只需通过Map和Reduce函数描述自己的计算问题，而不用关心计算在哪个机器上进行、相互之间如何通信、机器故障如何处理等复杂的问题。 执行过程 当用户调用MapReduce时，将发生下面的一系列动作：  MapReduce库首先将输入文件分成M个数据片段，然后用户程序在一组机器集群上创建大量的程序副本">
@@ -382,7 +382,7 @@
 </ol>
 <p>成功完成任务后，MapReduce的输出存放在R个输出文件中，而这些文件往往又被作为另外一个MapReduce的输入。</p>
 <p>《设计数据密集型应用》书中对该过程的描述图也很形象：<br><img src="http://blog.default.nanwulife.com/截屏2020-02-01下午8.44.39.png" alt></p>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>倒排索引的应用：<br><img src="http://blog.default.nanwulife.com/截屏2020-02-01下午8.23.47.png" alt="倒排索引"></p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>倒排索引的应用：<br><img src="http://blog.default.nanwulife.com/截屏2020-02-02上午10.47.38.png" alt="倒排索引"></p>
 <p>在这个例子中，数据片段个数M和Map Worker数目相同，分区数R也和Reduce Worker数目相同，但在实际应用中，M和R往往比Worker数目要多。</p>
 <h2 id="容错"><a href="#容错" class="headerlink" title="容错"></a>容错</h2><p>和大多数Unix工具一样，运行MapReduce作业通常不会修改输入，除了生成输出外没有任何副作用。当遇到崩溃和网络问题时，任务可以安全地重试，任何失败任务的输出都被丢弃。因此，容错的设计是十分方便的，MapReduce可以保证作业的最终输出与没有发生错误的情况相同，尽管这其中不得不重试各种任务。</p>
 <p>每个工作中的任务把它的输出写到私有的临时文件中，每个Reduce任务生成一个这样的文件，而每个Map任务则生成R个这样的文件：</p>
