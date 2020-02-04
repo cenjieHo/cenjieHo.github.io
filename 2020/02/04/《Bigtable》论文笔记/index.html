@@ -96,7 +96,7 @@
 <meta property="og:image" content="http://blog.default.nanwulife.com/截屏2020-02-03下午9.34.57.png">
 <meta property="og:image" content="http://blog.default.nanwulife.com/截屏2020-02-03下午9.43.24.png">
 <meta property="og:image" content="http://blog.default.nanwulife.com/截屏2020-02-03下午9.57.42.png">
-<meta property="og:updated_time" content="2020-02-04T03:43:40.211Z">
+<meta property="og:updated_time" content="2020-02-04T08:37:05.914Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Bigtable》论文笔记">
 <meta name="twitter:description" content="前言在阅读并总结了《Google File System》和《MapReduce》两篇论文后，终于迎来了谷歌技术“三宝”最后一项Bigtable。令人头疼的是，在通读了整篇论文后，感觉Bigtable相较于前面两篇晦涩难懂太多，尤其是文中提出的各种术语又没有解释的特别清楚，所以很多部分只能靠推测的方式一步步摸索。后来在B站上看到一个讲解视频十分通俗易懂：深入浅出Bigtable，因此本文将结合论文">
@@ -387,9 +387,11 @@
 <p><img src="http://blog.default.nanwulife.com/截屏2020-02-03下午9.29.13.png" alt></p>
 <p>当内存表大小达到阈值时，就将数据写入到磁盘，也就是生成一份新的SSTable：<br><img src="http://blog.default.nanwulife.com/截屏2020-02-03下午9.32.16.png" alt></p>
 <p>但是在内存中的数据还没写入磁盘的过程中，有可能会发生丢失的情况，所以Bigtable通过预写日志解决了这个问题：<br><img src="http://blog.default.nanwulife.com/截屏2020-02-03下午9.34.57.png" alt></p>
-<p>由于上面介绍的写策略，导致了虽然SSTable内部的数据是有序的，但是SSTable之间的数据是无序的，因此，每当我们要查找一个key的时候，需要查找所有的SSTable和memTable，效率是很低的，尤其是SSTable是保存在磁盘上的。Bigtable首先通过块索引加快整个读取的速度：<br><img src="http://blog.default.nanwulife.com/截屏2020-02-03下午9.43.24.png" alt></p>
-<p>SSTable会把数据分成块进行存储，并在SSTable文件尾部保存块索引，块索引记录每个块结束的key及对应的offset。首先从memTable的索引开始查找，然后再从最新的SSTable的索引开始查找，每次查找时先在内存中通过二分查找定位到SSTable中相应的数据块，然后进行一次磁盘访问，读取到块中的数据。</p>
-<p>但是由于SSTable的数量很多，我们可能依然需要很多次的磁盘IO，因此，可以通过布隆过滤器将必然不存在我们想要查找的数据的SSTable给忽略：<br><img src="http://blog.default.nanwulife.com/截屏2020-02-03下午9.57.42.png" alt></p>
+<p>由于上面介绍的写策略，导致了虽然SSTable内部的数据是有序的，但是SSTable之间的数据是无序的，因此，当一个读操作请求到来时，系统首先检查memTable，如果没有找到这个key，就会逆序的一个一个检查SSTable文件，直到key被找到。由此可见，读操作会随着SSTable的个数增加变的越来越慢，因为每一个SSTable都要被检查。</p>
+<p>Bigtable首先通过块索引勉强加快了整个读取的速度：<br><img src="http://blog.default.nanwulife.com/截屏2020-02-03下午9.43.24.png" alt></p>
+<p>SSTable会把数据分成块进行存储，并在SSTable文件尾部保存块索引，块索引记录每个块结束的key及对应的offset。通过块索引，每次查找时先在内存中通过二分查找定位到SSTable中相应的数据块，然后进行一次磁盘访问，读取到块中的数据。</p>
+<p>但即使有每个SSTable的索引，随着SSTable个数增多，读操作仍然很慢。即便有了合并操作，读操作仍然可能会访问大量的文件。因此，可以通过布隆过滤器将必然不存在我们想要查找的数据的SSTable给忽略：<br><img src="http://blog.default.nanwulife.com/截屏2020-02-03下午9.57.42.png" alt></p>
+<p>其实上面的memTable加上SSTables就是我们常说的LSM（Log Structured Merge Trees）。B+树和log追加型文件是数据读写的两个极端，B+树读效率高而写效率差，log追加型文件写效率高而读效率差。因此要在排序和log追加型文件之间做个折中，于是就引入了LSM模型，通过名称可以看出LSM既有日志型的文件操作，提升写效率，又在每个SSTable中排序，保证了查询效率。</p>
 <h2 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h2><h3 id="Tablet分配"><a href="#Tablet分配" class="headerlink" title="Tablet分配"></a>Tablet分配</h3><p>Bigtable使用Chubby跟踪记录Tablet服务器的状态。当一个Tablet服务器启动时，它在Chubby的一个指定目录下建立一个有唯一性名字的文件，并且获取该文件的独占锁。Master服务器实时监控着这个目录，因此Master服务器能够知道有新的Tablet服务器加入了。如果Tablet服务器丢失了Chubby上的独占锁，比如由于网络断开导致Tablet服务器和Chubby的会话丢失，它就停止对Tablet提供服务。只要文件还存在，Tablet服务器就会试图重新获得对该文件的独占锁；如果文件不存在了，那么Tablet服务器就不能再提供服务了，它会自行退出。</p>
 <p>Master服务器通过轮询Tablet服务器文件锁的状态来检测何时Tablet服务器不再为它的Tablet提供服务，此时Master服务器就会尝试获取该Tablet服务器文件的独占锁，如果成功获取到了，就说明Chubby是正常运行的，而Tablet可能是宕机了或者网络故障，此时Master服务器就删除该Tablet服务器在Chubby上的服务器文件以确保它不再给Tablet提供服务，一旦Tablet服务器在Chubby上的服务器文件被删除了，Master服务器就把之前分配给它的所有Tablet放入未分配的Tablet集合中。</p>
 <h3 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h3><ul>
@@ -413,6 +415,7 @@
 <li><a href="https://niceaz.com/2018/11/27/sstable/#sstable-%E8%B5%B7%E6%BA%90" target="_blank" rel="noopener">SSTable 原理</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/24721857" target="_blank" rel="noopener">大数据那些事(10):李逵麻子，李鬼坑人–BigTable的数据模型</a></li>
 <li><a href="https://mr-dai.github.io/bigtable/" target="_blank" rel="noopener">Bigtable 论文详述</a></li>
+<li><a href="https://www.open-open.com/lib/view/open1424916275249.html" target="_blank" rel="noopener">Log Structured Merge Trees(LSM) 原理</a></li>
 </ul>
 
       
