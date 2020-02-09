@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="分布式,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="水木今山的博客" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="前言这段时间通读了一遍Raft论文，虽说其相较Paxos算法而言浅显易懂了许多，但是倘若真正深入理解其中的一些细节，依然还是有许多比较复杂的地方。因此，本文将着重记录自己对于论文中的一些难点的思考过程，而对于Raft的一些基础概念将不会再花篇幅介绍。本文结论大多比较主观，如有疑问欢迎指出。 强一致or最终一致性在第一次读完Raft论文后，产生的第一个思考就是Raft到底是属于强一致性还是最终一致性">
+<meta name="keywords" content="分布式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对Raft的一些理解">
+<meta property="og:url" content="http://yoursite.com/2020/02/09/对Raft的一些理解/index.html">
+<meta property="og:site_name" content="水木今山的博客">
+<meta property="og:description" content="前言这段时间通读了一遍Raft论文，虽说其相较Paxos算法而言浅显易懂了许多，但是倘若真正深入理解其中的一些细节，依然还是有许多比较复杂的地方。因此，本文将着重记录自己对于论文中的一些难点的思考过程，而对于Raft的一些基础概念将不会再花篇幅介绍。本文结论大多比较主观，如有疑问欢迎指出。 强一致or最终一致性在第一次读完Raft论文后，产生的第一个思考就是Raft到底是属于强一致性还是最终一致性">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog.default.nanwulife.com/截屏2020-02-09下午8.33.37.png">
+<meta property="og:image" content="http://blog.default.nanwulife.com/截屏2020-02-09下午9.15.27.png">
+<meta property="og:image" content="http://blog.default.nanwulife.com/截屏2020-02-09下午10.05.41.png">
+<meta property="og:updated_time" content="2020-02-09T14:15:07.893Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对Raft的一些理解">
+<meta name="twitter:description" content="前言这段时间通读了一遍Raft论文，虽说其相较Paxos算法而言浅显易懂了许多，但是倘若真正深入理解其中的一些细节，依然还是有许多比较复杂的地方。因此，本文将着重记录自己对于论文中的一些难点的思考过程，而对于Raft的一些基础概念将不会再花篇幅介绍。本文结论大多比较主观，如有疑问欢迎指出。 强一致or最终一致性在第一次读完Raft论文后，产生的第一个思考就是Raft到底是属于强一致性还是最终一致性">
+<meta name="twitter:image" content="http://blog.default.nanwulife.com/截屏2020-02-09下午8.33.37.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/02/09/对Raft的一些理解/">
+
+
+
+
+
+  <title>对Raft的一些理解 | 水木今山的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">水木今山的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Coding the World</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-专栏">
+          <a href="/column/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            专栏
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/09/对Raft的一些理解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="水木今山">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="水木今山的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">对Raft的一些理解</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-09T22:14:00+08:00">
+                2020-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这段时间通读了一遍Raft论文，虽说其相较Paxos算法而言浅显易懂了许多，但是倘若真正深入理解其中的一些细节，依然还是有许多比较复杂的地方。因此，本文将着重记录自己对于论文中的一些难点的思考过程，而对于Raft的一些基础概念将不会再花篇幅介绍。本文结论大多比较主观，如有疑问欢迎指出。</p>
+<h2 id="强一致or最终一致性"><a href="#强一致or最终一致性" class="headerlink" title="强一致or最终一致性"></a>强一致or最终一致性</h2><p>在第一次读完Raft论文后，产生的第一个思考就是Raft到底是属于强一致性还是最终一致性。因为Raft并不需要将日志复制到每个节点上才返回，而只要大多数节点都收到即可，因此容易误以为Raft属于一个最终一致性的协议。但实际上，根据强/弱/最终一致性的简单定义：</p>
+<blockquote>
+<p>强一致性集群中，对任何一个节点发起请求都会得到相同的回复，但将产生相对高的延迟。而弱一致性具有更低的响应延迟，但可能会回复过期的数据，最终一致性即是经过一段时间后终会到达一致的弱一致性。</p>
+</blockquote>
+<p>Raft是属于强一致性的，客户端不会读到过期的结果，且并不要求将每个写请求复制到集群中的每个节点上。这是由于Raft的领导人完全特性保证了领导人一定拥有所有已经被提交的日志条目，并且在论文中还提到：</p>
+<blockquote>
+<p>Raft handles this by having the leader exchange heartbeat messages with a majority of the cluster before responding to read-only requests.</p>
+</blockquote>
+<p>即一个Leader在响应只读请求之前，需要先和集群中的大多数节点交换一次心跳，来及时发现自己是否已经被废黜了。</p>
+<h2 id="提交之前任期内的日志条目"><a href="#提交之前任期内的日志条目" class="headerlink" title="提交之前任期内的日志条目"></a>提交之前任期内的日志条目</h2><p>刚开始看到论文中5.4.2节时不太清楚作者究竟想表达什么，后来反复阅读了原文才知晓其中的含义。</p>
+<p><img src="http://blog.default.nanwulife.com/截屏2020-02-09下午8.33.37.png" alt></p>
+<p>这一段表达的意思其实就是Leader只会提交自己任期内副本超过半数的日志条目，就算看到了（甚至是复制了）之前任期的日志条目副本超过半数了，依然也不会主动去提交，因为它是有可能被覆盖的（如图8中d的情况），一旦提交并返回客户端成功就出错了（也就是非线性一致性，即之前响应客户端commit成功的请求被回退了）。所以把提交的时机交给当前任期的日志被成功复制后，提交当前任期的日志时会间接提交之前任期的日志（因为提交就是移动一下commitIndex），这样才能保障提供线性一致性。</p>
+<p>除此之外，为了防止当前任期的写请求迟迟不来，导致Leader没法提供对这部分不知道有没有提交的日志的读服务，所以Raft通过Leader在任期开始的时候提交一个空白的没有任何操作的日志条目（NO-OP LogEntry）到日志中去，以此保障快速进入正常可读状态。</p>
+<blockquote>
+<p>First, a leader must have the latest information on<br>which entries are committed. The Leader Completeness<br>Property guarantees that a leader has all committed entries, but at the start of its term, it may not know which<br>those are. To find out, it needs to commit an entry from<br>its term. Raft handles this by having each leader commit a blank no-op entry into the log at the start of its<br>term. </p>
+</blockquote>
+<h2 id="集群成员变更"><a href="#集群成员变更" class="headerlink" title="集群成员变更"></a>集群成员变更</h2><p>集群成员变更是整篇论文里最晦涩难懂的，其核心问题就是在于各个节点见到新配置的时间点是不同的，从而导致两个节点各自使用新老配置完成选举，从而产生两个Leader：<br><img src="http://blog.default.nanwulife.com/截屏2020-02-09下午9.15.27.png" alt></p>
+<p>在上图的箭头指向的时间点，Server1可以通过Server1和Server2的投票完成选举，而Server5可以通过Server3、Server4、Server5的投票完成选举。因此，Raft使用joint consensus的方式避免多个节点同时单方面使用新老配置作出决策。</p>
+<p>joint consensus主要分两阶段修改配置，并且在更新过程中，完全不影响集群的可用性：</p>
+<ol>
+<li>当Leader收到新配置C_new的时候，他首先是把它与老配置做并集，生成一个C_old_new配置。Leader会将C_old_new日志发到所有成员，直到大多数已经成功收到这个配置的日志。</li>
+<li>如果大多数机器都收到C_old_new日志，Leader便将C_old_new提交，然后Leader再把C_new发到集群中。</li>
+</ol>
+<p>这里有几点需要额外注意：</p>
+<ul>
+<li>一旦一个服务器将新的配置日志条目增加到它的日志中，他就会用这个配置来做出未来所有的决定，而无论是否已经提交。</li>
+<li>C_old_new达成一致需要分别在两种配置上获得大多数的支持。</li>
+<li>一定要等到C_old_new被提交后再创建一条关于C_new配置的日志条目并复制给集群才是安全的。因为如果没有提交，就算被复制给了大多数，也依然有可能被覆盖掉（论文中介绍领导人完整性时有提到这种情况），这时候就又回到了C_old和C_new共同决定的局面。</li>
+</ul>
+<p>论文在这部分还指出了三个问题（由于篇幅过长，就不粘贴了）。第一个问题意思是在新机器加入集群时，在配置变更流程开始前，需要先完成数据同步；第二个问题相对来说比较复杂，意思是当C_old_new日志提交后，根据领导人完整性特性，仅具有C_old日志的机器已经无法当选Leader，这时候具有C_old_new或C_new日志的机器才可以当选Leader（这取决于赢得选举的候选人是否已经接收到了C-new日志），也就是说这时候依然可能依赖C_old的配置。而当C_new提交后，就只有具有C_new日志的机器可以当选Leader，此时就不再需要C_old配置上的机器了，不在C_new配置上的Leader这时候也可以过渡了。</p>
+<p>当然，如果最开始的C_old_new日志都提交失败了，被选出来的新领导人可能是使用C-old配置也可能是C-old,new配置，和上面的思路是一样的。</p>
+<blockquote>
+<p>If the leader crashes,<br>a new leader may be chosen under either Cold or Cold,new,<br>depending on whether the winning candidate has received<br>Cold,new.</p>
+</blockquote>
+<p>实际上，现在开源的Raft实现上基本都不采用这种模式，而是更为简单的Single Cluster MemberShip Change（单节点变更算法）。我们可以注意到上面之所以会产生两个Leader的本质原因其实在于新旧配置的大多数（Majority）不存在交集，因此，倘若可以让新旧配置的大多数产生交集，这个交集就可以充当仲裁者的角色，单节点变更算法就是基于这个思想，每次只允许出现一个节点变更(增加或减小)，那么新配置和旧配置的大多数总会相交。</p>
+<p><img src="http://blog.default.nanwulife.com/截屏2020-02-09下午10.05.41.png" alt></p>
+<p>而关于这个算法依然还有许多注意点，等到下次研究到时再继续分析。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="file:///Users/hecenjie/Library/Mobile%20Documents/com~apple~CloudDocs/%E8%AE%BA%E6%96%87/Raft.pdf" target="_blank" rel="noopener">In Search of an Understandable Consensus Algorithm<br>(Extended Version)</a></li>
+<li><a href="https://lentil1016.cn/consistencies-and-raft/" target="_blank" rel="noopener">强一致性与最终一致性与raft</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/29678067" target="_blank" rel="noopener">Raft 一致性协议</a></li>
+<li><a href="https://juejin.im/post/5aed9a7551882506a36c659e" target="_blank" rel="noopener">别再怀疑自己的智商了，Raft协议本来就不好理解</a></li>
+<li><a href="http://ifeve.com/%E8%A7%A3%E8%AF%BBraft%EF%BC%88%E5%9B%9B-%E6%88%90%E5%91%98%E5%8F%98%E6%9B%B4%EF%BC%89/" target="_blank" rel="noopener">解读Raft（四 成员变更）</a></li>
+<li><a href="https://youjiali1995.github.io/raft/etcd-raft-cluster-membership-change/" target="_blank" rel="noopener">Raft 笔记(六) – Cluster membership change</a></li>
+<li><a href="https://izualzhy.cn/notes-on-raft" target="_blank" rel="noopener">菜鸟读Raft论文 </a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/分布式/" rel="tag"># 分布式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/07/《Dynamo》论文笔记/" rel="next" title="《Dynamo》论文笔记">
+                <i class="fa fa-chevron-left"></i> 《Dynamo》论文笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpeg" alt="水木今山">
+            
+              <p class="site-author-name" itemprop="name">水木今山</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">111</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hecenjie" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:cenjie.ho@outlook.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#强一致or最终一致性"><span class="nav-number">2.</span> <span class="nav-text">强一致or最终一致性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提交之前任期内的日志条目"><span class="nav-number">3.</span> <span class="nav-text">提交之前任期内的日志条目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群成员变更"><span class="nav-number">4.</span> <span class="nav-text">集群成员变更</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">水木今山</span>
+
+  
+</div>
+
+
+<span>
+    Coding the World
+</span><br>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
