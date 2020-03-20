@@ -2909,8 +2909,8 @@
         <category>MySQL</category>
       </categories>
       <tags>
-        <tag>MyISAM</tag>
         <tag>InnoDB</tag>
+        <tag>MyISAM</tag>
       </tags>
   </entry>
   <entry>
