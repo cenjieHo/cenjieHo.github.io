@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-03-22T04:45:20.581Z</updated>
+  <updated>2020-03-25T13:34:14.931Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Reactor模式整理</title>
+    <link href="http://yoursite.com/2020/03/25/Ractor%E6%A8%A1%E5%BC%8F%E6%95%B4%E7%90%86/"/>
+    <id>http://yoursite.com/2020/03/25/Ractor模式整理/</id>
+    <published>2020-03-25T12:52:00.000Z</published>
+    <updated>2020-03-25T13:34:14.931Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="一些思考"><a href="#一些思考" class="headerlink" title="一些思考"></a>一些思考</h2><p>先看下传统IO编程模型：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassicServer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket(<span class="number">8899</span>);</span><br><span class="line">            <span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</span><br><span class="line">                Socket socket = serverSocket.accept();</span><br><span class="line"><span class="comment">//                new Thread(new Handler(socket)).start();</span></span><br><span class="line">                <span class="keyword">new</span> Handler(socket).run();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span>(IOException ex)&#123;</span><br><span class="line">            ex.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Handler</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;   <span class="comment">// 每个Handler在单独的线程中执行</span></span><br><span class="line">        <span class="keyword">final</span> Socket socket;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Handler</span><span class="params">(Socket socket)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.socket = socket;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                <span class="keyword">byte</span>[] input = <span class="keyword">new</span> <span class="keyword">byte</span>[Integer.MAX_VALUE];</span><br><span class="line">                socket.getInputStream().read(input);    <span class="comment">// 从流读取</span></span><br><span class="line">                <span class="keyword">byte</span>[] output = process(input);         <span class="comment">// 业务处理</span></span><br><span class="line">                socket.getOutputStream().write(output); <span class="comment">// 写入到流</span></span><br><span class="line">            &#125; <span class="keyword">catch</span>(IOException ex)&#123;</span><br><span class="line">                ex.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">byte</span>[] process(<span class="keyword">byte</span>[] cmd)&#123; <span class="keyword">return</span> cmd; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>在学习完NIO后，心中一直有个疑问：不使用多线程的传统IO编程模型要在一个死循环中不断的接受连接然后处理请求，而NIO的编程模型也是要依次遍历监听到的已就绪的IO事件，同样也需要在某个循环中挨个处理，那么NIO相比于传统IO在处理时有什么本质区别吗？</p><p>实际上，如果不使用多线程，那么传统IO编程模型每次在调用完<code>accept()</code>后都要同步的去调用<code>socket.getInputStream().read(input);</code>阻塞地从流中读取数据。此时的问题在于，如果客户端在与服务器连接后迟迟不发送请求，那么线程就会一直阻塞在这里，这时候如果有别的客户端发送任何请求过来都没办法及时处理。当然，这个问题可以通过多线程来解决，也就是将上述<code>Handler.run()</code>放在单独的新线程中执行，但是线程的创建和销毁以及切换开销都是非常大的，所以在高并发的场景下性能将急剧下降，这也是NIO的出现所解决的问题之一。</p><p>通过使用NIO，<code>accept()</code>后，并不需要阻塞的去读取客户端发送过来的数据，而是将读事件注册到<code>Selector</code>上，等之后读事件就绪时再进行相应的处理即可（这可能发生在很多次的<code>select()</code>方法执行之后了）。因此，NIO使用一个线程就能达到传统IO要使用多个线程才能实现的目的。然而，这里有一点容易被忽视：这种单线程使用NIO的方式只能同步的依次去处理每一个事件，也就是说，在并发量比较低的场景下，使用多线程的传统IO编程模型可能会有更好的性能，因为它利用了多核的优势，这也是在Doug Lea的那篇文章中将Reactor模式不断演进的动力之一。</p><h2 id="优质资料"><a href="#优质资料" class="headerlink" title="优质资料"></a>优质资料</h2><ul><li><a href="http://www.dre.vanderbilt.edu/~schmidt/PDF/reactor-siemens.pdf" target="_blank" rel="noopener">Reactor An Object Behavioral Pattern for Demultiplexing and Dispatching Handles for Synchronous Events</a></li><li><a href="http://gee.cs.oswego.edu/dl/cpjslides/nio.pdf" target="_blank" rel="noopener">Scalable IO in Java</a></li><li><a href="http://www.blogjava.net/dlevin/archive/2015/09/02/427045.html" target="_blank" rel="noopener">Reactor模式详解</a></li><li><a href="https://www.s0nnet.com/archives/deep-understanding-of-reactor-design-patterns" target="_blank" rel="noopener">深入理解Reactor模式</a></li><li><a href="https://www.cnblogs.com/doit8791/p/7461479.html" target="_blank" rel="noopener">高性能IO之Reactor模式</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;一些思考&quot;&gt;&lt;a href=&quot;#一些思考&quot; class=&quot;headerlink&quot; title=&quot;一些思考&quot;&gt;&lt;/a&gt;一些思考&lt;/h2&gt;&lt;p&gt;先看下传统IO编程模型：&lt;br&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td 
+      
+    
+    </summary>
+    
+    
+      <category term="Netty" scheme="http://yoursite.com/tags/Netty/"/>
+    
+      <category term="Reactor" scheme="http://yoursite.com/tags/Reactor/"/>
+    
+  </entry>
   
   <entry>
     <title>浅析NIO与零拷贝</title>
@@ -493,33 +518,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>破坏双亲委派模型</title>
-    <link href="http://yoursite.com/2019/05/24/%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/"/>
-    <id>http://yoursite.com/2019/05/24/破坏双亲委派模型/</id>
-    <published>2019-05-24T02:34:00.000Z</published>
-    <updated>2019-07-20T12:55:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="如何破坏双亲委派模型"><a href="#如何破坏双亲委派模型" class="headerlink" title="如何破坏双亲委派模型"></a>如何破坏双亲委派模型</h2><p>双亲委派模型不是一个强制性的约束模型，而是一个建议型的类加载器实现方式。考虑这么一个问题，如果基础类需要调用用户的代码该怎么办，因为根据双亲委派模型，越基础的类由越上层的加载器进行加载，但是上层的加载器并不认识用户的代码。</p><p>一个典型的例子就是JNDI服务，JNDI现在已经是Java的标准服务，它的代码由启动类加载器去加载（在JDK1.3时就放进<code>rt.jar</code>）,但它需要调用由独立厂商实现并部署在应用程序的ClassPath下的JNDI接口提供者（SPI， Service Provider Interface）的代码，但启动类加载器不可能“认识“这些代码啊。因为这些类不在<code>rt.jar</code>中，但是启动类加载器又需要加载。怎么办呢？</p><p>为了解决这个问题，Java设计团队只好引入了一个不太优雅的设计：线程上下文类加载器（Thread Context ClassLoader）。这个类加载器可以通过<code>java.lang.Thread</code>类的<code>setContextClassLoader()</code>方法进行设置。如果创建线程时未设置，它将会从父线程中继承一个，如果在应用程序的全局范围内都没有设置过的话，那这个类加载器默认即是应用程序类加载器。</p><p>有了线程上下文加载器，JNDI服务使用这个线程上下文加载器去加载所需要的SPI代码，也就是父类加载器请求子类加载器去完成类加载的动作，这种行为实际上就是打通了双亲委派模型的层次结构来逆向使用类加载器，实际上已经违背了双亲委派模型的一般性原则。</p><h2 id="JDBC如果破坏双亲委派模型"><a href="#JDBC如果破坏双亲委派模型" class="headerlink" title="JDBC如果破坏双亲委派模型"></a>JDBC如果破坏双亲委派模型</h2><p>JDBC之所以要破坏双亲委派模型，是因为原生的JDBC中Driver驱动本身只是一个接口，并没有具体的实现，具体的实现是由不同的数据库去实现的，例如，可以由MySQL的<code>mysql-connector-.jar</code>中的<code>Driver</code>类具体实现。由于原生的JDBC中的类是放在<code>rt.jar</code>包的，是由启动类加载器进行类加载的，且需要动态去加载不同数据库类型的<code>Driver</code>类，而<code>mysql-connector-.jar</code>中的<code>Driver</code>类是用户自己写的代码，所以启动类加载器是不能进行加载的，需要由应用程序类加载器进行加载。此时，通过线程上下文类加载器获得应用程序类加载器，通过应用程序类加载器去加载这个<code>Driver</code>类，从而避开了双亲委派模型的局限性。</p><h2 id="Tomcat的类加载器是怎么设计的？"><a href="#Tomcat的类加载器是怎么设计的？" class="headerlink" title="Tomcat的类加载器是怎么设计的？"></a>Tomcat的类加载器是怎么设计的？</h2><p>前面3个类加载器和默认的一致，CommonClassLoader、CatalinaClassLoader、SharedClassLoader和WebappClassLoader则是Tomcat自己定义的类加载器，它们分别加载<code>/common/*</code>、<code>/server/*</code>、<code>/shared/*</code>（在tomcat 6之后已经合并到根目录下的lib目录下）和<code>/WebApp/WEB-INF/*</code>中的Java类库。其中WebApp类加载器和Jsp类加载器通常会存在多个实例，每一个Web应用程序对应一个WebApp类加载器，每一个JSP文件对应一个Jsp类加载器。</p><p><img src="http://blog.default.nanwulife.com/4236553-89bacc3467d513f0.png" alt></p><ul><li><code>commonLoader</code>：Tomcat最基本的类加载器，加载路径中的class可以被Tomcat容器本身以及各个Webapp访问。</li><li><code>catalinaLoader</code>：Tomcat容器私有的类加载器，加载路径中的class对于Webapp不可见。</li><li><code>sharedLoader</code>：各个Webapp共享的类加载器，加载路径中的class对于所有Webapp可见，但是对于Tomcat容器不可见。</li><li><code>WebappClassLoader</code>：各个Webapp私有的类加载器，加载路径中的class只对当前Webapp可见。</li></ul><p>Common ClassLoader能加载的类都可以被Catalina ClassLoader和Shared ClassLoader使用，从而实现了公有类库的共用，而Catalina ClassLoader和Shared ClassLoader自己能加载的类则与对方相互隔离，从而保证了安全性。WebApp ClassLoader可以使用Shared ClassLoader加载到的类，但各个WebApp ClassLoader实例之间相互隔离。JasperLoader的加载范围仅仅是这个JSP文件所编译出来的那一个.Class文件，它出现的目的就是为了被丢弃：当Web容器检测到JSP文件被修改时，会替换掉目前的JasperLoader的实例，并通过再建立一个新的Jsp类加载器来实现JSP文件的HotSwap功能，否则如果类名还是一样，旧的类加载器会直接取方法区中已经存在的，修改后的JSP是不会重新加载的。</p><p>可以看出，Tomcat没有遵循双亲委派模型，每个Webapp ClassLoader加载自己的目录下的class文件，不会传递给父类加载器。</p><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul><li><a href="https://www.jianshu.com/p/abf6fd4531e7?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation" target="_blank" rel="noopener">深入理解 Tomcat（四）Tomcat 类加载器之为何违背双亲委派模型</a></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;如何破坏双亲委派模型&quot;&gt;&lt;a href=&quot;#如何破坏双亲委派模型&quot; class=&quot;headerlink&quot; title=&quot;如何破坏双亲委派模型&quot;&gt;&lt;/a&gt;如何破坏双亲委派模型&lt;/h2&gt;&lt;p&gt;双亲委派模型不是一个强制性的约束模型，而是一个建议型的类加载器实现方式。考虑
-      
-    
-    </summary>
-    
-      <category term="JVM" scheme="http://yoursite.com/categories/JVM/"/>
-    
-    
-      <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
-    
-      <category term="双亲委派模型" scheme="http://yoursite.com/tags/%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/"/>
     
   </entry>
   
